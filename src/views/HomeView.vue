@@ -13,7 +13,6 @@
 </template>
 
 <script setup>
-import TripCreateForm from '@/components/TripCreateForm.vue';
 import TripList from '@/components/TripList.vue';
 
 </script>
