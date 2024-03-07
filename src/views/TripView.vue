@@ -13,7 +13,21 @@
       </v-avatar>
       <v-sheet class="bg-transparent flex-grow-1 d-flex flex-column">
         <v-sheet class="bg-transparent d-flex justify-space-between">
-          <div class="text-h3 mb-5 text-h2 overflow-hidden">{{ trip.name }}</div>
+          <div 
+            v-if="!isTitleEdit"
+            class="text-h3 mb-5 text-h2 overflow-hidden"
+            @click="isTitleEdit = true">
+            {{ trip.name ? trip.name : 'Trip name' }}
+          </div>
+          <v-text-field 
+            v-else
+            v-model="trip.name"
+            autofocus
+            variant="underlined"
+            @keydown.enter.prevent="isTitleEdit = false">
+            
+
+          </v-text-field>
           <v-sheet min-width="200px">
             <v-btn 
               icon
@@ -25,7 +39,9 @@
                 activator="parent" 
                 text="Avatar color"
                 location="bottom"/>
-              <v-menu activator="parent">
+              <v-menu 
+                activator="parent" 
+                :close-on-content-click="false">
                 <v-sheet>
                   <v-color-picker v-model="trip.avatar.color"></v-color-picker>
                 </v-sheet>
@@ -87,7 +103,22 @@
             </v-btn>
           </v-sheet>
         </v-sheet>
-        <div>{{ trip.description }}</div>
+        <v-sheet>
+          <div  
+            v-if="!isDescriptionEdit"
+            class="flex-grow-1"
+            @click="isDescriptionEdit = true">
+            {{ trip.description ? trip.description : 'Trip description' }}
+          </div>
+          <VTextField 
+            v-else 
+            v-model="trip.description"
+            autofocus
+            variant="underlined"
+            @keydown.enter.prevent="isDescriptionEdit = false"/>
+          <v-sheet class="flex-grow-1"></v-sheet>
+        </v-sheet>
+        
       </v-sheet>
       <v-sheet class="bg-transparent d-flex flex-column fill-height">
         
@@ -153,62 +184,92 @@
                 justify-space-between">
           Trip plan
           <v-sheet class="bg-transparent">
-            <v-btn color="primary">ADD TASK</v-btn>
+            <v-btn 
+              color="primary" 
+              @click="isAddingTask = true">ADD TASK</v-btn>
           </v-sheet>
         </v-sheet>
+        <v-sheet class="bg-transparent d-flex flex-column justify-center align-center">
+          <v-overlay 
+            v-model="isAddingTask" 
+            class="d-flex justify-center align-center">
+            <TaskSettingsForm @closeWindow="isAddingTask = false"/>    
+          </v-overlay>
+          <EmptyPageWarning 
+            v-if="trip.tasks.length === 0" 
+            title="No tasks" 
+            text="Add tasks"/>
+          <v-expansion-panels 
+            v-else
+            variant="accordion"
+            multiple>
+            <v-expansion-panel
+              v-for="(task, taskIndex) in trip.tasks" 
+              :key="task.id"
+              
+              :readonly="!task.subTasks">
+              <template #title> 
+                <v-sheet 
+                  class="d-flex align-center" 
+                  width="100%">
+                  <div class="text-overline">
+                    DAY {{ taskIndex + 1 }}
+                  </div>
+                  <VDivider 
+                    class="mx-2" 
+                    vertical/>
+                  <div>{{ task.title }}</div>
+                  <v-sheet class="flex-grow-1 d-flex align-center justify-end">
+                    <div class="mx-2 text-overline">{{ task.date }}</div>
+                  </v-sheet>
+                </v-sheet>
+              </template>
+              <template #text>
+                <v-sheet 
+                  v-for="(subTask) in task.subTasks" 
+                  :key="subTask.id"
+                  width="100%"
+                  class="d-flex flex-row align-center py-2">
+                  <VIcon 
+                    icon="mdi-menu" 
+                    class="mx-2"/>
+                  <v-sheet>
+                    <VTextField 
+                      type="time" 
+                      density="compact"
+                      variant="underlined"
+                      label="Time"
+                      hide-details
+                      v-model="subTask.time"
+                      class="mx-2"/>
+                  </v-sheet>
+                  
+                  <VTextField 
+                    density="compact"
+                    variant="underlined"
+                    label="Title"
+                    hide-details
+                    v-model="subTask.title"
+                    class="mx-2"/>
+                  <v-sheet width="100px">
+                    <VTextField 
+                      type="number"
+                      density="compact"
+                      variant="underlined"
+                      label="Cost"
+                      hide-details
+                      v-model="subTask.cost"
+                      class="mx-2"/>
+                  </v-sheet>
+                  <v-sheet>
+                    <v-btn icon="mdi-trash-can"></v-btn>
+                  </v-sheet>
+                </v-sheet>
+              </template>    
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-sheet>
         
-        <v-expansion-panels 
-          variant="accordion"
-          multiple>
-          <v-expansion-panel
-            v-for="(task) in trip.tasks" 
-            :key="task.title + Date.now()"
-            :title="task.title"
-            :readonly="!task.subTasks">
-            <template #text>
-              <v-sheet 
-                v-for="(subTask) in task.subTasks" 
-                :key="subTask.title + Date.now()"
-                width="100%"
-                class="d-flex flex-row align-center py-2">
-                <VIcon 
-                  icon="mdi-menu" 
-                  class="mx-2"/>
-                <v-sheet>
-                  <VTextField 
-                    type="time" 
-                    density="compact"
-                    variant="underlined"
-                    label="Time"
-                    hide-details
-                    v-model="subTask.time"
-                    class="mx-2"/>
-                </v-sheet>
-                
-                <VTextField 
-                  density="compact"
-                  variant="underlined"
-                  label="Title"
-                  hide-details
-                  v-model="subTask.title"
-                  class="mx-2"/>
-                <v-sheet width="100px">
-                  <VTextField 
-                    type="number"
-                    density="compact"
-                    variant="underlined"
-                    label="Cost"
-                    hide-details
-                    v-model="subTask.cost"
-                    class="mx-2"/>
-                </v-sheet>
-                <v-sheet>
-                  <v-btn icon="mdi-trash-can"></v-btn>
-                </v-sheet>
-              </v-sheet>
-            </template>    
-          </v-expansion-panel>
-        </v-expansion-panels>
       </v-sheet>
       <VDivider 
         vertical 
@@ -231,7 +292,8 @@
 import { ref, computed} from 'vue';
 import { useRoute } from 'vue-router'
 import { useTripStore } from "@/stores/TripStore"
-
+import EmptyPageWarning from '@/components/EmptyPageWarning.vue';
+import TaskSettingsForm from '@/components/TaskSettingsForm.vue';
 //stores
 const tripStore = useTripStore();
 
@@ -240,6 +302,15 @@ const route = useRoute();
 
 // data
 const date_begin = ref(new Date());
+const isTitleEdit = ref(false);
+const isDescriptionEdit = ref(false);
+const isAddingTask = ref(false);
+
+//methods
+const addTask = () => {
+  tripStore.addTask(tripId.value);
+}
+
 
 // computed
 const getShortDate = computed(() => {
