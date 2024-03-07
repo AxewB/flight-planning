@@ -2,7 +2,7 @@
   <v-sheet 
     class="d-flex flex-column justify-center align-center pa-2"
     width="100%"
-    height="100%">
+    border>
     <v-sheet class="text-h6 mb-2"> 
       {{ props.title }}
     </v-sheet>
