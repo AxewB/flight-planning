@@ -18,11 +18,54 @@
             <v-btn 
               icon
               elevation="0">
-              <VIcon icon="mdi-image-remove"/>
+              <VIcon 
+                icon="mdi-circle"
+                :color="trip.avatar.color"/>
               <VTooltip 
                 activator="parent" 
-                text="remove picture"
+                text="Avatar color"
                 location="bottom"/>
+              <v-menu activator="parent">
+                <v-sheet>
+                  <v-color-picker v-model="trip.avatar.color"></v-color-picker>
+                </v-sheet>
+              </v-menu>
+            </v-btn>
+            <v-btn 
+              icon
+              elevation="0">
+              <VIcon 
+                icon="mdi-image-edit" />
+              <VTooltip 
+                activator="parent" 
+                text="Edit image"
+                location="bottom"/>
+              <v-menu 
+                activator="parent"
+                :close-on-content-click="false">
+                <v-sheet 
+                  class="pa-4 d-flex" 
+                  width="400px">
+                  <v-text-field
+                    class="mx-2" 
+                    density="compact"
+                    hide-details
+                    v-model="trip.avatar.image"
+                    label="Image url"/>
+                  <v-btn 
+                    icon
+                    @click="tripStore.removeTripImage(tripId)">
+                    <VIcon 
+                      icon="mdi-trash-can"
+                      color="error"
+                      variant="text"/>
+                    <v-tooltip 
+                      activator="parent" 
+                      text="Remove image"
+                      location="bottom"/>
+                  </v-btn>
+                </v-sheet>
+              </v-menu>
             </v-btn>
             <v-btn 
               icon
@@ -163,16 +206,6 @@
                   <v-btn icon="mdi-trash-can"></v-btn>
                 </v-sheet>
               </v-sheet>
-              <!-- <v-expansion-panels 
-                variant="accordion"
-                disabled>
-                <v-expansion-panel
-                  v-for="(subTask) in task.subTasks" 
-                  :key="subTask.title + Date.now()"
-                  :title="subTask.title + Date.now()">
-                  
-                </v-expansion-panel>
-              </v-expansion-panels> -->
             </template>    
           </v-expansion-panel>
         </v-expansion-panels>
@@ -207,7 +240,6 @@ const route = useRoute();
 
 // data
 const date_begin = ref(new Date());
-
 
 // computed
 const getShortDate = computed(() => {

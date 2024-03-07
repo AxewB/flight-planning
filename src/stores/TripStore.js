@@ -156,5 +156,11 @@ export const useTripStore = defineStore('trip', {
     addTrip(trip) {
       this.trips.push(trip)
     },
+    removeTripImage(id) {;
+      console.log(id);
+      this.trips.find(trip => trip.id === id).avatar.image = null;
+
+
+    }
   }
 })
