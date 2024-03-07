@@ -1,12 +1,23 @@
 <template>
+  <v-overlay 
+    v-model="isUserEdit" 
+    class="d-flex justify-center align-center">
+    <UserInfoEdit @closeWindow="isUserEdit = false"/>    
+  </v-overlay>
   <v-layout>
     <v-navigation-drawer>
       <v-list>
         <v-list-item
-          prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-          subtitle="sandra_a88@gmailcom"
-          title="Sandra Adams"
-        ></v-list-item>
+          :subtitle="userStore.email"
+          :title="userStore.fullName"
+          @click="isUserEdit = true"
+        >
+          <template #prepend>
+            <v-avatar 
+              :color="userStore.avatar.color" 
+              :image="userStore.avatar.image"/>
+          </template>
+        </v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list 
@@ -35,6 +46,11 @@
           prepend-icon="mdi-square-rounded" 
           :title="trip.name"
           :to="{name: 'trip', params: {id: trip.id}}">
+        </v-list-item>
+        <v-list-item 
+          class="d-flex justify-center"
+          @click="addTrip()">
+          <VIcon icon="mdi-plus"></VIcon>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -90,19 +106,29 @@
 <script setup>
 import { ref } from 'vue';
 import { useTripStore } from '@/stores/TripStore';
+import { useUserStore } from '@/stores/UserStore';
 import { computed } from 'vue';
+
+import UserInfoEdit from '@/components/UserInfoEdit.vue'
 
 // stores
 const tripStore = useTripStore();
+const userStore = useUserStore();
 
 //data
 const pageSettings = ref({
   fullWidth: false,
 })
+const isUserEdit = ref(false);
 
 // methods
 const toggleFullWidth = () => {
   pageSettings.value.fullWidth = !pageSettings.value.fullWidth
+}
+
+const addTrip = () => {
+  // tripStore.addTrip();
+  console.log('типа добавляю');
 }
 
 // computed
