@@ -5,14 +5,9 @@
     height="100%"
   >
     
-    <!-- this is home page -->
-    <!-- (there will be list of trips, short trip description (example: date, cost), and ability to add new trip) -->
-    <TripList/>
-    <!-- <TripCreateForm />  -->
   </v-sheet>
 </template>
 
 <script setup>
-import TripList from '@/components/TripList.vue';
 
 </script>
