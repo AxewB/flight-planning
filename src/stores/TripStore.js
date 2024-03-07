@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-
+import { v4 as getUID } from 'uuid'
 export const useTripStore = defineStore('trip', {
   state: () => ({
     trips: [
       {
-        id: '0', 
+        id: '40b901eb-617d-4689-b5fa-a91a412ba388', 
         name: 'Trip to Venice', 
         avatar: {
           color: "blue",
@@ -19,30 +19,36 @@ export const useTripStore = defineStore('trip', {
         description: 'Exploring the canals and architecture of Venice.',
         tasks: [
           {
+            id: '96e03df0-5cbb-4f4e-b3a3-db18c5b4f276',
             title: "Explore St. Mark's Square",
             date: '2024-04-10',
             subTasks: 
             [
               {
+                id: '35a8243b-12c9-434e-8c0b-b5f116033b0b',
                 title: "Visit St. Mark's Basilica",
                 time: '10:00',
               },
               {
+                id: '398dd355-3c16-4613-bd65-617dedf438d2',
                 title: "Take a gondola ride",
                 time: '14:00',
               }
             ]
           },
           {
+            id: 'd61563c3-c74b-4027-9765-f6b2f98770d1',
             title: "Discover Murano Island",
             date: '2024-04-11',
             subTasks: 
             [
               {
+                id: '8d87b735-6c7a-4ece-b76c-f0bcc92e5911',
                 title: "Tour glass factories",
                 time: '11:00',
               },
               {
+                id: 'd4f26ba2-b56c-47b0-a6fb-1b1b5e4ab6a7',
                 title: "Shop for Murano glass souvenirs",
                 time: '15:00',
               }
@@ -53,7 +59,7 @@ export const useTripStore = defineStore('trip', {
         tags: ['Italy', 'Travel']
       },
       {
-        id: '1', 
+        id: 'c0d5d7a5-0535-419b-8cd2-af0ae89ac6d2', 
         name: 'Beach Vacation in Hawaii', 
         avatar: {
           color: "green",
@@ -68,30 +74,36 @@ export const useTripStore = defineStore('trip', {
         description: 'Relaxing on the sandy beaches and exploring the natural beauty of Hawaii.',
         tasks: [
           {
+            id: '0d72d1c3-0bfe-4e53-b90e-09d181cabfbe',
             title: "Snorkel at Hanauma Bay",
             date: '2024-06-21',
             subTasks: 
             [
               {
+                id: '7a2b2852-a931-4e40-aa77-62ce23bd90dd',
                 title: "Rent snorkel gear",
                 time: '09:00',
               },
               {
+                id: '831a4039-3619-4794-9c4f-828c9fccea4b',
                 title: "Explore coral reefs",
                 time: '11:00',
               }
             ]
           },
           {
+            id: '4fa17d99-c121-411f-8bb1-f97cd3e8916d',
             title: "Hike to Diamond Head Summit",
             date: '2024-06-23',
             subTasks: 
             [
               {
+                id: 'a4b6bda4-df58-4b38-9940-deb6bf37b038',
                 title: "Start hike",
                 time: '08:00',
               },
               {
+                id: '2312227b-db2b-4fff-b25c-71e397218964',
                 title: "Enjoy panoramic views",
                 time: '10:00',
               }
@@ -102,7 +114,7 @@ export const useTripStore = defineStore('trip', {
         tags: ['Beach', 'Adventure']
       },
       {
-        id: '2', 
+        id: 'd97bc7b2-de9c-4732-b89a-b41b10151188', 
         name: 'European Backpacking Adventure', 
         avatar: {
           color: "orange",
@@ -117,30 +129,36 @@ export const useTripStore = defineStore('trip', {
         description: 'Exploring the rich culture and history of Europe on a backpacking journey.',
         tasks: [
           {
+            id: '4afa9d2f-8b5e-467d-99cb-ebe179de3a5b',
             title: "Visit the Eiffel Tower in Paris",
             date: '2024-08-05',
             subTasks: 
             [
               {
+                id: '5f6ad9b9-d366-4aed-878a-dcc1fb750913',
                 title: "Take photos",
                 time: '10:00',
               },
               {
+                id: '51247563-0218-4904-9463-6f075e212d6d',
                 title: "Enjoy a picnic nearby",
                 time: '12:00',
               }
             ]
           },
           {
+            id: 'd54e0c39-e294-4b3c-ab18-5ce245af045d',
             title: "Explore the Colosseum in Rome",
             date: '2024-08-15',
             subTasks: 
             [
               {
+                id: '5652ab35-91f2-4f87-9969-c5d986022e1c',
                 title: "Join a guided tour",
                 time: '11:00',
               },
               {
+                id: '47dd6000-07b7-4fec-956a-594e48096f78',
                 title: "Learn about ancient Roman history",
                 time: '14:00',
               }
@@ -153,14 +171,39 @@ export const useTripStore = defineStore('trip', {
     ]
   }),
   actions: {
-    addTrip(trip) {
-      this.trips.push(trip)
+    addTrip() {
+      this.trips.push({
+        id: getUID(), 
+        name: '', 
+        avatar: {
+          color: "grey",
+          image: '',
+        },
+        budget: 0,
+        isDone: false, 
+        date: {
+          begin: '', 
+          end: ''
+        },
+        description: '',
+        tasks: [],
+        notes: '',
+        tags: [],
+      })
+    },
+    deleteTrip(id) {
+      const tripIdToDelete = this.trips.indexOf(trip => trip.id === id)
+      this.trips.splice(tripIdToDelete, 1)
+    },
+    copyTrip(trip) {
+      const newTrip = { ...trip };
+      newTrip.id = getUID();
+      this.trips.push(newTrip);
     },
     removeTripImage(id) {;
       console.log(id);
       this.trips.find(trip => trip.id === id).avatar.image = null;
+    },
 
-
-    }
   }
 })

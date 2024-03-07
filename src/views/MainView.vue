@@ -44,6 +44,7 @@
           v-for="trip in tripList" 
           :key="trip.id"
           prepend-icon="mdi-square-rounded" 
+          :color="trip.avatar.color"
           :title="trip.name"
           :to="{name: 'trip', params: {id: trip.id}}">
         </v-list-item>
@@ -108,8 +109,11 @@ import { ref } from 'vue';
 import { useTripStore } from '@/stores/TripStore';
 import { useUserStore } from '@/stores/UserStore';
 import { computed } from 'vue';
+import { useRouter } from 'vue-router'
 
 import UserInfoEdit from '@/components/UserInfoEdit.vue'
+
+const router = useRouter();
 
 // stores
 const tripStore = useTripStore();
@@ -127,8 +131,14 @@ const toggleFullWidth = () => {
 }
 
 const addTrip = () => {
-  // tripStore.addTrip();
-  console.log('типа добавляю');
+  tripStore.addTrip();
+  router.push({
+    name: 'trip', 
+    params: {
+      id: tripStore.trips[tripStore.trips.length - 1].id
+    }
+  })
+  
 }
 
 // computed
