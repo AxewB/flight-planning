@@ -13,7 +13,8 @@
                 <v-row 
                   v-bind="props"
                   class="rounded cursor-pointer" 
-                  :class="isHovering ? 'bg-grey-darken-3' : ''">
+                  :class="isHovering ? 'bg-grey-darken-3' : ''"
+                  @click="tasksSettings[task.id].isExpanded = !tasksSettings[task.id].isExpanded">
                   <v-col 
                     class="d-flex justify-start align-center">
                     <VIcon 
@@ -43,6 +44,7 @@
             </template>
           </v-hover>
           <draggable 
+            v-if="task.subTasks && tasksSettings[task.id].isExpanded"
             v-model="task.subTasks" 
             tag="v-container"
             handle=".handle" 
@@ -85,6 +87,7 @@
               </v-row>
             </template>
           </draggable>
+          
         </v-sheet>
       </template>
     </draggable>
@@ -92,12 +95,31 @@
 </template>
 
 <script setup>
-import { computed, defineProps } from 'vue';
+import { computed, defineProps, onBeforeMount, onBeforeUpdate, ref } from 'vue';
 import draggable from 'vuedraggable';
 import TextToTextField from './TextToTextField.vue';
 
 const props = defineProps({
 	tasks: Object,
 })
+const tasksSettings = ref({});
+const getCertainTask = (id) => {
+  return props.tasks.find(task => task.id === id)
+}
 
+const updateTasksSettings = () => {
+  tasksSettings.value = {};
+  props.tasks.forEach(task => {
+    tasksSettings.value[task.id] = {
+      isExpanded: false,
+      isTaskEdit: false,
+    }
+  });
+}
+onBeforeMount(() => {
+  updateTasksSettings();
+})
+onBeforeUpdate(() => {
+  updateTasksSettings();
+})
 </script>
