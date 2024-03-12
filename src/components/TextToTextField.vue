@@ -49,11 +49,9 @@ const modelValue = ref(props.text);
 const isEditing = ref(false);
 
 const disableEditing = () => {
-	console.log('disabling editing')
   isEditing.value = false;
 }
 const enableEditing = () => {
-	console.log('enabling editing')
   isEditing.value = true;
 }
 
