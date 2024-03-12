@@ -5,7 +5,7 @@
     <UserInfoEdit @closeWindow="isUserEdit = false"/>    
   </v-overlay>
   <v-layout>
-    <v-navigation-drawer>
+    <v-navigation-drawer permanent>
       <v-list>
         <v-list-item
           :subtitle="userStore.email"
@@ -14,7 +14,7 @@
         >
           <template #prepend>
             <v-avatar 
-              :color="userStore.avatar.color" 
+              :color="userStore.avatar.image ? '' : userStore.avatar.color" 
               :image="userStore.avatar.image"/>
           </template>
         </v-list-item>
