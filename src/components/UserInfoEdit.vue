@@ -50,7 +50,7 @@
           location="bottom">Change avatar</v-tooltip>
         <v-avatar 
           :image="userData.avatar.image" 
-          :color="userData.avatar.color"
+          :color="userData.avatar.image ? '' : userData.avatar.color"
           size="80"
           class="mb-4"/>
         <v-menu 
