@@ -1,28 +1,67 @@
 <template>
-  <v-sheet 
+  <v-card 
     class="pa-4 d-flex flex-column" 
     width="600px"
     rounded>
     <v-sheet class="bg-transparent d-flex flex-column mb-4 justify-center align-center">
+      <v-overlay 
+        v-model="showAvatarChangeOverlay"
+        contained 
+        width="100%" 
+        height="100%"
+        class="d-flex justify-center align-center">
+        <v-sheet 
+          class="d-flex flex-column justify-center align-center pa-5" 
+          height="100%">
+          <div class="text-h6 mb-2">Paste image URL</div>
+          <v-sheet
+            width="100%">
+            <VTextField 
+              v-model="userData.avatar.image" 
+              hide-details/>
+          </v-sheet>
+          
+          <v-sheet 
+            class="d-flex justify-end mt-2" 
+            width="100%">
+            <v-btn 
+              class="mr-2"
+              variant="text" 
+              @click="closeAvatarChangeOverlay(true)">
+              Cancel
+            </v-btn>
+            <v-btn 
+              color="primary"
+              @click="closeAvatarChangeOverlay(false)">
+              Accept
+            </v-btn>
+          </v-sheet>
+          
+
+        </v-sheet>
+
+      </v-overlay>
       <div class="text-h6 mb-2">User info</div>
       <v-btn 
         size="80" 
         icon>
         <v-tooltip 
           activator="parent" 
-          location="bottom">asd</v-tooltip>
+          location="bottom">Change avatar</v-tooltip>
         <v-avatar 
           :image="userData.avatar.image" 
           :color="userData.avatar.color"
           size="80"
           class="mb-4"/>
-        <v-menu activator="parent">
+        <v-menu 
+          activator="parent"
+          :close-content-on-click="false">
           <v-sheet class="pa-4">
             <v-sheet>
               <v-btn 
-                v-if="userData.avatar.image" 
-                prepend-icon="mdi-trash-can">
-                Remove image
+                prepend-icon="mdi-trash-can"
+                @click="toggleAvatarImage()">
+                {{ userData.avatar.image ? "Remove image" : "Add image" }}
               </v-btn>
             </v-sheet>
             <v-sheet class="d-flex flex-row align-center ">
@@ -36,7 +75,7 @@
                 </template>
                 <v-menu activator="parent">
                   <v-sheet>
-                    <v-color-picker v-model="userData.avatar.color"></v-color-picker>
+                    <VColorPicker v-model="userData.avatar.color"/>
                   </v-sheet>
                 </v-menu>
               </v-btn>
@@ -81,13 +120,12 @@
         Close
       </v-btn>
       <v-btn 
-        variant="tonal" 
         color="primary"
         @click="acceptData()">
         Accept
       </v-btn>
     </v-sheet>
-  </v-sheet>
+  </v-card>
   
 </template>
 
@@ -104,7 +142,8 @@ const userData = ref({
   firstName: userStore.firstName,
   lastName: userStore.lastName,
   email: userStore.email
-})
+});
+const showAvatarChangeOverlay = ref(false);
 
 const acceptData = () => {
   userStore.setData(userData.value);
@@ -112,5 +151,20 @@ const acceptData = () => {
 }
 const closeWindow = () => {
   emit('closeWindow');
+}
+
+const toggleAvatarImage = () => {
+  if (userData.value.avatar.image) {
+    userData.value.avatar.image = null
+  }
+  else {
+    showAvatarChangeOverlay.value = true
+  }
+}
+const closeAvatarChangeOverlay = (isCancelling) => {
+  if (isCancelling) {
+    userData.value.avatar.image = null
+  }
+  showAvatarChangeOverlay.value = false
 }
 </script>
