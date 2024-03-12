@@ -13,7 +13,7 @@
                 <v-row 
                   v-bind="props"
                   class="rounded cursor-pointer" 
-                  :class="isHovering ? 'bg-grey-darken-3' : ''"
+                  :class="isHovering || tasksSettings[task.id].isExpanded ? 'bg-grey-darken-3' : ''"
                   @click="tasksSettings[task.id].isExpanded = !tasksSettings[task.id].isExpanded">
                   <v-col 
                     class="d-flex justify-start align-center">
@@ -26,18 +26,30 @@
                       vertical 
                       class="mx-2"/>
                     <v-sheet 
+                      class="text-overline d-flex align-center justify-center bg-transparent" 
+                      width="60px">
+                      DAY {{ tasksSettings[task.id].day }}
+                    </v-sheet>
+                    <VDivider 
+                      vertical 
+                      class="mx-2"/>
+                    <v-sheet 
                       width="100%" 
                       height="100%"
                       class="bg-transparent d-flex justify-start align-center text-h6">
-                      {{task.title}} 
+                      
+                      {{task.title}}
+                    </v-sheet>
+                    <v-sheet 
+                      class="d-flex justify-end align-center text-overline bg-transparent" 
+                      width="150px">
+                      {{task.date}}
+                      <VIcon 
+                        icon="mdi-menu-down" 
+                        class="ml-2"/>
                     </v-sheet>
                   </v-col> 
-                  <v-col class="d-flex justify-end align-center text-overline">
-                    {{task.date}}
-                    <VIcon 
-                      icon="mdi-menu-down" 
-                      class="ml-2"/>
-                  </v-col>
+                  
                 </v-row>
 								
               </v-container>
@@ -109,10 +121,11 @@ const getCertainTask = (id) => {
 
 const updateTasksSettings = () => {
   tasksSettings.value = {};
-  props.tasks.forEach(task => {
+  props.tasks.forEach((task, index) => {
     tasksSettings.value[task.id] = {
       isExpanded: false,
       isTaskEdit: false,
+      day: index + 1
     }
   });
 }

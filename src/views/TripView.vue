@@ -168,11 +168,6 @@
           <v-sheet class="bg-transparent">
             <v-btn 
               class="mx-1"
-              variant="text" 
-              icon="mdi-pencil" 
-              size="small"/>
-            <v-btn 
-              class="mx-1"
               color="primary"
               size="small"
               @click="isAddingTask = true">Add task</v-btn>
