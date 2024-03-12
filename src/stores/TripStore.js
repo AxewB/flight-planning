@@ -63,7 +63,7 @@ export const useTripStore = defineStore('trip', {
         name: 'Beach Vacation in Hawaii', 
         avatar: {
           color: "green",
-          image: 'https://www.hawaii-guide.com/images/made/images/uploads/articles/panoramic_view_of_hawaii_1200_720_80.jpg',
+          image: '',
         },
         budget: 3000,
         isDone: false, 
@@ -118,7 +118,7 @@ export const useTripStore = defineStore('trip', {
         name: 'European Backpacking Adventure', 
         avatar: {
           color: "orange",
-          image: 'https://www.tourradar.com/days-to-come/wp-content/uploads/2018/09/5-travel-tips-for-backpacking-Europe.jpg',
+          image: '',
         },
         budget: 5000,
         isDone: false, 
