@@ -2,7 +2,8 @@
 <template>
   <v-sheet 
 		class="bg-transparent d-flex justify-space-between" 
-		width="100%">
+		width="100%"
+    min-width="200px">
     <div 
       v-if="!isEditing"
       class="overflow-hidden cursor-text"

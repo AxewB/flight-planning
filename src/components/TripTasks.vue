@@ -14,7 +14,8 @@
                   v-bind="props"
                   class="rounded cursor-pointer" 
                   :class="isHovering ? 'bg-grey-darken-3' : ''">
-                  <v-col class="d-flex justify-start align-center">
+                  <v-col 
+                    class="d-flex justify-start align-center">
                     <VIcon 
                       class="handle cursor-grab" 
                       icon="mdi-menu"
@@ -30,9 +31,11 @@
                       {{task.title}} 
                     </v-sheet>
                   </v-col> 
-                  <v-col class="d-flex justify-end align-center">
-                    {{task.date }}
-                    <VIcon icon="mdi-menu-down"></VIcon>
+                  <v-col class="d-flex justify-end align-center text-overline">
+                    {{task.date}}
+                    <VIcon 
+                      icon="mdi-menu-down" 
+                      class="ml-2"/>
                   </v-col>
                 </v-row>
 								
@@ -89,7 +92,7 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { computed, defineProps } from 'vue';
 import draggable from 'vuedraggable';
 import TextToTextField from './TextToTextField.vue';
 
