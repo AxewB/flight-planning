@@ -5,7 +5,8 @@ export const useTripStore = defineStore('trip', {
     trips: [
       {
         id: '40b901eb-617d-4689-b5fa-a91a412ba388', 
-        name: 'Trip to Venice', 
+        title: 'Trip to Venice', 
+        subTitle: "subtitle",
         avatar: {
           color: "blue",
           image: 'https://www.comune.venezia.it/sites/comune.venezia.it/files/immagini/Turismo/Buone_pratiche_Ghetto.jpeg',
@@ -60,7 +61,8 @@ export const useTripStore = defineStore('trip', {
       },
       {
         id: 'c0d5d7a5-0535-419b-8cd2-af0ae89ac6d2', 
-        name: 'Beach Vacation in Hawaii', 
+        title: 'Beach Vacation in Hawaii', 
+        subTitle: "subtitle",
         avatar: {
           color: "green",
           image: '',
@@ -115,7 +117,8 @@ export const useTripStore = defineStore('trip', {
       },
       {
         id: 'd97bc7b2-de9c-4732-b89a-b41b10151188', 
-        name: 'European Backpacking Adventure', 
+        title: 'European Backpacking Adventure', 
+        subtitle: "subtitle",
         avatar: {
           color: "orange",
           image: '',

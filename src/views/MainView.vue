@@ -45,7 +45,7 @@
           :key="trip.id"
           prepend-icon="mdi-square-rounded" 
           :color="trip.avatar.color"
-          :title="trip.name"
+          :title="trip.title"
           :to="{name: 'trip', params: {id: trip.id}}">
         </v-list-item>
         <v-list-item 
