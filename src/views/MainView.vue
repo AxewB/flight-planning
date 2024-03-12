@@ -96,7 +96,8 @@
     </v-app-bar>
     <v-main class="d-flex flex-column align-center bg-transparent">  
       <v-sheet 
-        :width="pageSettings.fullWidth ? '100%' : '1200px'"
+        :width="pageSettings.fullWidth ? '100%' : ''"
+        :max-width="pageSettings.fullWidth ? '100%' : '1200px'"
         class="bg-transparent">
         <RouterView/>
       </v-sheet>
