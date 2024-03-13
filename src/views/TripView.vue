@@ -272,13 +272,18 @@
           <v-overlay 
             v-model="isAddingTask" 
             class="d-flex justify-center align-center">
-            <TaskSettingsForm @closeWindow="isAddingTask = false"/>    
+            <TaskSettingsForm 
+              @closeWindow="isAddingTask = false"
+              @saveTask="saveTask()"
+              :trip="trip"/>    
           </v-overlay>
           <EmptyPageWarning 
             v-if="trip.tasks.length === 0" 
             title="No tasks" 
             text="Add tasks"/>
-          <TripTasks :tripId="tripId" />
+          <TripTasks 
+            :tripId="tripId"
+            :needsUpdate="taskListUpdate"/>
         </v-sheet>
         
       </v-sheet>
@@ -319,15 +324,14 @@ const tripStore = useTripStore();
 const route = useRoute();
 
 // data
-const date_begin = ref(new Date());
-const isTitleEdit = ref(false);
-const isDescriptionEdit = ref(false);
 const isAddingTask = ref(false);
 const tasksFilters = ref({})
+const taskListUpdate = ref(false);
 
 //methods
-const addTask = () => {
-  tripStore.addTask(tripId.value);
+const saveTask = () => {
+  console.log('saving');
+  taskListUpdate.value = !taskListUpdate.value;
 }
 
 const applyFilterSettings = () => {

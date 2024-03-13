@@ -1,7 +1,7 @@
 <template>
   <v-sheet width="100%">
     <draggable 
-      :list="filteredTasks" 
+      :list="trip.tasks" 
       tag="v-sheet"
       handle=".handle" 
       item-key="id">
@@ -13,8 +13,8 @@
                 <v-row 
                   v-bind="props"
                   class="rounded cursor-pointer" 
-                  :class="isHovering || tasksSettings[task.id].isExpanded ? 'bg-grey-darken-3' : ''"
-                  @click="tasksSettings[task.id].isExpanded = !tasksSettings[task.id].isExpanded">
+                  :class="isHovering || task.isExpanded ? 'bg-grey-darken-3' : ''"
+                  @click="task.isExpanded = !task.isExpanded">
                   <v-col 
                     class="d-flex justify-start align-center">
                     <VIcon 
@@ -26,18 +26,9 @@
                       vertical 
                       class="mx-2"/>
                     <v-sheet 
-                      class="text-overline d-flex align-center justify-center bg-transparent" 
-                      width="60px">
-                      DAY {{ tasksSettings[task.id].day }}
-                    </v-sheet>
-                    <VDivider 
-                      vertical 
-                      class="mx-2"/>
-                    <v-sheet 
                       width="100%" 
                       height="100%"
                       class="bg-transparent d-flex justify-start align-center text-h6">
-                      
                       {{task.title}}
                       <v-sheet 
                         v-if="!task.isSubtasksInCorrectOrder"
@@ -57,14 +48,13 @@
                         class="ml-2"/>
                     </v-sheet>
                   </v-col> 
-                  
                 </v-row>
 								
               </v-container>
             </template>
           </v-hover>
           <draggable 
-            v-if="task.subTasks && tasksSettings[task.id].isExpanded"
+            v-if="task.subTasks && task.isExpanded"
             v-model="task.subTasks" 
             tag="v-container"
             handle=".handle" 
@@ -101,7 +91,6 @@
                         :text="subTask.title"
                         v-model="subTask.title"
                         replacable-text="title"/>
-                      
 
                     </div>
                   </v-sheet>
@@ -117,7 +106,7 @@
 </template>
 
 <script setup>
-import { computed, defineProps, onBeforeMount, onBeforeUpdate, ref } from 'vue';
+import { computed, defineProps, onBeforeMount, onBeforeUpdate, ref, watch } from 'vue';
 import draggable from 'vuedraggable';
 import TextToTextField from './TextToTextField.vue';
 import { useTripStore } from '@/stores/TripStore';
@@ -126,35 +115,54 @@ const tripStore = useTripStore();
 
 const props = defineProps({
   tripId: String,
+  needsUpdate: Boolean
 })
-
-const tasksSettings = ref({});
-
 
 
 const trip = computed(() => {
   return tripStore.trips.find((trip) => trip.id === props.tripId)
 })
 
+const tripTasks = computed(() => {
+  return trip.value.tasks;
+})
+
 const filteredTasks = computed(() => {
   return tripStore.filteredTasks(props.tripId)
 })
 
-const updateTasksSettings = () => {
-  tasksSettings.value = {};
-  filteredTasks.value.forEach((task, index) => {
-    tasksSettings.value[task.id] = {
-      isExpanded: false,
-      isTaskEdit: false,
-      day: index + 1
-    }
-  });
-}
+// const draggableTasks = computed(() => {
+//   return tripStore.draggableTasks(props.tripId)
+// })
 
-onBeforeMount(() => {
-  updateTasksSettings();
-})
-onBeforeUpdate(() => {
-  updateTasksSettings();
-})
+// const updateTasksSettings = () => {
+//   tasksSettings.value = {};
+//   filteredTasks.value.forEach((task, index) => {
+//     tasksSettings.value[task.id] = {
+//       isExpanded: false,
+//       isTaskEdit: false,
+//       day: index + 1
+//     }
+//   });
+// }
+
+// watch (() => props.needsUpdate, (newValue, oldValue) => {
+//   console.log(newValue + ' --- ' + oldValue);
+//   console.log('adflksjaghfjhklsdagfjshdafhjkdsahjfdsgahjkfgdsajkhfgsdajhgsdhajkfgjkhgfjsdagjhfgsdajhgfjshdkagfjkhsd')
+// })
+
+watch(() => props.needsUpdate, (first, second) => {
+  console.log(
+    "Watch props.selected function called with args:",
+    first,
+    second
+  );
+});
+
+// onBeforeMount(() => {
+//   updateTasksSettings();
+// })
+// onBeforeUpdate(() => {
+//   updateTasksSettings();
+// })
 </script>

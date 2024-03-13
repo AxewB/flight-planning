@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { v4 as getUID } from 'uuid'
+import { v4 as uuidv4 } from 'uuid';
 
 const taskOrderCheck = (v, i, a) => !i || a[i-1].date <= v.date;
 const subtaskOrderCheck = (v, i, a) => !i || a[i-1].time <= v.time;
@@ -18,13 +18,12 @@ export const useTripStore = defineStore('trip', {
       {
         id: '40b901eb-617d-4689-b5fa-a91a412ba388', 
         title: 'Trip to Venice', 
-        subTitle: "subtitle",
         avatar: {
           color: "blue",
           image: 'https://www.comune.venezia.it/sites/comune.venezia.it/files/immagini/Turismo/Buone_pratiche_Ghetto.jpeg',
         },
         budget: 1500,
-        isDone: false, 
+        status: 'planned', 
         date: {
           begin: '2024-04-10', 
           end: '2024-04-15'
@@ -49,6 +48,7 @@ export const useTripStore = defineStore('trip', {
                 time: '14:00',
               }
             ],
+
             get isSubtasksInCorrectOrder() {
               return this.subTasks.every(subtaskOrderCheck)
             } 
@@ -71,12 +71,17 @@ export const useTripStore = defineStore('trip', {
                 time: '15:00',
               }
             ],
+
             get isSubtasksInCorrectOrder() {
               return this.subTasks.every(subtaskOrderCheck)
             } 
           }
         ],
         notes: 'Venice is known for its rich history, beautiful architecture, and intricate canal system.',
+        draggableSettings: {
+          isExpanded: false,
+          isTaskEdit: false,
+        },
         get isTasksInCorrectOrder() {
           return this.tasks.every(taskOrderCheck)
         },
@@ -85,13 +90,12 @@ export const useTripStore = defineStore('trip', {
       {
         id: 'c0d5d7a5-0535-419b-8cd2-af0ae89ac6d2', 
         title: 'Beach Vacation in Hawaii', 
-        subTitle: "subtitle",
         avatar: {
           color: "green",
           image: '',
         },
         budget: 3000,
-        isDone: false, 
+        status: 'done',
         date: {
           begin: '2024-06-20', 
           end: '2024-06-27'
@@ -144,6 +148,10 @@ export const useTripStore = defineStore('trip', {
           }
         ],
         notes: 'Hawaii offers a perfect blend of relaxation and adventure with its stunning beaches and volcanic landscapes.',
+        draggableSettings: {
+          isExpanded: false,
+          isTaskEdit: false,
+        },
         get isTasksInCorrectOrder() {
           return this.tasks.every(taskOrderCheck)
         },
@@ -152,13 +160,12 @@ export const useTripStore = defineStore('trip', {
       {
         id: 'd97bc7b2-de9c-4732-b89a-b41b10151188', 
         title: 'European Backpacking Adventure', 
-        subtitle: "subtitle",
         avatar: {
           color: "orange",
           image: '',
         },
         budget: 5000,
-        isDone: false, 
+        status: 'delayed',
         date: {
           begin: '2024-08-01', 
           end: '2024-08-30'
@@ -210,6 +217,10 @@ export const useTripStore = defineStore('trip', {
             }
           }
         ],
+        draggableSettings: {
+          isExpanded: false,
+          isTaskEdit: false,
+        },
         notes: 'Backpacking through Europe allows for a unique and immersive travel experience, discovering hidden gems and iconic landmarks along the way.',
         get isTasksInCorrectOrder() {
           return this.tasks.every(taskOrderCheck)
@@ -223,12 +234,26 @@ export const useTripStore = defineStore('trip', {
       return (id) => {
         return state.trips.find((trip) => trip.id === id).tasks.filter((task) => task.cost > state.filterSettings.cost)
       }
+    },
+    draggableTasks: (state) => {
+      return (id) => {
+        let tasks = [ ...state.trips.find((trip) => trip.id === id).tasks ]
+        tasks.forEach((task, index) => {
+          task.draggableSettings = {
+            isExpanded: false,
+            isTaskEdit: false,
+            day: index + 1
+          }
+        })
+        return tasks
+        
+      }
     }
   },
   actions: {
     addTrip() {
       this.trips.push({
-        id: getUID(), 
+        id: uuidv4(), 
         name: '', 
         avatar: {
           color: "grey",
@@ -252,12 +277,19 @@ export const useTripStore = defineStore('trip', {
     },
     copyTrip(trip) {
       const newTrip = { ...trip };
-      newTrip.id = getUID();
+      newTrip.id = uuidv4();
       this.trips.push(newTrip);
     },
     removeTripImage(id) {;
       console.log(id);
       this.trips.find(trip => trip.id === id).avatar.image = null;
+    },
+    addTaskToTrip(trip, task) {
+      
+      trip.tasks.push(task);
+    },
+    removeTaskFromTrip(trip, taskId) {
+      trip.tasks = trip.tasks.filter((task) => task.id !== taskId);
     },
     resetFilters() {
       this.filterSettings = {
