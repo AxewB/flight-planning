@@ -162,10 +162,17 @@
           class="bg-transparent 
                 text-h4 
                 mb-2 
-                d-flex 
-                justify-space-between">
+                d-flex">
           Trip plan
-          <v-sheet class="bg-transparent">
+          <v-sheet 
+            v-if="!trip.isTasksInCorrectOrder"
+            class="mx-2 text-caption text-error bg-transparent d-flex justify-start align-center">
+            <VIcon 
+              icon="mdi-alert-circle" 
+              class="mr-1"/>
+            Tasks in wrong order
+          </v-sheet>
+          <v-sheet class="bg-transparent d-flex justify-end align-center flex-grow-1">
             <v-btn 
               class="mx-1"
               color="primary"
@@ -183,7 +190,7 @@
             v-if="trip.tasks.length === 0" 
             title="No tasks" 
             text="Add tasks"/>
-          <TripTasks :tasks="trip.tasks"/>
+          <TripTasks :trip="trip" />
         </v-sheet>
         
       </v-sheet>
@@ -232,10 +239,6 @@ const testText = ref('');
 //methods
 const addTask = () => {
   tripStore.addTask(tripId.value);
-}
-
-const test = (i) => {
-  console.log("something")
 }
 
 const closeEditingTitle = () => {

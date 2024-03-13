@@ -1,5 +1,9 @@
 import { defineStore } from 'pinia'
 import { v4 as getUID } from 'uuid'
+
+const taskOrderCheck = (v, i, a) => !i || a[i-1].date <= v.date;
+const subtaskOrderCheck = (v, i, a) => !i || a[i-1].time <= v.time;
+
 export const useTripStore = defineStore('trip', {
   state: () => ({
     trips: [
@@ -35,7 +39,10 @@ export const useTripStore = defineStore('trip', {
                 title: "Take a gondola ride",
                 time: '14:00',
               }
-            ]
+            ],
+            get isSubtasksInCorrectOrder() {
+              return this.subTasks.every(subtaskOrderCheck)
+            } 
           },
           {
             id: 'd61563c3-c74b-4027-9765-f6b2f98770d1',
@@ -53,11 +60,16 @@ export const useTripStore = defineStore('trip', {
                 title: "Shop for Murano glass souvenirs",
                 time: '15:00',
               }
-            ]
+            ],
+            get isSubtasksInCorrectOrder() {
+              return this.subTasks.every(subtaskOrderCheck)
+            } 
           }
         ],
         notes: 'Venice is known for its rich history, beautiful architecture, and intricate canal system.',
-        tags: ['Italy', 'Travel']
+        get isTasksInCorrectOrder() {
+          return this.tasks.every(taskOrderCheck)
+        }
       },
       {
         id: 'c0d5d7a5-0535-419b-8cd2-af0ae89ac6d2', 
@@ -91,7 +103,10 @@ export const useTripStore = defineStore('trip', {
                 title: "Explore coral reefs",
                 time: '11:00',
               }
-            ]
+            ],
+            get isSubtasksInCorrectOrder() {
+              return this.subTasks.every(subtaskOrderCheck)
+            } 
           },
           {
             id: '4fa17d99-c121-411f-8bb1-f97cd3e8916d',
@@ -109,11 +124,16 @@ export const useTripStore = defineStore('trip', {
                 title: "Enjoy panoramic views",
                 time: '10:00',
               }
-            ]
+            ],
+            get isSubtasksInCorrectOrder() {
+              return this.subTasks.every(subtaskOrderCheck)
+            } 
           }
         ],
         notes: 'Hawaii offers a perfect blend of relaxation and adventure with its stunning beaches and volcanic landscapes.',
-        tags: ['Beach', 'Adventure']
+        get isTasksInCorrectOrder() {
+          return this.tasks.every(taskOrderCheck)
+        }
       },
       {
         id: 'd97bc7b2-de9c-4732-b89a-b41b10151188', 
@@ -147,7 +167,10 @@ export const useTripStore = defineStore('trip', {
                 title: "Enjoy a picnic nearby",
                 time: '12:00',
               }
-            ]
+            ],
+            get isSubtasksInCorrectOrder() {
+              return this.subTasks.every(subtaskOrderCheck)
+            } 
           },
           {
             id: 'd54e0c39-e294-4b3c-ab18-5ce245af045d',
@@ -165,11 +188,16 @@ export const useTripStore = defineStore('trip', {
                 title: "Learn about ancient Roman history",
                 time: '14:00',
               }
-            ]
+            ],
+            get isSubtasksInCorrectOrder() {
+              return this.subTasks.every(subtaskOrderCheck)
+            } 
           }
         ],
         notes: 'Backpacking through Europe allows for a unique and immersive travel experience, discovering hidden gems and iconic landmarks along the way.',
-        tags: ['Europe', 'Backpacking']
+        get isTasksInCorrectOrder() {
+          return this.tasks.every(taskOrderCheck)
+        }
       }
     ]
   }),

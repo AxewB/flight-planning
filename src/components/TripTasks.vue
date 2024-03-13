@@ -1,7 +1,7 @@
 <template>
   <v-sheet width="100%">
     <draggable 
-      :list="props.tasks" 
+      :list="props.trip.tasks" 
       tag="v-sheet"
       handle=".handle" 
       item-key="id">
@@ -39,6 +39,14 @@
                       class="bg-transparent d-flex justify-start align-center text-h6">
                       
                       {{task.title}}
+                      <v-sheet 
+                        v-if="!task.isSubtasksInCorrectOrder"
+                        class="mx-2 text-caption text-error bg-transparent d-flex justify-center align-center">
+                        <VIcon 
+                          icon="mdi-alert-circle" 
+                          class="mr-1"/>
+                        Subtasks in wrong order
+                      </v-sheet>
                     </v-sheet>
                     <v-sheet 
                       class="d-flex justify-end align-center text-overline bg-transparent" 
@@ -93,6 +101,8 @@
                         :text="subTask.title"
                         v-model="subTask.title"
                         replacable-text="title"/>
+                      
+
                     </div>
                   </v-sheet>
                 </v-col> 
@@ -112,7 +122,7 @@ import draggable from 'vuedraggable';
 import TextToTextField from './TextToTextField.vue';
 
 const props = defineProps({
-	tasks: Object,
+  trip: Object,
 })
 const tasksSettings = ref({});
 const getCertainTask = (id) => {
@@ -121,7 +131,7 @@ const getCertainTask = (id) => {
 
 const updateTasksSettings = () => {
   tasksSettings.value = {};
-  props.tasks.forEach((task, index) => {
+  props.trip.tasks.forEach((task, index) => {
     tasksSettings.value[task.id] = {
       isExpanded: false,
       isTaskEdit: false,
@@ -129,6 +139,14 @@ const updateTasksSettings = () => {
     }
   });
 }
+
+const errorsList = computed(() => {
+  if (!props.trip.isTasksInCorrectOrder) {
+    return 'Tasks in wrong order!';
+  }
+  return ''
+}) 
+
 onBeforeMount(() => {
   updateTasksSettings();
 })
