@@ -4,8 +4,16 @@ import { v4 as getUID } from 'uuid'
 const taskOrderCheck = (v, i, a) => !i || a[i-1].date <= v.date;
 const subtaskOrderCheck = (v, i, a) => !i || a[i-1].time <= v.time;
 
+
 export const useTripStore = defineStore('trip', {
   state: () => ({
+    filterSettings: {
+      date: {
+        begin: '',
+        end: '',
+      },
+      cost: 0,
+    },
     trips: [
       {
         id: '40b901eb-617d-4689-b5fa-a91a412ba388', 
@@ -27,6 +35,7 @@ export const useTripStore = defineStore('trip', {
             id: '96e03df0-5cbb-4f4e-b3a3-db18c5b4f276',
             title: "Explore St. Mark's Square",
             date: '2024-04-10',
+            cost: 300,
             subTasks: 
             [
               {
@@ -48,6 +57,7 @@ export const useTripStore = defineStore('trip', {
             id: 'd61563c3-c74b-4027-9765-f6b2f98770d1',
             title: "Discover Murano Island",
             date: '2024-04-11',
+            cost: 200,
             subTasks: 
             [
               {
@@ -69,7 +79,8 @@ export const useTripStore = defineStore('trip', {
         notes: 'Venice is known for its rich history, beautiful architecture, and intricate canal system.',
         get isTasksInCorrectOrder() {
           return this.tasks.every(taskOrderCheck)
-        }
+        },
+        
       },
       {
         id: 'c0d5d7a5-0535-419b-8cd2-af0ae89ac6d2', 
@@ -90,6 +101,7 @@ export const useTripStore = defineStore('trip', {
           {
             id: '0d72d1c3-0bfe-4e53-b90e-09d181cabfbe',
             title: "Snorkel at Hanauma Bay",
+            cost: 300,
             date: '2024-06-21',
             subTasks: 
             [
@@ -111,6 +123,7 @@ export const useTripStore = defineStore('trip', {
           {
             id: '4fa17d99-c121-411f-8bb1-f97cd3e8916d',
             title: "Hike to Diamond Head Summit",
+            cost: 400,
             date: '2024-06-23',
             subTasks: 
             [
@@ -133,7 +146,8 @@ export const useTripStore = defineStore('trip', {
         notes: 'Hawaii offers a perfect blend of relaxation and adventure with its stunning beaches and volcanic landscapes.',
         get isTasksInCorrectOrder() {
           return this.tasks.every(taskOrderCheck)
-        }
+        },
+
       },
       {
         id: 'd97bc7b2-de9c-4732-b89a-b41b10151188', 
@@ -155,6 +169,7 @@ export const useTripStore = defineStore('trip', {
             id: '4afa9d2f-8b5e-467d-99cb-ebe179de3a5b',
             title: "Visit the Eiffel Tower in Paris",
             date: '2024-08-05',
+            cost: 2100,
             subTasks: 
             [
               {
@@ -176,6 +191,7 @@ export const useTripStore = defineStore('trip', {
             id: 'd54e0c39-e294-4b3c-ab18-5ce245af045d',
             title: "Explore the Colosseum in Rome",
             date: '2024-08-15',
+            cost: 600,
             subTasks: 
             [
               {
@@ -191,16 +207,24 @@ export const useTripStore = defineStore('trip', {
             ],
             get isSubtasksInCorrectOrder() {
               return this.subTasks.every(subtaskOrderCheck)
-            } 
+            }
           }
         ],
         notes: 'Backpacking through Europe allows for a unique and immersive travel experience, discovering hidden gems and iconic landmarks along the way.',
         get isTasksInCorrectOrder() {
           return this.tasks.every(taskOrderCheck)
-        }
+        },
+
       }
-    ]
+    ],
   }),
+  getters: {
+    filteredTasks: (state) => {
+      return (id) => {
+        return state.trips.find((trip) => trip.id === id).tasks.filter((task) => task.cost > state.filterSettings.cost)
+      }
+    }
+  },
   actions: {
     addTrip() {
       this.trips.push({
@@ -235,6 +259,21 @@ export const useTripStore = defineStore('trip', {
       console.log(id);
       this.trips.find(trip => trip.id === id).avatar.image = null;
     },
-
+    resetFilters() {
+      this.filterSettings = {
+        date: {
+          begin: '',
+          end: '',
+        },
+        cost: 0,
+      }
+    },
+    applyFilterSettings(settings) {
+      const {date, cost} = settings;
+      this.filterSettings = {
+        date,
+        cost,
+      }
+    }
   }
 })

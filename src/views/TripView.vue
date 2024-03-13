@@ -162,21 +162,109 @@
           class="bg-transparent 
                 text-h4 
                 mb-2 
-                d-flex">
+                d-flex
+                justify-start 
+                align-center">
           Trip plan
+          
           <v-sheet 
-            v-if="!trip.isTasksInCorrectOrder"
             class="mx-2 text-caption text-error bg-transparent d-flex justify-start align-center">
-            <VIcon 
-              icon="mdi-alert-circle" 
-              class="mr-1"/>
-            Tasks in wrong order
+            <v-sheet 
+              v-for="(alert, alertName) in taskAlerts" 
+              :key="alertName">
+              <v-chip 
+                v-if="alert.value"
+                :color="alert.type"
+                size="small"
+                class="mx-1"
+                :closable="alert.type !== 'error'"
+                @click:close="alert.resetValue()">
+                {{ alert.label}}{{ alert.showValue ? ` ${alert.value}` : '' }}
+              </v-chip>
+            </v-sheet>
           </v-sheet>
           <v-sheet class="bg-transparent d-flex justify-end align-center flex-grow-1">
+            
+            <v-btn 
+              class="mx-1"
+              icon
+              size="small"
+              rounded
+              variant="text">
+              <VIcon 
+                icon="mdi-filter-menu"/>
+              <v-menu 
+                activator="parent"
+                :close-on-content-click="false">
+                <v-sheet>
+                  <v-container>
+                    <v-row>
+                      <v-col 
+                        cols="1" 
+                        class="d-flex justify-center align-center">
+                        <VIcon icon="mdi-calendar"/>  
+                      </v-col>
+                      <v-col>
+                        <v-text-field 
+                          variant="solo-filled" 
+                          label="begin date"
+                          type="date"
+                          hide-details
+                          density="compact"
+                          clearale
+                          v-model="tasksFilters.date.begin"/>
+                      </v-col>
+                      <v-col>
+                        <v-text-field 
+                          variant="solo-filled" 
+                          label="end date"
+                          type="date"
+                          density="compact"
+                          hide-details
+                          v-model="tasksFilters.date.begin"/>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col 
+                        cols="1" 
+                        class="d-flex justify-center align-center">
+                        <VIcon icon="mdi-cash"/>  
+                      </v-col>
+                      <v-col>
+                        <v-text-field 
+                          variant="solo-filled" 
+                          label="cost"
+                          type="number"
+                          hide-details
+                          hide-spin-buttons
+                          density="compact"
+                          clearable
+                          v-model="tasksFilters.cost"/>
+                      </v-col>
+                      
+                    </v-row>
+                    <v-row>
+                      <v-col class="d-flex justify-end">
+                        <v-btn 
+                          @click="resetFilters()"
+                          color="warning"
+                          variant="tonal">
+                          Reset
+                        </v-btn>
+                        <v-btn 
+                          @click="tripStore.applyFilterSettings(tasksFilters)" 
+                          color="primary"
+                          class="ml-2">Apply</v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-sheet>
+                
+              </v-menu>
+            </v-btn>
             <v-btn 
               class="mx-1"
               color="primary"
-              size="small"
               @click="isAddingTask = true">Add task</v-btn>
           </v-sheet>
         </v-sheet>
@@ -190,7 +278,7 @@
             v-if="trip.tasks.length === 0" 
             title="No tasks" 
             text="Add tasks"/>
-          <TripTasks :trip="trip" />
+          <TripTasks :tripId="tripId" />
         </v-sheet>
         
       </v-sheet>
@@ -214,9 +302,10 @@
 </template>
 
 <script setup>
-import { ref, computed} from 'vue';
+import { ref, computed, onMounted} from 'vue';
 import { useRoute } from 'vue-router'
 import { useTripStore } from "@/stores/TripStore"
+import { mapActions } from 'pinia';
 import EmptyPageWarning from '@/components/EmptyPageWarning.vue';
 import TaskSettingsForm from '@/components/TaskSettingsForm.vue';
 import draggable from "vuedraggable";
@@ -234,28 +323,68 @@ const date_begin = ref(new Date());
 const isTitleEdit = ref(false);
 const isDescriptionEdit = ref(false);
 const isAddingTask = ref(false);
-const testText = ref('');
+const tasksFilters = ref({})
 
 //methods
 const addTask = () => {
   tripStore.addTask(tripId.value);
 }
 
-const closeEditingTitle = () => {
-  isTitleEdit.value = false;
-} 
+const applyFilterSettings = () => {
+  tripStore.applyFilterSettings(tasksFilters.value);
+}
 
-const closeEditingDescription = () => {
-  isDescriptionEdit.value = false;
-} 
+const resetFilters = () => {
+  tasksFilters.value = {
+    date: {
+      begin: '',
+      end: '',
+    },
+    cost: 0,
+  }
+  console.log(tasksFilters.value);
+  tripStore.resetFilters();
+}
 
 // computed
-const tripTasks = computed({
-  get(){
-    return trip.value.tasks;
-  },
-  set(value) {
-    trip.value.tasks = value;
+const taskAlerts = computed(() => {
+  return {
+    isOrderWrong: {
+      value: !trip.value.isTasksInCorrectOrder,
+      label: 'wrong order',
+      type: 'error',
+      showValue: false,
+    },
+    filterDateBegin: {
+      value: tripStore.filterSettings.date.begin,
+      label: 'start date',
+      type: 'info',
+      showValue: true,
+      resetValue() {
+        tasksFilters.value.date.begin = '';
+        resetFilters();
+      },
+    },
+    filterDateEnd: {
+      value: tripStore.filterSettings.date.end,
+      label: 'end date',
+      type: 'info',
+      showValue: true,
+      resetValue() {
+        tasksFilters.value.date.end = '';
+        resetFilters();
+      },
+    },
+    filterCost: {
+      value: tripStore.filterSettings.cost,
+      label: 'cost',
+      type: 'info',
+      showValue: true,
+      resetValue() {
+        tasksFilters.value.date.cost = 0;
+        resetFilters();
+      },
+    },
   }
 })
 
@@ -267,4 +396,11 @@ const trip = computed(() => {
   return tripStore.trips.find((trip) => trip.id === tripId.value)
 })
 
+const filteredTasks = computed(() => {
+  return tripStore.filteredTasks(tripId.value)
+})
+
+onMounted(() => {
+  resetFilters();
+})
 </script>

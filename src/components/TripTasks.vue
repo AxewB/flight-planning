@@ -1,7 +1,7 @@
 <template>
   <v-sheet width="100%">
     <draggable 
-      :list="props.trip.tasks" 
+      :list="filteredTasks" 
       tag="v-sheet"
       handle=".handle" 
       item-key="id">
@@ -120,18 +120,29 @@
 import { computed, defineProps, onBeforeMount, onBeforeUpdate, ref } from 'vue';
 import draggable from 'vuedraggable';
 import TextToTextField from './TextToTextField.vue';
+import { useTripStore } from '@/stores/TripStore';
+
+const tripStore = useTripStore();
 
 const props = defineProps({
-  trip: Object,
+  tripId: String,
 })
+
 const tasksSettings = ref({});
-const getCertainTask = (id) => {
-  return props.tasks.find(task => task.id === id)
-}
+
+
+
+const trip = computed(() => {
+  return tripStore.trips.find((trip) => trip.id === props.tripId)
+})
+
+const filteredTasks = computed(() => {
+  return tripStore.filteredTasks(props.tripId)
+})
 
 const updateTasksSettings = () => {
   tasksSettings.value = {};
-  props.trip.tasks.forEach((task, index) => {
+  filteredTasks.value.forEach((task, index) => {
     tasksSettings.value[task.id] = {
       isExpanded: false,
       isTaskEdit: false,
@@ -139,13 +150,6 @@ const updateTasksSettings = () => {
     }
   });
 }
-
-const errorsList = computed(() => {
-  if (!props.trip.isTasksInCorrectOrder) {
-    return 'Tasks in wrong order!';
-  }
-  return ''
-}) 
 
 onBeforeMount(() => {
   updateTasksSettings();
