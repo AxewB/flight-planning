@@ -51,7 +51,7 @@
         <v-list-item 
           class="d-flex justify-center"
           @click="addTrip()">
-          <VIcon icon="mdi-plus"></VIcon>
+          <VIcon icon="mdi-plus"/>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
