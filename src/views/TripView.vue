@@ -79,8 +79,10 @@
               <VIcon icon="mdi-trash-can"/>
               <VTooltip 
                 activator="parent" 
-                text="delete this trip (w/ confirmation)"
+                text="delete this trip"
                 location="bottom"/>
+              <ConfirmationMenu
+                @OK="removeTrip(tripId)"/>
             </v-btn>
             <v-btn 
               icon
@@ -314,6 +316,7 @@ import EmptyPageWarning from '@/components/EmptyPageWarning.vue';
 import TaskSettingsForm from '@/components/TaskSettingsForm.vue';
 import TextToTextField from '@/components/TextToTextField.vue';
 import TripTasks from "@/components/TripTasks.vue";
+import ConfirmationMenu from "@/components/ConfirmationMenu.vue"
 
 
 //stores
@@ -353,8 +356,8 @@ const resetFilters = () => {
 const taskAlerts = computed(() => {
   return {
     isOrderWrong: {
-      value: !trip.value.isTasksInCorrectOrder,
-      label: 'wrong order',
+      value: !tripStore.isTasksInCorrectOrder(trip.value.tasks),
+      label: 'tasks in wrong order',
       type: 'error',
       showValue: false,
     },
@@ -399,16 +402,13 @@ const trip = computed(() => {
   return tripStore.trips.find((trip) => trip.id === tripId.value)
 })
 
-onErrorCaptured(async () => {
-  alert('Wrong trip ID, redirecting...');
+const removeTrip = async () => {
+  const id = tripId.value;
   const navigationResult = await router.push({name: 'dashboard'});
-  if (navigationResult) {
-    alert('error');
+  if (!navigationResult){
+    tripStore.removeTrip(id);
   }
-  else {
-    router.go();
-  }
-})
+}
 
 onMounted(() => {
   resetFilters();

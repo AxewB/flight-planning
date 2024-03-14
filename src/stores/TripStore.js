@@ -1,10 +1,6 @@
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid';
 
-const taskOrderCheck = (v, i, a) => !i || a[i-1].date <= v.date;
-const subtaskOrderCheck = (v, i, a) => !i || a[i-1].time <= v.time;
-
-
 export const useTripStore = defineStore('trip', {
   state: () => ({
     filterSettings: {
@@ -49,9 +45,7 @@ export const useTripStore = defineStore('trip', {
               }
             ],
 
-            get isSubtasksInCorrectOrder() {
-              return this.subTasks.every(subtaskOrderCheck)
-            } 
+            
           },
           {
             id: 'd61563c3-c74b-4027-9765-f6b2f98770d1',
@@ -72,9 +66,7 @@ export const useTripStore = defineStore('trip', {
               }
             ],
 
-            get isSubtasksInCorrectOrder() {
-              return this.subTasks.every(subtaskOrderCheck)
-            } 
+            
           }
         ],
         notes: 'Venice is known for its rich history, beautiful architecture, and intricate canal system.',
@@ -82,9 +74,7 @@ export const useTripStore = defineStore('trip', {
           isExpanded: false,
           isTaskEdit: false,
         },
-        get isTasksInCorrectOrder() {
-          return this.tasks.every(taskOrderCheck)
-        },
+        
         
       },
       {
@@ -120,9 +110,7 @@ export const useTripStore = defineStore('trip', {
                 time: '11:00',
               }
             ],
-            get isSubtasksInCorrectOrder() {
-              return this.subTasks.every(subtaskOrderCheck)
-            } 
+            
           },
           {
             id: '4fa17d99-c121-411f-8bb1-f97cd3e8916d',
@@ -142,9 +130,7 @@ export const useTripStore = defineStore('trip', {
                 time: '10:00',
               }
             ],
-            get isSubtasksInCorrectOrder() {
-              return this.subTasks.every(subtaskOrderCheck)
-            } 
+            
           }
         ],
         notes: 'Hawaii offers a perfect blend of relaxation and adventure with its stunning beaches and volcanic landscapes.',
@@ -152,9 +138,7 @@ export const useTripStore = defineStore('trip', {
           isExpanded: false,
           isTaskEdit: false,
         },
-        get isTasksInCorrectOrder() {
-          return this.tasks.every(taskOrderCheck)
-        },
+        
 
       },
       {
@@ -190,9 +174,7 @@ export const useTripStore = defineStore('trip', {
                 time: '12:00',
               }
             ],
-            get isSubtasksInCorrectOrder() {
-              return this.subTasks.every(subtaskOrderCheck)
-            } 
+            
           },
           {
             id: 'd54e0c39-e294-4b3c-ab18-5ce245af045d',
@@ -212,9 +194,7 @@ export const useTripStore = defineStore('trip', {
                 time: '14:00',
               }
             ],
-            get isSubtasksInCorrectOrder() {
-              return this.subTasks.every(subtaskOrderCheck)
-            }
+            
           }
         ],
         draggableSettings: {
@@ -222,33 +202,77 @@ export const useTripStore = defineStore('trip', {
           isTaskEdit: false,
         },
         notes: 'Backpacking through Europe allows for a unique and immersive travel experience, discovering hidden gems and iconic landmarks along the way.',
-        get isTasksInCorrectOrder() {
-          return this.tasks.every(taskOrderCheck)
-        },
+        
 
       }
     ],
   }),
   getters: {
+    tripPattern() {
+      return {
+        id: uuidv4(), 
+        title: 'title', 
+        avatar: {
+          color: "grey",
+          image: '',
+        },
+        budget: 0,
+        status: 'planned', 
+        date: {
+          begin: '1970-01-01', 
+          end: '1970-01-01'
+        },
+        description: 'description',
+        tasks: [
+          {
+            id: uuidv4(),
+            title: "task",
+            date: '1970-01-01',
+            cost: 0,
+            subTasks: [
+              {
+                id: uuidv4(),
+                title: "subtask",
+                time: '00:00',
+              },
+            ],
+
+            
+          },
+        ],
+        notes: '',
+        draggableSettings: {
+          isExpanded: false,
+          isTaskEdit: false,
+        },
+        
+      }
+    },
     filteredTasks: (state) => {
       return (id) => {
         return state.trips.find((trip) => trip.id === id).tasks.filter((task) => task.cost > state.filterSettings.cost)
       }
     },
-    draggableTasks: (state) => {
-      return (id) => {
-        let tasks = [ ...state.trips.find((trip) => trip.id === id).tasks ]
-        tasks.forEach((task, index) => {
-          task.draggableSettings = {
-            isExpanded: false,
-            isTaskEdit: false,
-            day: index + 1
-          }
-        })
-        return tasks
-        
+    isTasksInCorrectOrder: () => {
+      return (tasks) => {
+        if (tasks) {
+          return tasks.every((v, i, a) => !i || a[i-1].date <= v.date)
+        }
+        else {
+          return true
+        }
       }
-    }
+    },
+    isSubtasksInCorrectOrder: () => {
+      return (subtasks) => {
+        if (subtasks) {
+          return subtasks.every((v, i, a) => !i || a[i-1].time <= v.time)
+        }
+        else {
+          return true
+        }
+      }
+    },
   },
   actions: {
     addTrip() {
@@ -271,9 +295,13 @@ export const useTripStore = defineStore('trip', {
         tags: [],
       })
     },
-    deleteTrip(id) {
-      const tripIdToDelete = this.trips.indexOf(trip => trip.id === id)
-      this.trips.splice(tripIdToDelete, 1)
+    removeTrip(id) {
+      const tripIdToDelete = this.trips.findIndex(trip => trip.id === id)
+      console.log(id);
+      console.log(tripIdToDelete);
+      if (tripIdToDelete > -1) {
+        this.trips.splice(tripIdToDelete, 1);
+      }
     },
     copyTrip(trip) {
       const newTrip = { ...trip };
@@ -285,7 +313,6 @@ export const useTripStore = defineStore('trip', {
       this.trips.find(trip => trip.id === id).avatar.image = null;
     },
     addTaskToTrip(trip, task) {
-      
       trip.tasks.push(task);
     },
     removeTaskFromTrip(trip, taskId) {
