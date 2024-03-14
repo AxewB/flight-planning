@@ -271,6 +271,12 @@ export const useTripStore = defineStore('trip', {
         }
       }
     },
+    sortTripsByDate(state) {
+      return state.trips.sort((a, b) => new Date(a.date.begin) - new Date(b.date.begin))
+    },
+    closestTrip(state) {
+      return state.sortTripsByDate[0];
+    }
   },
   actions: {
     addTrip() {

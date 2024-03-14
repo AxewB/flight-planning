@@ -8,7 +8,9 @@
       </template>
     </EmptyPageWarning>
   </v-sheet>
-  <v-list lines="two">
+  <v-list 
+    lines="two"
+    v-else>
     <v-list-item 
       v-for="trip in tripStore.trips" 
       :key="trip.id"
