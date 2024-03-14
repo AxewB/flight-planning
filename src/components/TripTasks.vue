@@ -31,7 +31,7 @@
                       class="bg-transparent d-flex justify-start align-center text-h6">
                       {{task.title}}
                       <v-sheet 
-                        v-if="!task.isSubtasksInCorrectOrder"
+                        v-if="!tripStore.isSubtasksInCorrectOrder(task.subTasks)"
                         class="mx-2 text-caption text-error bg-transparent d-flex justify-center align-center">
                         <VIcon 
                           icon="mdi-alert-circle" 
@@ -106,7 +106,7 @@
 </template>
 
 <script setup>
-import { computed, defineProps, onBeforeMount, onBeforeUpdate, ref, watch } from 'vue';
+import { computed, defineProps } from 'vue';
 import draggable from 'vuedraggable';
 import TextToTextField from './TextToTextField.vue';
 import { useTripStore } from '@/stores/TripStore';
@@ -123,46 +123,4 @@ const trip = computed(() => {
   return tripStore.trips.find((trip) => trip.id === props.tripId)
 })
 
-const tripTasks = computed(() => {
-  return trip.value.tasks;
-})
-
-const filteredTasks = computed(() => {
-  return tripStore.filteredTasks(props.tripId)
-})
-
-// const draggableTasks = computed(() => {
-//   return tripStore.draggableTasks(props.tripId)
-// })
-
-// const updateTasksSettings = () => {
-//   tasksSettings.value = {};
-//   filteredTasks.value.forEach((task, index) => {
-//     tasksSettings.value[task.id] = {
-//       isExpanded: false,
-//       isTaskEdit: false,
-//       day: index + 1
-//     }
-//   });
-// }
-
-// watch (() => props.needsUpdate, (newValue, oldValue) => {
-//   console.log(newValue + ' --- ' + oldValue);
-//   console.log('adflksjaghfjhklsdagfjshdafhjkdsahjfdsgahjkfgdsajkhfgsdajhgsdhajkfgjkhgfjsdagjhfgsdajhgfjshdkagfjkhsd')
-// })
-
-watch(() => props.needsUpdate, (first, second) => {
-  console.log(
-    "Watch props.selected function called with args:",
-    first,
-    second
-  );
-});
-
-// onBeforeMount(() => {
-//   updateTasksSettings();
-// })
-// onBeforeUpdate(() => {
-//   updateTasksSettings();
-// })
 </script>
