@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid';
-
+import { useRouter } from 'vue-router'
 
 export const useTripStore = defineStore('trip', {
   state: () => ({
@@ -299,6 +299,7 @@ export const useTripStore = defineStore('trip', {
     copyTrip(trip) {
       const newTrip = { ...trip };
       newTrip.id = uuidv4();
+      newTrip.title = `Copy of ${trip.title}`
       this.trips.push(newTrip);
     },
     removeTripImage(id) {;

@@ -1,15 +1,17 @@
 <template>
   <v-menu activator="parent">
-    <v-sheet class="pa-2">
+    <v-sheet class="pa-4 rounded border d-flex flex-column justify-center align-center">
+      <v-sheet class="mb-4">{{ message }}</v-sheet>
       <v-btn 
-        color="error"
-        @click="emit('OK')">Are you sure?</v-btn>
+        color="primary"
+        @click="emit('OK')">Confirm</v-btn>
     </v-sheet>
   </v-menu>
 </template>
 
 <script setup>
-import { defineEmits } from 'vue'
+import { defineEmits, defineProps } from 'vue'
+const props = defineProps(['message'])
 
 const emit = defineEmits(['OK'])
 </script>

@@ -50,26 +50,30 @@
                 activator="parent"
                 :close-on-content-click="false">
                 <v-sheet 
-                  class="pa-4 d-flex" 
+                  class="pa-4 border d-flex flex-column justify-center align-center" 
                   width="400px">
-                  <v-text-field
-                    class="mx-2" 
-                    density="compact"
-                    hide-details
-                    v-model="trip.avatar.image"
-                    label="Image url"/>
-                  <v-btn 
-                    icon
-                    @click="tripStore.removeTripImage(tripId)">
-                    <VIcon 
-                      icon="mdi-trash-can"
-                      color="error"
-                      variant="text"/>
-                    <v-tooltip 
-                      activator="parent" 
-                      text="Remove image"
-                      location="bottom"/>
-                  </v-btn>
+                  <v-sheet class="mb-4">Change trip image</v-sheet>
+                  <v-sheet class="d-flex" width=100%>
+                    <v-text-field
+                      class="mx-2" 
+                      density="compact"
+                      hide-details
+                      v-model="trip.avatar.image"
+                      label="Image url"/>
+                    <v-btn 
+                      icon
+                      @click="tripStore.removeTripImage(tripId)">
+                      <VIcon 
+                        icon="mdi-trash-can"
+                        color="error"
+                        variant="text"/>
+                      <v-tooltip 
+                        activator="parent" 
+                        text="Remove image"
+                        location="bottom"/>
+                    </v-btn>
+                  </v-sheet>
+                  
                 </v-sheet>
               </v-menu>
             </v-btn>
@@ -77,21 +81,17 @@
               icon
               elevation="0">
               <VIcon icon="mdi-trash-can"/>
-              <VTooltip 
-                activator="parent" 
-                text="delete this trip"
-                location="bottom"/>
-              <ConfirmationMenu
+              <ConfirmationMenu 
+                message="Delete this trip?"
                 @OK="removeTrip(tripId)"/>
             </v-btn>
             <v-btn 
               icon
               elevation="0">
               <VIcon icon="mdi-content-copy"/>
-              <VTooltip 
-                activator="parent" 
-                text="copy this trip (w/ confirmation)"
-                location="bottom"/>
+              <ConfirmationMenu 
+                message="Copy this trip?"
+                @OK="copyTrip()"/>
             </v-btn>
           </v-sheet>
         </v-sheet>
@@ -430,6 +430,12 @@ const removeTrip = async () => {
   if (!navigationResult){
     tripStore.removeTrip(id);
   }
+}
+
+const copyTrip = () => {
+  const cpId = tripStore.copyTrip(trip.value);
+  
+  router.push({name: 'trip', params: {id: cpId}});
 }
 
 const updateTask = (task) => {
