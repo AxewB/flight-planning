@@ -33,7 +33,7 @@
                 activator="parent" 
                 :close-on-content-click="false">
                 <v-sheet>
-                  <v-color-picker v-model="trip.avatar.color"></v-color-picker>
+                  <VColorPicker v-model="trip.avatar.color"/>
                 </v-sheet>
               </v-menu>
             </v-btn>
@@ -252,7 +252,7 @@
                           Reset
                         </v-btn>
                         <v-btn 
-                          @click="tripStore.applyFilterSettings(tasksFilters)" 
+                          @click="applyFilterSettings()" 
                           color="primary"
                           class="ml-2">Apply</v-btn>
                       </v-col>
@@ -307,22 +307,21 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted} from 'vue';
-import { useRoute } from 'vue-router'
+import { ref, computed, onMounted, onErrorCaptured } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
 import { useTripStore } from "@/stores/TripStore"
-import { mapActions } from 'pinia';
 import EmptyPageWarning from '@/components/EmptyPageWarning.vue';
 import TaskSettingsForm from '@/components/TaskSettingsForm.vue';
-import draggable from "vuedraggable";
 import TextToTextField from '@/components/TextToTextField.vue';
 import TripTasks from "@/components/TripTasks.vue";
+
 
 //stores
 const tripStore = useTripStore();
 
 // router
 const route = useRoute();
-
+const router = useRouter();
 // data
 const isAddingTask = ref(false);
 const tasksFilters = ref({})
@@ -400,8 +399,15 @@ const trip = computed(() => {
   return tripStore.trips.find((trip) => trip.id === tripId.value)
 })
 
-const filteredTasks = computed(() => {
-  return tripStore.filteredTasks(tripId.value)
+onErrorCaptured(async () => {
+  alert('Wrong trip ID, redirecting...');
+  const navigationResult = await router.push({name: 'dashboard'});
+  if (navigationResult) {
+    alert('error');
+  }
+  else {
+    router.go();
+  }
 })
 
 onMounted(() => {
