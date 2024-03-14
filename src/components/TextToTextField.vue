@@ -1,8 +1,7 @@
-<!-- eslint-disable vue/html-indent -->
 <template>
   <v-sheet 
-		class="bg-transparent d-flex justify-space-between" 
-		width="100%"
+    class="bg-transparent d-flex justify-space-between" 
+    width="100%"
     min-width="200px">
     <div 
       v-if="!isEditing"
@@ -22,27 +21,26 @@
       v-else
       autofocus
       variant="solo-filled"
-			hide-details
-			density="compact"
+      hide-details
+      density="compact"
       @keydown.enter.prevent="disableEditing()"
       v-click-outside="{
         handler: disableEditing,
       }"
-			v-model="modelValue"
-			@update:modelValue="$emit('update:modelValue', modelValue)"/>
+      v-model="modelValue"
+      @update:modelValue="$emit('update:modelValue', modelValue)"/>
   </v-sheet>
 </template>
-<!-- eslint-disable indent -->
 <script setup>
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, onBeforeUpdate } from 'vue';
 
 const props = defineProps({
   text: {
     type: String,
   },
-	replacableText: {
-		type: String
-	},
+  replacableText: {
+    type: String
+  },
 })
 
 const modelValue = ref(props.text);
@@ -55,5 +53,7 @@ const enableEditing = () => {
   isEditing.value = true;
 }
 
-
+onBeforeUpdate(() => {
+  modelValue.value = props.text
+})
 </script>
