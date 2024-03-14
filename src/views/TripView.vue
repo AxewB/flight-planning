@@ -53,7 +53,9 @@
                   class="pa-4 border d-flex flex-column justify-center align-center" 
                   width="400px">
                   <v-sheet class="mb-4">Change trip image</v-sheet>
-                  <v-sheet class="d-flex" width=100%>
+                  <v-sheet 
+                    class="d-flex" 
+                    width=100%>
                     <v-text-field
                       class="mx-2" 
                       density="compact"
