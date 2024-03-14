@@ -263,6 +263,25 @@
                 </v-sheet>
                 
               </v-menu>
+              <VTooltip 
+                location="top"
+                text="Filter tasks"
+                activator="parent"/>
+            </v-btn>
+            <v-btn 
+              class="mx-1"
+              icon
+              size="small"
+              rounded
+              variant="text"
+              @click="isTasksEditing = !isTasksEditing"
+              :color="isTasksEditing ? 'primary' : ''">
+              <VIcon 
+                icon="mdi-pencil"/>
+              <VTooltip 
+                location="top"
+                text="Edit tasks"
+                activator="parent"/>
             </v-btn>
             <v-btn 
               class="mx-1"
@@ -275,9 +294,10 @@
             v-model="isAddingTask" 
             class="d-flex justify-center align-center">
             <TaskSettingsForm 
-              @closeWindow="isAddingTask = false"
+              @closeWindow="closeTaskWindow()"
               @saveTask="saveTask()"
-              :trip="trip"/>    
+              :trip="trip"
+              :task="taskToUpdate"/>    
           </v-overlay>
           <EmptyPageWarning 
             v-if="trip.tasks.length === 0" 
@@ -285,7 +305,8 @@
             text="Add tasks"/>
           <TripTasks 
             :tripId="tripId"
-            :needsUpdate="taskListUpdate"/>
+            :isEditingTasks="isTasksEditing"
+            @updateTask="updateTask"/>
         </v-sheet>
         
       </v-sheet>
@@ -328,12 +349,13 @@ const router = useRouter();
 // data
 const isAddingTask = ref(false);
 const tasksFilters = ref({})
-const taskListUpdate = ref(false);
+const isTasksEditing = ref(false);
+const taskToUpdate = ref(null);
 
 //methods
 const saveTask = () => {
+  isAddingTask.value = false;
   console.log('saving');
-  taskListUpdate.value = !taskListUpdate.value;
 }
 
 const applyFilterSettings = () => {
@@ -408,6 +430,16 @@ const removeTrip = async () => {
   if (!navigationResult){
     tripStore.removeTrip(id);
   }
+}
+
+const updateTask = (task) => {
+  taskToUpdate.value = task;
+  isAddingTask.value = true;
+}
+
+const closeTaskWindow = () =>{
+  isAddingTask.value = false;
+  taskToUpdate.value = null;
 }
 
 onMounted(() => {

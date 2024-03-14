@@ -53,7 +53,8 @@ import { useTripStore } from '@/stores/TripStore'
 const emit = defineEmits(['closeWindow', 'saveTask'])
 
 const props = defineProps({
-  trip: Object
+  trip: Object,
+  task: Object
 })
 
 const tripStore = useTripStore();
@@ -77,7 +78,12 @@ const rules = ref({
 })
 
 const saveTask = () => {
-  tripStore.addTaskToTrip(props.trip, taskInfo.value);  
+  if (props.task) {
+    tripStore.updateTaskInTrip(props.task, taskInfo.value);
+  }
+  else {
+    tripStore.addTaskToTrip(props.trip, taskInfo.value);  
+  }
   emit('closeWindow');
   emit('saveTask');
 }
@@ -93,6 +99,11 @@ const addSubtask = () => {
   })
 }
 onMounted(() => {
-  taskInfo.value.id = uuidv4();
+  if (props.task) {
+    taskInfo.value = props.task;
+  }
+  else {
+    taskInfo.value.id = uuidv4();
+  }
 })
 </script>

@@ -14,7 +14,7 @@
                   v-bind="props"
                   class="rounded cursor-pointer" 
                   :class="isHovering || task.isExpanded ? 'bg-grey-darken-3' : ''"
-                  @click="task.isExpanded = !task.isExpanded">
+                  @click="!isEditingTasks ? toggleExpansion(task) : emitEditingTask(task)">
                   <v-col 
                     class="d-flex justify-start align-center">
                     <VIcon 
@@ -44,12 +44,12 @@
                       width="150px">
                       {{task.date}}
                       <VIcon 
-                        icon="mdi-menu-down" 
+                        :icon="task.isExpanded ? 'mdi-menu-up' : 'mdi-menu-down'" 
+                        size="30"
                         class="ml-2"/>
                     </v-sheet>
                   </v-col> 
                 </v-row>
-								
               </v-container>
             </template>
           </v-hover>
@@ -98,7 +98,7 @@
               </v-row>
             </template>
           </draggable>
-          
+          <VDivider/>
         </v-sheet>
       </template>
     </draggable>
@@ -106,7 +106,7 @@
 </template>
 
 <script setup>
-import { computed, defineProps } from 'vue';
+import { computed, defineProps, defineEmits } from 'vue';
 import draggable from 'vuedraggable';
 import TextToTextField from './TextToTextField.vue';
 import { useTripStore } from '@/stores/TripStore';
@@ -115,9 +115,22 @@ const tripStore = useTripStore();
 
 const props = defineProps({
   tripId: String,
-  needsUpdate: Boolean
+  isEditingTasks: {
+    type: Boolean,
+    default: false
+  }
 })
 
+const emit = defineEmits(['updateTask'])
+
+const toggleExpansion = (task) => {
+  task.isExpanded = !task.isExpanded
+}
+
+const emitEditingTask = (task) => {
+  console.log('emitting')
+  emit('updateTask', task)
+}
 
 const trip = computed(() => {
   return tripStore.trips.find((trip) => trip.id === props.tripId)

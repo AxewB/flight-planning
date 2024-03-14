@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid';
 
+
 export const useTripStore = defineStore('trip', {
   state: () => ({
     filterSettings: {
@@ -236,8 +237,6 @@ export const useTripStore = defineStore('trip', {
                 time: '00:00',
               },
             ],
-
-            
           },
         ],
         notes: '',
@@ -245,7 +244,6 @@ export const useTripStore = defineStore('trip', {
           isExpanded: false,
           isTaskEdit: false,
         },
-        
       }
     },
     filteredTasks: (state) => {
@@ -309,6 +307,9 @@ export const useTripStore = defineStore('trip', {
     },
     addTaskToTrip(trip, task) {
       trip.tasks.push(task);
+    },
+    updateTaskInTrip(task, newTask) {
+      task = newTask;
     },
     removeTaskFromTrip(trip, taskId) {
       trip.tasks = trip.tasks.filter((task) => task.id !== taskId);
