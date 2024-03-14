@@ -296,12 +296,7 @@ export const useTripStore = defineStore('trip', {
       })
     },
     removeTrip(id) {
-      const tripIdToDelete = this.trips.findIndex(trip => trip.id === id)
-      console.log(id);
-      console.log(tripIdToDelete);
-      if (tripIdToDelete > -1) {
-        this.trips.splice(tripIdToDelete, 1);
-      }
+      this.trips = this.trips.filter((trip) => trip.id !== id);
     },
     copyTrip(trip) {
       const newTrip = { ...trip };
