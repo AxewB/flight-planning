@@ -149,7 +149,8 @@
           <v-col >
             <v-autocomplete 
               variant="solo-filled" 
-              label=""
+              label="Place"
+              clearable
               type="number"
               :items="placeStore.places"
               item-title="name"
@@ -160,6 +161,7 @@
             <v-select 
               variant="solo-filled" 
               label="Friends"
+              clearable
               type="number"
               hide-details
               prepend-icon="mdi-account-group"
