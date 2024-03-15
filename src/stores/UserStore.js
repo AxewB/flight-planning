@@ -4,11 +4,11 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     avatar: {
       color: "red",
-      image: 'https://randomuser.me/api/portraits/women/85.jpg',
+      image: 'https://randomuser.me/api/portraits/women/34.jpg',
     },
-    firstName: 'fName',
-    lastName: 'lName',
-    email: 'someuser_email@gmailcom',
+    firstName: 'David',
+    lastName: 'Brown',
+    email: 'd.brown@gmailcom',
   }),
   getters: {
     fullName(state) {
