@@ -19,22 +19,26 @@
           </template>
         </v-list-item>
       </v-list>
-      <v-divider></v-divider>
+      <VDivider/>
       <v-list 
         nav 
         density="compact">
         <v-list-item 
           prepend-icon="mdi-home" 
           title="Dashboard" 
-          :to="{name: 'dashboard'}"></v-list-item>
+          :to="{name: 'dashboard'}"/>
         <v-list-item 
           prepend-icon="mdi-account-multiple" 
           title="Friends" 
-          :to="{name: 'friends'}"></v-list-item>
+          :to="{name: 'friends'}"/>
         <v-list-item 
           prepend-icon="mdi-calendar" 
           title="Calendar" 
-          :to="{name: 'calendar'}"></v-list-item>
+          :to="{name: 'calendar'}"/>
+        <v-list-item 
+          prepend-icon="mdi-map-marker" 
+          title="Places" 
+          :to="{name: 'trip-places'}"/>
         <VDivider/>
         <v-list-subheader>
           Trips
