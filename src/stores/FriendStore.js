@@ -123,6 +123,9 @@ export const useFriendStore = defineStore('friends', {
           return friend.firstName + ' ' + friend.lastName
         }
       }
+    },
+    getRandomFriends: (state) => {
+      return [...state.friends].sort(() => Math.random() - 0.5).slice(0, 5)
     }
   },
   actions: {
