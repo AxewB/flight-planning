@@ -53,6 +53,13 @@ export const usePlaceStore = defineStore('places', {
   actions: {
     addPlace(place) {
       this.places.push(place)
+    },
+    removePlace(id) {
+      this.places = this.places.filter((place) => place.id !== id);
+    },
+    updatePlace(newPlace) {
+      const index = this.places.findIndex((place) => place.id === newPlace.id);
+      this.places[index] = newPlace;
     }
   },
   
