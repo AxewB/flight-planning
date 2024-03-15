@@ -22,6 +22,7 @@ export const useTripStore = defineStore('trip', {
         budget: 1500,
         status: 'planned', 
         place: '',
+        friends: [],
         date: {
           begin: '2024-04-10', 
           end: '2024-04-15'
@@ -89,6 +90,7 @@ export const useTripStore = defineStore('trip', {
         budget: 3000,
         status: 'done',
         place: '',
+        friends: [],
         date: {
           begin: '2024-06-20', 
           end: '2024-06-27'
@@ -154,6 +156,7 @@ export const useTripStore = defineStore('trip', {
         budget: 5000,
         status: 'delayed',
         place: '',
+        friends: [],
         date: {
           begin: '2024-08-01', 
           end: '2024-08-30'
