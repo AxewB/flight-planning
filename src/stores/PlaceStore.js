@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia'
+import { useTripStore } from './TripStore';
 
 export const usePlaceStore = defineStore('places', {
   state: () => ({
+    tripStore: useTripStore(),  
     places: [
       {
         id: '3831bd70-3dc0-4678-96b0-15e70934a48d',
@@ -50,12 +52,31 @@ export const usePlaceStore = defineStore('places', {
 
     ]
   }),
+  getters: {
+    placesForAutocomplete(state) {
+      const result = []; 
+      state.places.forEach((place) => {
+        result.push(place.name)
+      })
+      return result
+    },
+    isPlaceInUse: (state) => {
+      return (placeName) => {
+        return this.tripStore.tripPlaces
+      }
+    }
+  },
   actions: {
     addPlace(place) {
       this.places.push(place)
     },
     removePlace(id) {
-      this.places = this.places.filter((place) => place.id !== id);
+      const placeName = this.places.find((place) => place.id === id).name
+      if (this.tripStore.tripPlaces.indexOf(placeName) === -1) {
+        this.places = this.places.filter((place) => place.id !== id);
+      } else {
+        return
+      }
     },
     updatePlace(newPlace) {
       const index = this.places.findIndex((place) => place.id === newPlace.id);

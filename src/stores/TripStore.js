@@ -21,6 +21,7 @@ export const useTripStore = defineStore('trip', {
         },
         budget: 1500,
         status: 'planned', 
+        place: '',
         date: {
           begin: '2024-04-10', 
           end: '2024-04-15'
@@ -87,6 +88,7 @@ export const useTripStore = defineStore('trip', {
         },
         budget: 3000,
         status: 'done',
+        place: '',
         date: {
           begin: '2024-06-20', 
           end: '2024-06-27'
@@ -151,6 +153,7 @@ export const useTripStore = defineStore('trip', {
         },
         budget: 5000,
         status: 'delayed',
+        place: '',
         date: {
           begin: '2024-08-01', 
           end: '2024-08-30'
@@ -276,6 +279,15 @@ export const useTripStore = defineStore('trip', {
     },
     closestTrip(state) {
       return state.sortTripsByDate[0];
+    },
+    tripPlaces(state) {
+      const result = [];
+      state.trips.forEach((trip) => {
+        if (trip.place) {
+          result.push(trip.place)
+        }
+      })
+      return result
     }
   },
   actions: {

@@ -15,9 +15,22 @@
       <v-list-item 
         v-for="place in placeStore.places" 
         :key="place.id"
-        :title="place.name"
         @click="editPlace(place)">
+        <template #title>
+          <v-sheet class="d-flex">
+            <div class="mr-2">
+              {{ place.name }}
+            </div>
+            <VIcon 
+              size="small" 
+              icon="mdi-square-rounded"
+              :color="isPlaceInUse(place.name) ? 'error' : 'success'"/>{{isPlaceInUse(place.name)}}
+            
+          </v-sheet>
+          
+        </template>
       </v-list-item>
+      
     </v-list>
     <v-overlay
       v-model="isEditingPlace"
@@ -53,14 +66,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { usePlaceStore} from '@/stores/PlaceStore'
+import { useTripStore } from "@/stores/TripStore"
 import { v4 as uuidv4 } from 'uuid';
 
 const placeStore = usePlaceStore()
+const tripStore = useTripStore()
 const placeToEdit = ref({})
 const isEditingPlace = ref(false)
 const mode = ref('');
+
+const isPlaceInUse = computed(() => {
+  return (name) => !tripStore.tripPlaces.indexOf(name) === -1
+})
 
 const addPlace = () => {
   placeToEdit.value = {

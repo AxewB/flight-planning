@@ -147,6 +147,15 @@
               prepend-icon="mdi-cash"></v-text-field>
           </v-col>
           <v-col >
+            <v-autocomplete 
+              variant="solo-filled" 
+              label=""
+              type="number"
+              :items="placeStore.placesForAutocomplete"
+              v-model="trip.place"
+              prepend-icon="mdi-map-marker"></v-autocomplete>    
+          </v-col>
+          <v-col >
             <v-text-field 
               variant="solo-filled" 
               label=""
@@ -332,9 +341,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onErrorCaptured } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { useTripStore } from "@/stores/TripStore"
+import { usePlaceStore } from "@/stores/PlaceStore"
 import EmptyPageWarning from '@/components/EmptyPageWarning.vue';
 import TaskSettingsForm from '@/components/TaskSettingsForm.vue';
 import TextToTextField from '@/components/TextToTextField.vue';
@@ -344,7 +354,7 @@ import ConfirmationMenu from "@/components/ConfirmationMenu.vue"
 
 //stores
 const tripStore = useTripStore();
-
+const placeStore = usePlaceStore();
 // router
 const route = useRoute();
 const router = useRouter();
