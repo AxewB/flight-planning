@@ -32,10 +32,6 @@
           title="Friends" 
           :to="{name: 'friends'}"/>
         <v-list-item 
-          prepend-icon="mdi-calendar" 
-          title="Calendar" 
-          :to="{name: 'calendar'}"/>
-        <v-list-item 
           prepend-icon="mdi-map-marker" 
           title="Places" 
           :to="{name: 'trip-places'}"/>
@@ -59,45 +55,6 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar title="something">
-      <v-sheet class="bg-transparent mr-5">
-        
-        <v-btn 
-          icon
-          @click="toggleFullWidth()">
-          <VIcon icon="mdi-arrow-expand-horizontal"/>
-          <VTooltip 
-            activator="parent" 
-            text="toggle full width"
-            location="bottom"/>
-        </v-btn>
-        <v-btn icon>
-          <VIcon icon="mdi-cog"/>
-          <VTooltip 
-            activator="parent" 
-            text="settings"
-            location="bottom"/>
-          <v-menu activator="parent">
-            <v-sheet>
-              <v-list nav>
-                <v-list-item 
-                  prepend-icon="mdi-home" 
-                  title="Dashboard" 
-                  value="myfiles"></v-list-item>
-                <v-list-item 
-                  prepend-icon="mdi-account-multiple" 
-                  title="Friends" 
-                  value="shared"></v-list-item>
-                <v-list-item 
-                  prepend-icon="mdi-calendar" 
-                  title="Calendar" 
-                  value="calendar"></v-list-item>
-              </v-list>
-            </v-sheet>
-          </v-menu>
-        </v-btn>
-      </v-sheet>
-    </v-app-bar>
     <v-main class="d-flex flex-column align-center bg-transparent">  
       <v-sheet 
         :width="pageSettings.fullWidth ? '100%' : '1200px'"
@@ -118,7 +75,6 @@ import { useRouter } from 'vue-router'
 import UserInfoEdit from '@/components/UserInfoEdit.vue'
 
 const router = useRouter();
-
 // stores
 const tripStore = useTripStore();
 const userStore = useUserStore();
@@ -128,11 +84,6 @@ const pageSettings = ref({
   fullWidth: false,
 })
 const isUserEdit = ref(false);
-
-// methods
-const toggleFullWidth = () => {
-  pageSettings.value.fullWidth = !pageSettings.value.fullWidth
-}
 
 const addTrip = () => {
   tripStore.addTrip();
