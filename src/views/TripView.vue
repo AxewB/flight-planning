@@ -151,17 +151,35 @@
               variant="solo-filled" 
               label=""
               type="number"
-              :items="placeStore.placesForAutocomplete"
+              :items="placeStore.places"
+              item-title="name"
               v-model="trip.place"
               prepend-icon="mdi-map-marker"></v-autocomplete>    
           </v-col>
           <v-col >
-            <v-text-field 
+            <v-select 
               variant="solo-filled" 
-              label=""
+              label="Friends"
               type="number"
               hide-details
-              prepend-icon="mdi-account-group"></v-text-field>    
+              prepend-icon="mdi-account-group"
+              :items="friendStore.friends" 
+              item-title="firstName" 
+              multiple
+              chips
+              v-model="trip.friends">
+              <template v-slot:item="{ props, item }">
+                <v-list-item 
+                  v-bind="props" 
+                  :subtitle="item.raw.department">
+                  <template #prepend>
+                    <VAvatar
+                      size="30" 
+                      :image = "item.raw.avatar.image"/>
+                  </template>
+                </v-list-item>
+              </template>
+            </v-select>  
           </v-col>
         </v-row>
       </v-container>
@@ -345,6 +363,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { useTripStore } from "@/stores/TripStore"
 import { usePlaceStore } from "@/stores/PlaceStore"
+import { useFriendStore } from '@/stores/FriendStore';
 import EmptyPageWarning from '@/components/EmptyPageWarning.vue';
 import TaskSettingsForm from '@/components/TaskSettingsForm.vue';
 import TextToTextField from '@/components/TextToTextField.vue';
@@ -355,6 +374,8 @@ import ConfirmationMenu from "@/components/ConfirmationMenu.vue"
 //stores
 const tripStore = useTripStore();
 const placeStore = usePlaceStore();
+const friendStore = useFriendStore();
+
 // router
 const route = useRoute();
 const router = useRouter();
