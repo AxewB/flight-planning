@@ -12,7 +12,7 @@
     lines="two"
     v-else>
     <v-list-item 
-      v-for="friend in friendStore.friends" 
+      v-for="friend in friendList" 
       :key="friend.id">
       <template #prepend>
         <VAvatar  
@@ -30,8 +30,24 @@
 </template>
 
 <script setup>
+import { defineProps, computed } from 'vue';
 import { useFriendStore } from '@/stores/FriendStore';
 import EmptyPageWarning from '@/components/EmptyPageWarning.vue';
+
 const friendStore = useFriendStore();
+const props = defineProps({
+  short: {
+    type: Boolean
+  }
+})
+
+const friendList = computed(() => {
+  if (props.short) {
+    return friendStore.getRandomFriends;
+  }
+  else {
+    return friendStore.friends
+  }
+})
 
 </script>
