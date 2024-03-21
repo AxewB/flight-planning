@@ -3,118 +3,6 @@ import friendExample from '../example/friendExample.json'
 
 export const useFriendStore = defineStore('friends', {
   state: () => ({
-    // friends: [
-    //   {
-    //     id: '6d39d8f8-668c-46c4-b7ab-8ee6c7669105',
-    //     avatar: {
-    //       color: "red",
-    //       image: 'https://randomuser.me/api/portraits/women/85.jpg',
-    //     },
-    //     firstName: 'fName',
-    //     lastName: 'lName',
-    //     email: 'someuser_email@gmailcom',
-    //   },
-    //   {
-    //     id: '95421ec9-5fbf-4948-a9b6-ea95346c4a0b',
-    //     avatar: {
-    //       color: "blue",
-    //       image: 'https://randomuser.me/api/portraits/men/10.jpg',
-    //     },
-    //     firstName: 'John',
-    //     lastName: 'Doe',
-    //     email: 'john.doe@gmail.com',
-    //   },
-    //   {
-    //     id: '8c6fbdc0-f256-4267-9560-09fdde8e492e',
-    //     avatar: {
-    //       color: "green",
-    //       image: 'https://randomuser.me/api/portraits/women/25.jpg',
-    //     },
-    //     firstName: 'Alice',
-    //     lastName: 'Smith',
-    //     email: 'alice.smith@gmail.com',
-    //   },
-    //   {
-    //     id: 'af62c984-e06b-40a8-8728-fa92004da641',
-    //     avatar: {
-    //       color: "yellow",
-    //       image: 'https://randomuser.me/api/portraits/men/32.jpg',
-    //     },
-    //     firstName: 'Mike',
-    //     lastName: 'Johnson',
-    //     email: 'mike.johnson@gmail.com',
-    //   },
-    //   {
-    //     id: 'c60173ab-092e-4d77-8b3a-b376bc17c922',
-    //     avatar: {
-    //       color: "purple",
-    //       image: 'https://randomuser.me/api/portraits/women/15.jpg',
-    //     },
-    //     firstName: 'Sarah',
-    //     lastName: 'Brown',
-    //     email: 'sarah.brown@gmail.com',
-    //   },
-    //   {
-    //     id: '67fb4eda-3239-40f5-9d82-6ce9835f94c1',
-    //     avatar: {
-    //       color: "orange",
-    //       image: 'https://randomuser.me/api/portraits/men/50.jpg',
-    //     },
-    //     firstName: 'David',
-    //     lastName: 'Wilson',
-    //     email: 'david.wilson@gmail.com',
-    //   },
-    //   {
-    //     id: '363916b7-a49d-4058-a329-43b9de2bd767',
-    //     avatar: {
-    //       color: "pink",
-    //       image: 'https://randomuser.me/api/portraits/women/20.jpg',
-    //     },
-    //     firstName: 'Emily',
-    //     lastName: 'Davis',
-    //     email: 'emily.davis@gmail.com',
-    //   },
-    //   {
-    //     id: '7c85e9e3-9442-405f-95cf-bf0d689b2144',
-    //     avatar: {
-    //       color: "brown",
-    //       image: 'https://randomuser.me/api/portraits/men/75.jpg',
-    //     },
-    //     firstName: 'Chris',
-    //     lastName: 'Martinez',
-    //     email: 'chris.martinez@gmail.com',
-    //   },
-    //   {
-    //     id: '811bbf71-28b0-4bca-97ac-44f202556613',
-    //     avatar: {
-    //       color: "black",
-    //       image: 'https://randomuser.me/api/portraits/men/5.jpg',
-    //     },
-    //     firstName: 'Alex',
-    //     lastName: 'Garcia',
-    //     email: 'alex.garcia@gmail.com',
-    //   },
-    //   {
-    //     id: '5759195e-7801-44fe-9681-74a30e802f4d',
-    //     avatar: {
-    //       color: "white",
-    //       image: 'https://randomuser.me/api/portraits/women/10.jpg',
-    //     },
-    //     firstName: 'Ella',
-    //     lastName: 'Lopez',
-    //     email: 'ella.lopez@gmail.com',
-    //   },
-    //   {
-    //     id: 'e9f6e1e7-9f7e-4e8c-9d9c-9c9e6e6f6e6f',
-    //     avatar: {
-    //       color: "grey",
-    //       image: 'https://randomuser.me/api/portraits/men/15.jpg',
-    //     },
-    //     firstName: 'Kevin',
-    //     lastName: 'Hernandez',
-    //     email: 'kevin.hernandez@gmail.com',
-    //   }
-    // ]
     friends: []
   }),
   getters: {
@@ -144,8 +32,18 @@ export const useFriendStore = defineStore('friends', {
       this.avatar.image = data.avatar.image
     },
     loadExample() {
-      this.friends = [...friendExample.friends]
+      this.friends = [...friendExample.friends];
+      this.saveToLocalStorage();
+    },
+    saveToLocalStorage() {
+      localStorage.setItem('friends', JSON.stringify(this.friends))
+    },
+    loadFromLocalStorage() {
+      this.friends = JSON.parse(localStorage.getItem('trips'))
+    },
+    resetStore() {
+      this.friends = []
+      localStorage.removeItem('friends')
     }
-
   }
 })

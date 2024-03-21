@@ -33,13 +33,37 @@ export const useUserStore = defineStore('user', {
 
       this.avatar.color = data.avatar.color
       this.avatar.image = data.avatar.image
+      
+      this.saveToLocalStorage();
     },
     loadExample() {
-      const {avatar, firstName, lastName, email} = userExample;
-      this.avatar = avatar
-      this.firstName = firstName
-      this.lastName = lastName
-      this.email = email
+      this.setData(userExample);
+      this.saveToLocalStorage();
+    },
+    saveToLocalStorage() {
+      const user = {
+        avatar: this.avatar,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email
+      }
+      localStorage.setItem('user', JSON.stringify(user))
+    },
+    loadFromLocalStorage() {
+      const user = JSON.parse(localStorage.getItem('user'))
+      if (user) {
+        this.setData(user)
+      }
+    },
+    resetStore() {
+      this.firstName = ''
+      this.lastName = ''
+      this.email = ''
+      this.avatar = {
+        color: "grey",
+        image: '',
+      }
+      localStorage.removeItem('user')
     }
   }
 })

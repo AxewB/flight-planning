@@ -17,7 +17,8 @@
             :text="trip.title"
             v-model="trip.title"
             replacable-text="title"
-            class="text-h3 mb-4"/>
+            class="text-h3 mb-4"
+            @update:modelValue="saveTrip()"/>
           <v-sheet min-width="200px">
             <v-btn 
               icon
@@ -33,7 +34,9 @@
                 activator="parent" 
                 :close-on-content-click="false">
                 <v-sheet>
-                  <VColorPicker v-model="trip.avatar.color"/>
+                  <VColorPicker 
+                    v-model="trip.avatar.color"
+                    @update:modelValue="saveTrip()"/>
                 </v-sheet>
               </v-menu>
             </v-btn>
@@ -61,6 +64,7 @@
                       density="compact"
                       hide-details
                       v-model="trip.avatar.image"
+                      @update:modelValue="saveTrip()"
                       label="Image url"/>
                     <v-btn 
                       icon
@@ -101,7 +105,8 @@
           <TextToTextField 
             :text="trip.description"
             v-model="trip.description"
-            replacable-text="description"/>
+            replacable-text="description"
+            @update:modelValue="saveTrip()"/>
           <v-sheet class="flex-grow-1"></v-sheet>
         </v-sheet>
         
@@ -121,6 +126,7 @@
               type="date"
               hide-details
               v-model="trip.date.begin"
+              @update:modelValue="saveTrip()"
               prepend-icon="mdi-calendar"></v-text-field>
           </v-col>
           <v-col >
@@ -130,6 +136,7 @@
               type="date"
               hide-details
               v-model="trip.date.end"
+              @update:modelValue="saveTrip()"
               prepend-icon="mdi-calendar"></v-text-field>
 
           </v-col>
@@ -144,6 +151,7 @@
               prefix="$"
               type="number"
               hide-spin-buttons
+              @update:modelValue="saveTrip()"
               prepend-icon="mdi-cash"></v-text-field>
           </v-col>
           <v-col >
@@ -155,6 +163,7 @@
               :items="placeStore.places"
               item-title="name"
               v-model="trip.place"
+              @update:modelValue="saveTrip()"
               prepend-icon="mdi-map-marker"></v-autocomplete>    
           </v-col>
           <v-col >
@@ -165,6 +174,7 @@
               type="number"
               hide-details
               prepend-icon="mdi-account-group"
+              @update:modelValue="saveTrip()"
               :items="friendStore.friends" 
               item-title="firstName" 
               multiple
@@ -245,6 +255,7 @@
                           hide-details
                           density="compact"
                           clearale
+                          @update:modelValue="saveTrip()"
                           v-model="tasksFilters.date.begin"/>
                       </v-col>
                       <v-col>
@@ -254,6 +265,7 @@
                           type="date"
                           density="compact"
                           hide-details
+                          @update:modelValue="saveTrip()"
                           v-model="tasksFilters.date.begin"/>
                       </v-col>
                     </v-row>
@@ -272,6 +284,7 @@
                           hide-spin-buttons
                           density="compact"
                           clearable
+                          @update:focused="saveTrip()"
                           v-model="tasksFilters.cost"/>
                       </v-col>
                       
@@ -372,7 +385,6 @@ import TextToTextField from '@/components/TextToTextField.vue';
 import TripTasks from "@/components/TripTasks.vue";
 import ConfirmationMenu from "@/components/ConfirmationMenu.vue"
 
-
 //stores
 const tripStore = useTripStore();
 const placeStore = usePlaceStore();
@@ -456,7 +468,8 @@ const tripId = computed(() => {
 })
 
 const trip = computed(() => {
-  return tripStore.trips.find((trip) => trip.id === tripId.value)
+  const currentTrip = tripStore.trips.find((trip) => trip.id === tripId.value)
+  return currentTrip ? currentTrip : {}
 })
 
 const removeTrip = async () => {
@@ -481,6 +494,17 @@ const updateTask = (task) => {
 const closeTaskWindow = () =>{
   isAddingTask.value = false;
   taskToUpdate.value = null;
+}
+
+
+let interval = null;
+function saveTrip() {
+  if (interval) clearInterval(interval);
+  interval = setInterval(() => {
+    console.info('Trip was saved!');
+    tripStore.saveToLocalStorage();
+    clearInterval(interval);
+  }, 500);
 }
 
 onMounted(() => {
