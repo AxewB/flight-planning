@@ -54,6 +54,27 @@
           <VIcon icon="mdi-plus"/>
         </v-list-item>
       </v-list>
+      <template #append>
+        <v-list 
+          nav
+          density="compact">
+          <v-list-item 
+            link
+            @click="exampleOverwriteWarning = true">
+            Load example
+            <v-overlay v-model="exampleOverwriteWarning">
+              <v-card 
+                title="Are you sure?"
+                text="This will overwrite all your data">
+                <v-card-actions>
+                  <v-btn @click="exampleOverwriteWarning = false">Cancel</v-btn>
+                  <v-btn @click="loadExample()">Do it</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-overlay>
+          </v-list-item>
+        </v-list>
+      </template>
     </v-navigation-drawer>
     <v-main class="d-flex flex-column align-center bg-transparent">  
       <v-sheet 
@@ -69,6 +90,8 @@
 import { ref } from 'vue';
 import { useTripStore } from '@/stores/TripStore';
 import { useUserStore } from '@/stores/UserStore';
+import { usePlaceStore } from '@/stores/PlaceStore';
+import { useFriendStore } from '@/stores/FriendStore';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router'
 
@@ -78,12 +101,15 @@ const router = useRouter();
 // stores
 const tripStore = useTripStore();
 const userStore = useUserStore();
+const placeStore = usePlaceStore();
+const friendStore = useFriendStore();
 
 //data
 const pageSettings = ref({
   fullWidth: false,
 })
 const isUserEdit = ref(false);
+const exampleOverwriteWarning = ref(false);
 
 const addTrip = () => {
   tripStore.addTrip();
@@ -100,4 +126,13 @@ const addTrip = () => {
 const tripList = computed(() => {
   return tripStore.trips;
 })
+
+// methods 
+const loadExample = () => {
+  tripStore.loadExample();
+  userStore.loadExample();
+  placeStore.loadExample();
+  friendStore.loadExample();
+  exampleOverwriteWarning.value = false;
+}
 </script>

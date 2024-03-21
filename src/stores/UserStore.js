@@ -1,14 +1,21 @@
 import { defineStore } from 'pinia'
-
+import userExample from '../example/userExample.json'
 export const useUserStore = defineStore('user', {
   state: () => ({
+    // avatar: {
+    //   color: "red",
+    //   image: 'https://randomuser.me/api/portraits/women/34.jpg',
+    // },
+    // firstName: 'David',
+    // lastName: 'Brown',
+    // email: 'd.brown@gmailcom',
     avatar: {
-      color: "red",
-      image: 'https://randomuser.me/api/portraits/women/34.jpg',
+      color: "grey",
+      image: '',
     },
-    firstName: 'David',
-    lastName: 'Brown',
-    email: 'd.brown@gmailcom',
+    firstName: 'User',
+    lastName: '',
+    email: '',
   }),
   getters: {
     fullName(state) {
@@ -26,6 +33,13 @@ export const useUserStore = defineStore('user', {
 
       this.avatar.color = data.avatar.color
       this.avatar.image = data.avatar.image
+    },
+    loadExample() {
+      const {avatar, firstName, lastName, email} = userExample;
+      this.avatar = avatar
+      this.firstName = firstName
+      this.lastName = lastName
+      this.email = email
     }
   }
 })

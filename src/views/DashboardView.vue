@@ -16,10 +16,11 @@
             Your closest trip
           </v-sheet>
           <v-card
+            v-if="closestTrip"
             class="mx-auto mb-4"
             max-width="400"
             elevation="10"
-          >
+            @click="openClosestTrip()">
             <v-img
               class="align-end text-white"
               height="200"
@@ -46,6 +47,9 @@
               </v-btn>
             </v-card-actions>
           </v-card>
+          <v-sheet v-else>
+            <v-alert text="There is no trips for now!"/>
+          </v-sheet>
         </v-col>
         <VDivider vertical/>
         <v-col>
@@ -73,6 +77,9 @@ import TripList from '@/components/TripList.vue';
 import FriendList from '@/components/FriendList.vue';
 import { useTripStore } from "@/stores/TripStore"
 import { useUserStore } from "@/stores/UserStore"
+import { useRouter } from "vue-router";
+
+const router = useRouter()
 
 const tripStore = useTripStore();
 const userStore = useUserStore();
@@ -80,4 +87,9 @@ const userStore = useUserStore();
 const closestTrip = computed(() => {
   return tripStore.closestTrip;
 })
+
+const openClosestTrip = () => {
+  const id = closestTrip.value.id
+  router.push({ name: 'trip', params: { id } })
+}
 </script>

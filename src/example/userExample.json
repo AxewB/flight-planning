@@ -1,0 +1,9 @@
+{
+  "avatar": {
+    "color": "red",
+    "image": "https://randomuser.me/api/portraits/women/34.jpg"
+  },
+  "firstName": "David",
+  "lastName": "Brown",
+  "email": "d.brown@gmailcom"
+}
