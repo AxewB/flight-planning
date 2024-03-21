@@ -76,18 +76,21 @@ export const useTripStore = defineStore('trip', {
       }
     },
     sortTripsByDate(state) {
-      if (state.trips.length === 0) 
+      if (!state.trips) 
         return null;
       else
         return state.trips.sort((a, b) => new Date(a.date.begin) - new Date(b.date.begin))
     },
     closestTrip(state) {
-      if (state.trips.length === 0) 
+      if (!state.trips) 
         return null;
       else
         return state.sortTripsByDate[0];
     },
     tripPlaces(state) {
+      if (!state.trips) 
+        return null;
+
       const result = [];
       state.trips.forEach((trip) => {
         if (trip.place) {
@@ -99,6 +102,9 @@ export const useTripStore = defineStore('trip', {
   },
   actions: {
     addTrip() {
+      if (!this.trips) {
+        this.trips = [];
+      }
       this.trips.push({
         id: uuidv4(), 
         name: '', 

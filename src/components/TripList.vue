@@ -1,10 +1,10 @@
 <template>
-  <v-sheet v-if="tripStore.trips.length === 0">
+  <v-sheet v-if="!tripStore.trips || tripStore.trips.length === 0">
     <EmptyPageWarning 
       title="No trips yet"
       text="Create your first trip">
       <template #actions>
-        <v-btn @click="tripStore.addTrip()">Create trip</v-btn>
+        <v-btn @click="addTrip()">Create trip</v-btn>
       </template>
     </EmptyPageWarning>
   </v-sheet>
@@ -37,6 +37,15 @@ import EmptyPageWarning from "@/components/EmptyPageWarning.vue";
 import { useRouter } from 'vue-router'
 const tripStore = useTripStore();
 const router = useRouter();
+const addTrip = async () => {
+  const result = await tripStore.addTrip();
+  console.log(result);
+  if (result) {
+
+    // router.push({name: "trip", params: {id: tripStore.trips[tripStore.trips.length - 1].id}})
+  }
+  
+}
 const moveToTrip = (id) => {
   router.push({name: "trip", params: {id}})
 }

@@ -13,6 +13,9 @@ import { useUserStore } from './stores/UserStore';
 import { useTripStore } from './stores/TripStore';
 import { useFriendStore } from './stores/FriendStore';
 import { usePlaceStore } from './stores/PlaceStore';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const placeStore = usePlaceStore();
 const friendStore = useFriendStore();
@@ -20,6 +23,13 @@ const tripStore = useTripStore();
 const userStore = useUserStore();
 
 onMounted(() => {
+  router.push({"name": "dashboard"})
+
+  placeStore.resetStore();
+  friendStore.resetStore();
+  tripStore.resetStore();
+  userStore.resetStore();
+  
   placeStore.loadFromLocalStorage();
   friendStore.loadFromLocalStorage();
   tripStore.loadFromLocalStorage();

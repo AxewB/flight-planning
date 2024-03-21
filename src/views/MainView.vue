@@ -60,18 +60,32 @@
           density="compact">
           <v-list-item 
             link
-            @click="exampleOverwriteWarning = true">
+            @click="isGoingToReset = true">
+            <VIcon icon="mdi-code-json"/>
+            Reset data
+            <ConfirmationOverlay 
+              title="Are you sure?"
+              text="This will reset all your data"
+              :isConfirmationShow="isGoingToReset"
+              @confirm="resetData()"
+              @cancel="isGoingToReset = false">
+            </ConfirmationOverlay>
+            
+          </v-list-item>
+          <v-list-item 
+            link
+            @click="isGoingToOverwrite = true">
+            <VIcon icon="mdi-code-json"/>
             Load example
-            <v-overlay v-model="exampleOverwriteWarning">
-              <v-card 
-                title="Are you sure?"
-                text="This will overwrite all your data">
-                <v-card-actions>
-                  <v-btn @click="exampleOverwriteWarning = false">Cancel</v-btn>
-                  <v-btn @click="loadExample()">Do it</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-overlay>
+            <ConfirmationOverlay 
+              title="Are you sure?"
+              text="This will overwrite all your data"
+              :isConfirmationShow="isGoingToOverwrite"
+              @confirm="loadExample()"
+              @cancel="isGoingToOverwrite = false">
+
+            </ConfirmationOverlay>
+            
           </v-list-item>
         </v-list>
       </template>
@@ -94,6 +108,7 @@ import { usePlaceStore } from '@/stores/PlaceStore';
 import { useFriendStore } from '@/stores/FriendStore';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router'
+import ConfirmationOverlay from '@/components/ConfirmationOverlay.vue';
 
 import UserInfoEdit from '@/components/UserInfoEdit.vue'
 
@@ -109,7 +124,8 @@ const pageSettings = ref({
   fullWidth: false,
 })
 const isUserEdit = ref(false);
-const exampleOverwriteWarning = ref(false);
+const isGoingToOverwrite = ref(false);
+const isGoingToReset = ref(false)
 
 const addTrip = () => {
   tripStore.addTrip();
@@ -133,6 +149,17 @@ const loadExample = () => {
   userStore.loadExample();
   placeStore.loadExample();
   friendStore.loadExample();
-  exampleOverwriteWarning.value = false;
+  isGoingToOverwrite.value = false;
+}
+
+const resetData = async () => {
+  const navigationResult = await router.push({name: 'dashboard'});
+  if (!navigationResult){
+    tripStore.resetStore();
+    userStore.resetStore();
+    placeStore.resetStore();
+    friendStore.resetStore();
+    isGoingToReset.value = false;
+  }
 }
 </script>

@@ -56,7 +56,7 @@ export const useUserStore = defineStore('user', {
       }
     },
     resetStore() {
-      this.firstName = ''
+      this.firstName = 'User'
       this.lastName = ''
       this.email = ''
       this.avatar = {

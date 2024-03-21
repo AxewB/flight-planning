@@ -1,5 +1,5 @@
 <template>
-  <v-sheet v-if="friendStore.friends.length === 0">
+  <v-sheet v-if="!friendStore.friends || friendStore.friends.length === 0">
     <EmptyPageWarning 
       title="No friends yet" 
       text="Add your first friend">

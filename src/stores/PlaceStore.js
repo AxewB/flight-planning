@@ -18,12 +18,18 @@ export const usePlaceStore = defineStore('places', {
   },
   actions: {
     addPlace(place) {
-      this.places.push(place)
+      if (!this.places) {
+        this.places = [place]
+      }
+      else {
+        this.places.push(place)
+      }
+      
       this.saveToLocalStorage();
     },
     removePlace(id) {
       const placeName = this.places.find((place) => place.id === id).name
-      if (this.tripStore.tripPlaces.indexOf(placeName) === -1) {
+      if (!this.tripStore.tripPlaces || this.tripStore.tripPlaces.indexOf(placeName) === -1) {
         this.places = this.places.filter((place) => place.id !== id);
         this.saveToLocalStorage();
       } 

@@ -11,7 +11,7 @@
     <VDivider 
       thickness="2" 
       class="my-4"/>
-    <v-list>
+    <v-list v-if="placeStore.places">
       <v-list-item 
         v-for="place in placeStore.places" 
         :key="place.id"
@@ -21,11 +21,6 @@
             <div class="mr-2">
               {{ place.name }}
             </div>
-            <VIcon 
-              size="small" 
-              icon="mdi-square-rounded"
-              :color="isPlaceInUse(place.name) ? 'error' : 'success'"/>{{isPlaceInUse(place.name)}}
-            
           </v-sheet>
           
         </template>
@@ -33,7 +28,7 @@
       
     </v-list>
     <v-overlay
-      v-model="isEditingPlace"
+      :model-value="isEditingPlace"
       class="d-flex justify-center align-center">
       <v-sheet 
         class="pa-4" 
@@ -47,11 +42,28 @@
             @click="cancelEditing()">
             Cancel
           </v-btn>
-          <v-btn
+          <v-tooltip 
             v-if="mode === 'edit'"
-            class="mx-2"
-            @click="removePlace(placeToEdit.id)"
-            color="error">Delete</v-btn>
+            location="top">
+            <template #activator="{ props }">
+              <v-sheet v-bind="props">
+                <v-btn
+                  v-if="mode === 'edit'"
+                  class="mx-2"
+                  @click="removePlace(placeToEdit.id)"
+                  color="error"
+                  variant="outlined">
+                  <v-tooltip>
+                    <span>Place in use</span>
+                  </v-tooltip>
+                  Delete
+                </v-btn>
+              </v-sheet>
+              
+            </template>
+          </v-tooltip>
+          
+
           <v-btn 
             class="mx-2"
             @click="confirmEditing(placeToEdit)"
@@ -78,7 +90,9 @@ const isEditingPlace = ref(false)
 const mode = ref('');
 
 const isPlaceInUse = computed(() => {
-  return (name) => !tripStore.tripPlaces.indexOf(name) === -1
+  return false
+  // return tripStore.tripPlaces
+  // return (name) => !(tripStore.tripPlaces.indexOf(name) === -1)
 })
 
 const addPlace = () => {
@@ -118,6 +132,7 @@ const confirmEditing = (newPlace) => {
       placeStore.updatePlace(newPlace);
       break;
     }
+    placeStore.saveToLocalStorage();
   }
   resetEditing();
 }
