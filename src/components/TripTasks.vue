@@ -45,6 +45,11 @@
                       width="150px">
                       {{task.date}}
                       <VIcon 
+                        v-if="task.subTasks.length === 0"
+                        size="30"
+                        class="ml-2"/>
+                      <VIcon 
+                        v-else
                         :icon="task.isExpanded ? 'mdi-menu-up' : 'mdi-menu-down'" 
                         size="30"
                         class="ml-2"/>
@@ -126,7 +131,8 @@ const props = defineProps({
 const emit = defineEmits(['updateTask'])
 
 const toggleExpansion = (task) => {
-  task.isExpanded = !task.isExpanded
+  if (task.subTasks.length > 0)
+    task.isExpanded = !task.isExpanded
 }
 
 const emitEditingTask = (task) => {
