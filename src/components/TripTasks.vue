@@ -1,7 +1,7 @@
 <template>
   <v-sheet width="100%">
     <draggable 
-      :list="trip.tasks" 
+      :list="tripStore.filteredTasks(trip.id)" 
       @end="saveAfterMoving()"
       tag="v-sheet"
       handle=".handle" 

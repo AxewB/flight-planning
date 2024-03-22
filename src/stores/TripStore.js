@@ -51,8 +51,17 @@ export const useTripStore = defineStore('trip', {
       }
     },
     filteredTasks: (state) => {
+      const begin_date = state.filterSettings.date.begin ? new Date(state.filterSettings.date.begin) : 0;
+      const end_date = state.filterSettings.date.end ? new Date(state.filterSettings.date.end) : 999999999;
       return (id) => {
-        return state.trips.find((trip) => trip.id === id).tasks.filter((task) => task.cost > state.filterSettings.cost)
+        const trip = state.trips.find((trip) => trip.id === id)
+        let trip_tasks = trip.tasks.filter((task) => task.cost > state.filterSettings.cost);
+
+        if (state.filterSettings.date.begin) 
+          trip_tasks = trip_tasks.filter((task) => new Date(task.date) >= begin_date);
+        if (state.filterSettings.date.end)
+          trip_tasks = trip_tasks.filter((task) => new Date(task.date) <= end_date);
+        return trip_tasks
       }
     },
     isTasksInCorrectOrder: () => {
@@ -137,7 +146,6 @@ export const useTripStore = defineStore('trip', {
       this.saveToLocalStorage();
     },
     removeTripImage(id) {;
-      console.log(id);
       this.trips.find(trip => trip.id === id).avatar.image = null;
       this.saveToLocalStorage();
     },

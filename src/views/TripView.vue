@@ -287,7 +287,7 @@
                           density="compact"
                           hide-details
                           @update:modelValue="saveTrip()"
-                          v-model="tasksFilters.date.begin"/>
+                          v-model="tasksFilters.date.end"/>
                       </v-col>
                     </v-row>
                     <v-row>
