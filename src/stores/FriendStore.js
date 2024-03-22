@@ -39,7 +39,10 @@ export const useFriendStore = defineStore('friends', {
       localStorage.setItem('friends', JSON.stringify(this.friends))
     },
     loadFromLocalStorage() {
-      this.friends = JSON.parse(localStorage.getItem('trips'))
+      const friends = JSON.parse(localStorage.getItem('friends'));
+      if (friends) {
+        this.friends = friends
+      }
     },
     resetStore() {
       this.friends = []

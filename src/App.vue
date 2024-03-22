@@ -24,11 +24,6 @@ const userStore = useUserStore();
 
 onMounted(() => {
   router.push({"name": "dashboard"})
-
-  placeStore.resetStore();
-  friendStore.resetStore();
-  tripStore.resetStore();
-  userStore.resetStore();
   
   placeStore.loadFromLocalStorage();
   friendStore.loadFromLocalStorage();

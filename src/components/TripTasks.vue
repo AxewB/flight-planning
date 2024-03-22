@@ -2,6 +2,7 @@
   <v-sheet width="100%">
     <draggable 
       :list="trip.tasks" 
+      @end="saveAfterMoving()"
       tag="v-sheet"
       handle=".handle" 
       item-key="id">
@@ -58,7 +59,8 @@
             v-model="task.subTasks" 
             tag="v-container"
             handle=".handle" 
-            item-key="id">
+            item-key="id"
+            @end="saveAfterMoving()">
             <template #item="{element: subTask}">
               <v-row 
                 v-bind="props"
@@ -136,4 +138,7 @@ const trip = computed(() => {
   return tripStore.trips.find((trip) => trip.id === props.tripId)
 })
 
+const saveAfterMoving = () => {
+  tripStore.saveToLocalStorage();  
+}
 </script>

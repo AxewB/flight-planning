@@ -5,7 +5,7 @@ import placeExample from '../example/placeExample.json'
 export const usePlaceStore = defineStore('places', {
   state: () => ({
     tripStore: useTripStore(),  
-    places: []
+    places: [],
   }),
   getters: {
     placesForAutocomplete(state) {
@@ -50,7 +50,10 @@ export const usePlaceStore = defineStore('places', {
       localStorage.setItem('places', JSON.stringify(this.places))
     },
     loadFromLocalStorage() {
-      this.places = JSON.parse(localStorage.getItem('places'))  
+      const places = JSON.parse(localStorage.getItem('places'));
+      if (places) {
+        this.places = places
+      } 
     },
     resetStore() {
       this.places = []

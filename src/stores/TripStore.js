@@ -122,29 +122,36 @@ export const useTripStore = defineStore('trip', {
         tasks: [],
         notes: '',
         tags: [],
-      })
+      });
+      this.saveToLocalStorage();
     },
     removeTrip(id) {
       this.trips = this.trips.filter((trip) => trip.id !== id);
+      this.saveToLocalStorage();
     },
     copyTrip(trip) {
       const newTrip = { ...trip };
       newTrip.id = uuidv4();
       newTrip.title = `Copy of ${trip.title}`
       this.trips.push(newTrip);
+      this.saveToLocalStorage();
     },
     removeTripImage(id) {;
       console.log(id);
       this.trips.find(trip => trip.id === id).avatar.image = null;
+      this.saveToLocalStorage();
     },
     addTaskToTrip(trip, task) {
       trip.tasks.push(task);
+      this.saveToLocalStorage();
     },
     updateTaskInTrip(task, newTask) {
       task = newTask;
+      this.saveToLocalStorage();
     },
     removeTaskFromTrip(trip, taskId) {
       trip.tasks = trip.tasks.filter((task) => task.id !== taskId);
+      this.saveToLocalStorage();
     },
     resetFilters() {
       this.filterSettings = {
@@ -170,7 +177,10 @@ export const useTripStore = defineStore('trip', {
       localStorage.setItem('trips', JSON.stringify(this.trips))
     },
     loadFromLocalStorage() {
-      this.trips = JSON.parse(localStorage.getItem('trips'))
+      const trips = JSON.parse(localStorage.getItem('trips'));
+      if (trips) {
+        this.trips = trips
+      }
     },
     resetStore() {
       this.trips = []
