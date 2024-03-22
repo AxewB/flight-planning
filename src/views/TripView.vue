@@ -424,7 +424,6 @@ const taskToUpdate = ref(null);
 //methods
 const saveTask = () => {
   isAddingTask.value = false;
-  console.log('saving');
 }
 
 const applyFilterSettings = () => {
@@ -439,7 +438,6 @@ const resetFilters = () => {
     },
     cost: 0,
   }
-  console.log(tasksFilters.value);
   tripStore.resetFilters();
 }
 
