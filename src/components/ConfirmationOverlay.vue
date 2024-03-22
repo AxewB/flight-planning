@@ -9,10 +9,10 @@
         <v-btn 
           @click="emit('confirm')"
           color="error">
-          Confirm
+          Подтвердить
         </v-btn>
         <v-btn @click="emit('cancel')">
-          Cancel
+          Отмена
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -28,7 +28,7 @@ const props = defineProps({
   },
   title: {
     type: String,
-    default: 'Are you sure?'
+    default: 'Вы уверены?'
   },
   text: {
     type: String

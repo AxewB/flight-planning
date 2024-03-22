@@ -1,12 +1,15 @@
 <template>
   <v-sheet class="pa-4 d-flex justify-center">
     <v-sheet width="100%">
-      <v-sheet class="text-h4 d-flex justify-space-between">
-        Friends
+      <v-sheet 
+        class="text-h4 
+              d-flex 
+              justify-space-between">
+        Друзья
         <v-btn
           @click="addFriend()"
           color="primary">
-          Add friend
+          Добавить друга
         </v-btn>
       </v-sheet>
       <VDivider class="my-4"/>
@@ -24,7 +27,9 @@
             <v-sheet 
               class="d-flex justify-space-between" 
               width="100%">
-              <div>{{ friendStore.fullName(friend.id) }}</div>
+              <div>
+                {{ friendStore.fullName(friend.id) }}
+              </div>
               <v-btn 
                 icon
                 variant="text">
@@ -36,14 +41,21 @@
                   <v-list 
                     density="compact"
                     class="pa-2 rounded">
-                    <v-list-item @click="editFriend(friend)">Edit</v-list-item>
-                    <v-list-item @click="removeFriend(friend.id)">Remove</v-list-item>
+                    <v-list-item 
+                      @click="editFriend(friend)">
+                      Edit
+                    </v-list-item>
+                    <v-list-item 
+                      @click="removeFriend(friend.id)">
+                      Remove
+                    </v-list-item>
                   </v-list>
-                  
                 </v-menu>
               </v-btn>
             </v-sheet>
-            <div class="text-disabled">{{ friend.email }}</div>
+            <div class="text-disabled">
+              {{ friend.email }}
+            </div>
           </v-sheet>
         </v-sheet>
         <VDivider class="my-4"/>
@@ -58,7 +70,7 @@
         class="pa-4 rounded" 
         width="600px">
         <v-sheet class="text-h5 mb-2">
-          {{ editingMode === 'add' ? 'Add' : 'Edit' }} friend
+          {{ editingMode === 'add' ? 'Добавить' : 'Редактировать' }} друга
         </v-sheet>
         <v-container>
           <v-row justify="center">
@@ -85,7 +97,7 @@
                     <VDivider class="my-2"/>
                     <v-row class="d-flex flex-column">
                       <v-sheet class='d-flex mb-2 align-center'>
-                        <p class="mr-2">Choose avatar color</p>
+                        <p class="mr-2">Выберите цвет для аватара</p>
                         <v-btn 
                           icon 
                           variant="plain">
@@ -93,22 +105,16 @@
                           <VTooltip 
                             activator="parent" 
                             location="bottom"
-                            text="Shows when there is no avatar"/>
+                            text="Отображается, если нет аватара"/>
                         </v-btn>
-                        
                       </v-sheet>
-                      
                       <VColorPicker 
                         v-model="editableFriend.avatar.color"/>
-
                     </v-row>
                   </v-container>
                 </v-sheet>
-                
-                
               </v-menu>
             </v-btn>
-            
           </v-row>
           <v-row>
             <v-col>
@@ -138,11 +144,13 @@
               variant="text" 
               class="mr-2"
               @click="showEditingOverlay = false">
-              Cancel
+              Отмена
             </v-btn>
             <v-btn 
               color="primary"
-              @click="confirmEditing()">Confirm</v-btn>
+              @click="confirmEditing()">
+              Подтвердить
+            </v-btn>
           </v-row>
         </v-container>
       </v-sheet>
@@ -155,12 +163,15 @@ import { ref } from 'vue'
 import { useFriendStore } from '@/stores/FriendStore';
 import { v4 as uuidv4 } from 'uuid';
 
+// stores
 const friendStore = useFriendStore();
 
+// variables
 const showEditingOverlay = ref(false);
 const editingMode = ref('')
 const editableFriend = ref(null);
 
+// methods
 const editFriend = (friend) => {
   console.log("editing?/");
   editableFriend.value = friend;

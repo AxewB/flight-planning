@@ -1,10 +1,13 @@
 <template>
-  <v-sheet v-if="!friendStore.friends || friendStore.friends.length === 0">
+  <v-sheet v-if="isFriendListExists">
     <EmptyPageWarning 
-      title="No friends yet" 
-      text="Add your first friend">
+      title="Друзей нет" 
+      text="Добавьте друзей в список">
       <template #actions>
-        <v-btn @click="friendStore.addFriend()">Add friend</v-btn>
+        <v-btn 
+          @click="friendStore.addFriend()">
+          Добавить друга
+        </v-btn>
       </template>
     </EmptyPageWarning>
   </v-sheet>
@@ -19,9 +22,10 @@
           :image="friend.avatar.image"
           :color="!friend.avatar.image ? friend.avatar.color : ''"
           size="40"/>
-      
       </template>
-      <v-list-item-title>{{ friendStore.fullName(friend.id) }}</v-list-item-title>
+      <v-list-item-title>
+        {{ friendStore.fullName(friend.id) }}
+      </v-list-item-title>
       <v-list-item-subtitle>
         {{ friend.email }}
       </v-list-item-subtitle>
@@ -34,13 +38,17 @@ import { defineProps, computed } from 'vue';
 import { useFriendStore } from '@/stores/FriendStore';
 import EmptyPageWarning from '@/components/EmptyPageWarning.vue';
 
+// stores
 const friendStore = useFriendStore();
+
+// props
 const props = defineProps({
   short: {
     type: Boolean
   }
 })
 
+// computed
 const friendList = computed(() => {
   if (props.short) {
     return friendStore.getRandomFriends;
@@ -50,4 +58,7 @@ const friendList = computed(() => {
   }
 })
 
+const isFriendListExists = computed(() => {
+  return !friendStore.friends || friendStore.friends.length === 0
+})
 </script>

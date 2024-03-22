@@ -20,7 +20,6 @@
           :image="trip.avatar.image"
           :color="!trip.avatar.image ? trip.avatar.color : ''"
           size="40"/>
-      
       </template>
       <v-list-item-title>{{ trip.title }}</v-list-item-title>
       <v-list-item-subtitle>
@@ -35,8 +34,13 @@
 import { useTripStore } from "@/stores/TripStore";
 import EmptyPageWarning from "@/components/EmptyPageWarning.vue";
 import { useRouter } from 'vue-router'
+
+// stores
 const tripStore = useTripStore();
+
+// router
 const router = useRouter();
+// methods
 const moveToTrip = (id) => {
   router.push({name: "trip", params: {id}})
 }

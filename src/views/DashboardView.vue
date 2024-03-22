@@ -2,8 +2,7 @@
   <v-sheet 
     class="bg-transparent" 
     width="100%"
-    height="100%"
-  >
+    height="100%">
     <v-container>
       <v-row>
         <v-sheet class="py-8 px-4 text-h2">
@@ -13,7 +12,7 @@
       <v-row>
         <v-col>
           <v-sheet class="pa-4 text-h4">
-            Your closest trip
+            Ближайшая поездка
           </v-sheet>
           <v-card
             v-if="closestTrip"
@@ -42,32 +41,31 @@
             <v-card-actions>
               <v-btn 
                 color="primary"
-                @click="">
+                @click="openClosestTrip()">
                 Open
               </v-btn>
             </v-card-actions>
           </v-card>
           <v-sheet v-else>
-            <v-alert text="There is no trips for now!"/>
+            <v-alert text="Поездок нет 😢"/>
           </v-sheet>
         </v-col>
         <VDivider vertical/>
         <v-col>
           <v-sheet class="pa-4 text-h4">
-            Upcoming trips
+            Предстоящие поездки
           </v-sheet>
           <TripList/>
         </v-col>
         <VDivider vertical/>
         <v-col>
           <v-sheet class="pa-4 text-h4">
-            Friends
+            Друзья
           </v-sheet>
           <FriendList short/>
         </v-col>
       </v-row>
     </v-container>
-
   </v-sheet>
 </template>
 
@@ -79,15 +77,19 @@ import { useTripStore } from "@/stores/TripStore"
 import { useUserStore } from "@/stores/UserStore"
 import { useRouter } from "vue-router";
 
+// router
 const router = useRouter()
 
+// stores
 const tripStore = useTripStore();
 const userStore = useUserStore();
 
+// computed
 const closestTrip = computed(() => {
   return tripStore.closestTrip;
 })
 
+// methods
 const openClosestTrip = () => {
   const id = closestTrip.value.id
   router.push({ name: 'trip', params: { id } })

@@ -17,7 +17,9 @@
                   :class="isHovering || task.isExpanded ? 'bg-grey-darken-3' : ''"
                   @click="!isEditingTasks ? toggleExpansion(task) : emitEditingTask(task)">
                   <v-col 
-                    class="d-flex justify-start align-center">
+                    class="d-flex 
+                          justify-start 
+                          align-center">
                     <VIcon 
                       class="handle cursor-grab" 
                       icon="mdi-menu"
@@ -29,19 +31,33 @@
                     <v-sheet 
                       width="100%" 
                       height="100%"
-                      class="bg-transparent d-flex justify-start align-center text-h6">
-                      {{task.title}}
+                      class="bg-transparent 
+                            d-flex 
+                            justify-start 
+                            align-center 
+                            text-h6">
+                      {{ task.title }}
                       <v-sheet 
                         v-if="!tripStore.isSubtasksInCorrectOrder(task.subTasks)"
-                        class="mx-2 text-caption text-error bg-transparent d-flex justify-center align-center">
+                        class="mx-2 
+                              text-caption 
+                              text-error 
+                              bg-transparent 
+                              d-flex 
+                              justify-center 
+                              align-center">
                         <VIcon 
                           icon="mdi-alert-circle" 
                           class="mr-1"/>
-                        Subtasks in wrong order
+                        Подзадачи не в правильном порядке
                       </v-sheet>
                     </v-sheet>
                     <v-sheet 
-                      class="d-flex justify-end align-center text-overline bg-transparent" 
+                      class="d-flex 
+                            justify-end 
+                            align-center 
+                            text-overline 
+                            bg-transparent" 
                       width="150px">
                       {{task.date}}
                       <VIcon 
@@ -71,7 +87,10 @@
                 v-bind="props"
                 class="cursor-pointer px-10" 
                 dense>
-                <v-col class="d-flex justify-start align-center">
+                <v-col 
+                  class="d-flex 
+                        justify-start 
+                        align-center">
                   <VIcon 
                     class="handle cursor-grab" 
                     icon="mdi-menu"
@@ -83,7 +102,10 @@
                   <v-sheet 
                     width="100%" 
                     height="100%"
-                    class="bg-transparent d-flex justify-start align-center">
+                    class="bg-transparent 
+                          d-flex 
+                          justify-start 
+                          align-center">
                     <v-sheet>
                       <VTextField 
                         v-model="subTask.time" 
@@ -98,7 +120,6 @@
                         :text="subTask.title"
                         v-model="subTask.title"
                         replacable-text="title"/>
-
                     </div>
                   </v-sheet>
                 </v-col> 
@@ -118,8 +139,10 @@ import draggable from 'vuedraggable';
 import TextToTextField from './TextToTextField.vue';
 import { useTripStore } from '@/stores/TripStore';
 
+// stores
 const tripStore = useTripStore();
 
+// props
 const props = defineProps({
   tripId: String,
   isEditingTasks: {
@@ -128,8 +151,15 @@ const props = defineProps({
   }
 })
 
+// emits
 const emit = defineEmits(['updateTask'])
 
+// computed
+const trip = computed(() => {
+  return tripStore.trips.find((trip) => trip.id === props.tripId)
+})
+
+// methods 
 const toggleExpansion = (task) => {
   if (task.subTasks.length > 0)
     task.isExpanded = !task.isExpanded
@@ -139,10 +169,6 @@ const emitEditingTask = (task) => {
   console.log('emitting')
   emit('updateTask', task)
 }
-
-const trip = computed(() => {
-  return tripStore.trips.find((trip) => trip.id === props.tripId)
-})
 
 const saveAfterMoving = () => {
   tripStore.saveToLocalStorage();  

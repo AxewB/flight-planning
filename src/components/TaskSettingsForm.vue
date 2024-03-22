@@ -7,20 +7,20 @@
       <v-row>
         <VTextField
           prepend-icon="mdi-key"
-          label="id"
+          label="Идентификатор"
           disabled
           v-model="taskInfo.id"/>
       </v-row>
       <v-row>
         <VTextField 
           prepend-icon="mdi-text"
-          label="Title" 
+          label="Название" 
           v-model="taskInfo.title"/>
       </v-row>
       <v-row>
         <VTextField 
           prepend-icon="mdi-currency-usd"
-          label="Cost" 
+          label="Стоимость" 
           v-model="taskInfo.cost"
           type="number"
           :rules="[rules.isCostValid]"/>
@@ -28,36 +28,34 @@
       <v-row>
         <VTextField 
           prepend-icon="mdi-calendar"
-          label="Date" 
+          label="Дата" 
           v-model="taskInfo.date"
           type="date"
           :rules="[rules.isDateValid]"/>
       </v-row>
       <v-row>
-        <v-autocomplete 
+        <VAutocomplete 
           variant="solo-filled" 
-          label="Place"
+          label="Место"
           clearable
           :items="placeStore.places"
           item-title="name"
           v-model="taskInfo.place"
-          prepend-icon="mdi-map-marker"></v-autocomplete> 
+          prepend-icon="mdi-map-marker"/>
       </v-row>
     </v-container>
     <VDivider/>
     <v-sheet 
       width="100%" 
-      
       class="pa-2">
-      
       <v-sheet
         v-if="taskInfo.subTasks.length === 0">
         <EmptyPageWarning 
-          title="There is no subtasks"
-          description="Add subtasks to this task is needed">
+          title="Подзадач нет"
+          description="Добавьте их при необходимости">
           <template #actions>
             <v-btn
-              @click="addSubtask()">Add subtask</v-btn>
+              @click="addSubtask()">Добавить</v-btn>
           </template>
         </EmptyPageWarning>
       </v-sheet>
@@ -69,7 +67,7 @@
           <v-btn 
             color="primary"
             @click="addSubtask()">
-            Add subtask
+            Добавить подзадачу
           </v-btn>
         </v-sheet>
         <v-sheet 
@@ -104,21 +102,18 @@
             </v-sheet>
           </v-sheet>
         </v-sheet>
-
       </v-sheet>
-      
     </v-sheet>
     <v-sheet 
       width="100%"
       class="d-flex justify-end">
       <v-btn 
         @click="closeWindow"
-        variant="text">Cancel</v-btn>
+        variant="text">Отмена</v-btn>
       <v-btn 
         @click="saveTask()"
-        color="primary">Save</v-btn>
+        color="primary">Сохранить</v-btn>
     </v-sheet>
-    
   </v-sheet>
 </template>
 
@@ -129,16 +124,20 @@ import { useTripStore } from '@/stores/TripStore'
 import { usePlaceStore } from '@/stores/PlaceStore'
 import EmptyPageWarning from './EmptyPageWarning.vue';
 
+// emits
 const emit = defineEmits(['closeWindow', 'saveTask'])
 
+// props
 const props = defineProps({
   trip: Object,
   task: Object
 })
 
+// stores
 const tripStore = useTripStore();
 const placeStore = usePlaceStore();
 
+// variables
 const taskInfo = ref({
   id: '',
   title: '',
@@ -153,11 +152,12 @@ const rules = ref({
     const beginDate = new Date(props.trip.date.begin).getTime();
     const endDate = new Date(props.trip.date.end).getTime();
     const currentDate = new Date(value).getTime();
-    return beginDate <= currentDate && currentDate <= endDate || 'Invalid date';
+    return beginDate <= currentDate && currentDate <= endDate || 'Дата не попадает в промежуток поездки';
   },
-  isCostValid: value => value >= 0 || 'Invalid cost',
+  isCostValid: value => value >= 0 || 'Неверная стоимость',
 })
 
+// methods
 const saveTask = () => {
   if (props.task) {
     tripStore.updateTaskInTrip(props.task, taskInfo.value);
@@ -184,6 +184,7 @@ const removeSubtask = (subTask) => {
   taskInfo.value.subTasks.filter((task) => task.id !== subTask.id);
 }
 
+// lifecycle
 onMounted(() => {
   if (props.task) {
     taskInfo.value = props.task;

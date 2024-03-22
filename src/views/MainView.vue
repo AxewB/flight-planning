@@ -10,8 +10,7 @@
         <v-list-item
           :subtitle="userStore.email"
           :title="userStore.fullName"
-          @click="isUserEdit = true"
-        >
+          @click="isUserEdit = true">
           <template #prepend>
             <v-avatar 
               :color="userStore.avatar.image ? '' : userStore.avatar.color" 
@@ -25,19 +24,19 @@
         density="compact">
         <v-list-item 
           prepend-icon="mdi-home" 
-          title="Dashboard" 
+          title="Главная" 
           :to="{name: 'dashboard'}"/>
         <v-list-item 
           prepend-icon="mdi-account-multiple" 
-          title="Friends" 
+          title="Друзья" 
           :to="{name: 'friends'}"/>
         <v-list-item 
           prepend-icon="mdi-map-marker" 
-          title="Places" 
+          title="Места" 
           :to="{name: 'trip-places'}"/>
         <VDivider/>
         <v-list-subheader>
-          Trips
+          Поездки
           <button icon="mdi-plus"></button>
         </v-list-subheader>
         <v-list-item 
@@ -62,35 +61,36 @@
             link
             @click="isGoingToReset = true">
             <VIcon icon="mdi-code-json"/>
-            Reset data
+            Сбросить данные
             <ConfirmationOverlay 
-              title="Are you sure?"
-              text="This will reset all your data"
+              title="Вы уверены?"
+              text="Это сотрет все данные"
               :isConfirmationShow="isGoingToReset"
               @confirm="resetData()"
               @cancel="isGoingToReset = false">
             </ConfirmationOverlay>
-            
           </v-list-item>
           <v-list-item 
             link
             @click="isGoingToOverwrite = true">
             <VIcon icon="mdi-code-json"/>
-            Load example
+            Загрузить пример
             <ConfirmationOverlay 
-              title="Are you sure?"
-              text="This will overwrite all your data"
+              title="Вы уверены?"
+              text="Это перезапишет все данные"
               :isConfirmationShow="isGoingToOverwrite"
               @confirm="loadExample()"
               @cancel="isGoingToOverwrite = false">
-
             </ConfirmationOverlay>
-            
           </v-list-item>
         </v-list>
       </template>
     </v-navigation-drawer>
-    <v-main class="d-flex flex-column align-center bg-transparent">  
+    <v-main 
+      class="d-flex 
+            flex-column 
+            align-center 
+            bg-transparent">  
       <v-sheet 
         width="1200px"
         class="bg-transparent">
@@ -109,21 +109,28 @@ import { useFriendStore } from '@/stores/FriendStore';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router'
 import ConfirmationOverlay from '@/components/ConfirmationOverlay.vue';
-
 import UserInfoEdit from '@/components/UserInfoEdit.vue'
 
+// router
 const router = useRouter();
+
 // stores
 const tripStore = useTripStore();
 const userStore = useUserStore();
 const placeStore = usePlaceStore();
 const friendStore = useFriendStore();
 
-//data
+// data
 const isUserEdit = ref(false);
 const isGoingToOverwrite = ref(false);
 const isGoingToReset = ref(false)
 
+// computed
+const tripList = computed(() => {
+  return tripStore.trips;
+})
+
+// methods
 const addTrip = () => {
   tripStore.addTrip();
   router.push({
@@ -135,12 +142,6 @@ const addTrip = () => {
   
 }
 
-// computed
-const tripList = computed(() => {
-  return tripStore.trips;
-})
-
-// methods 
 const loadExample = () => {
   tripStore.loadExample();
   userStore.loadExample();

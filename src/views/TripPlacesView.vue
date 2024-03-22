@@ -2,11 +2,13 @@
   <v-sheet class="pa-4">
     <v-sheet class="d-flex justify-space-between">
       <v-sheet class="text-h4">
-        Your places
+        Список мест
       </v-sheet>
       <v-btn 
         @click="addPlace()"
-        color="primary">Add place</v-btn>
+        color="primary">
+        Добавить место
+      </v-btn>
     </v-sheet>
     <VDivider 
       thickness="2" 
@@ -22,29 +24,30 @@
               {{ place.name }}
             </div>
           </v-sheet>
-          
         </template>
       </v-list-item>
-      
     </v-list>
     <v-overlay
+      @click:outside="resetEditing()"
       :model-value="isEditingPlace"
-      class="d-flex justify-center align-center">
+      class="d-flex 
+            justify-center 
+            align-center">
       <v-sheet 
-        class="pa-4" 
-        width="400px">
+        class="pa-4" >
         <v-text-field 
           v-model="placeToEdit.name"
           label="Name"/>
         <v-sheet class="d-flex justify-end">
           <v-btn 
             class="mx-2"
-            @click="cancelEditing()">
-            Cancel
+            @click="resetEditing()">
+            Отмена
           </v-btn>
           <v-tooltip 
             v-if="mode === 'edit'"
-            location="top">
+            location="top"
+            text="Место используется">
             <template #activator="{ props }">
               <v-sheet v-bind="props">
                 <v-btn
@@ -52,26 +55,20 @@
                   class="mx-2"
                   @click="removePlace(placeToEdit.id)"
                   color="error"
-                  variant="outlined">
-                  <v-tooltip>
-                    <span>Place in use</span>
-                  </v-tooltip>
-                  Delete
+                  variant="outlined"
+                  :disabled="isPlaceInUse(placeToEdit.name)">
+                  Удалить
                 </v-btn>
               </v-sheet>
-              
             </template>
           </v-tooltip>
-          
-
           <v-btn 
             class="mx-2"
             @click="confirmEditing(placeToEdit)"
             color="primary">
-            Confirm
+            Подтвердить
           </v-btn>
         </v-sheet>
-        
       </v-sheet>
     </v-overlay>
   </v-sheet>
@@ -83,6 +80,7 @@ import { usePlaceStore} from '@/stores/PlaceStore'
 import { useTripStore } from "@/stores/TripStore"
 import { v4 as uuidv4 } from 'uuid';
 
+// stores
 const placeStore = usePlaceStore()
 const tripStore = useTripStore()
 const placeToEdit = ref({})
@@ -90,9 +88,7 @@ const isEditingPlace = ref(false)
 const mode = ref('');
 
 const isPlaceInUse = computed(() => {
-  return false
-  // return tripStore.tripPlaces
-  // return (name) => !(tripStore.tripPlaces.indexOf(name) === -1)
+  return (name) => !(tripStore.tripPlaces.indexOf(name))
 })
 
 const addPlace = () => {
@@ -118,9 +114,6 @@ const editPlace = (place) => {
   placeToEdit.value = newPlace;
   mode.value = 'edit'
   isEditingPlace.value = true
-}
-const cancelEditing = () => {
-  resetEditing();
 }
 const confirmEditing = (newPlace) => {
   if (mode.value) {

@@ -3,17 +3,31 @@
     class="pa-4 d-flex flex-column" 
     width="600px"
     rounded>
-    <v-sheet class="bg-transparent d-flex flex-column mb-4 justify-center align-center">
+    <v-sheet 
+      class="bg-transparent 
+            d-flex 
+            flex-column 
+            mb-4 
+            justify-center 
+            align-center">
       <v-overlay 
         v-model="showAvatarChangeOverlay"
         contained 
         width="100%" 
         height="100%"
-        class="d-flex justify-center align-center">
+        class="d-flex 
+              justify-center 
+              align-center">
         <v-sheet 
-          class="d-flex flex-column justify-center align-center pa-5" 
+          class="d-flex 
+                flex-column 
+                justify-center 
+                align-center 
+                pa-5" 
           height="100%">
-          <div class="text-h6 mb-2">Paste image URL</div>
+          <div class="text-h6 mb-2">
+            Вставьте ссылку на картинку
+          </div>
           <v-sheet
             width="100%">
             <VTextField 
@@ -28,12 +42,12 @@
               class="mr-2"
               variant="text" 
               @click="closeAvatarChangeOverlay(true)">
-              Cancel
+              Отмена
             </v-btn>
             <v-btn 
               color="primary"
               @click="closeAvatarChangeOverlay(false)">
-              Accept
+              Принять
             </v-btn>
           </v-sheet>
           
@@ -41,13 +55,13 @@
         </v-sheet>
 
       </v-overlay>
-      <div class="text-h6 mb-2">User info</div>
+      <div class="text-h6 mb-2">Пользователь</div>
       <v-btn 
         size="80" 
         icon>
         <v-tooltip 
           activator="parent" 
-          location="bottom">Change avatar</v-tooltip>
+          location="bottom">Изменить изображение</v-tooltip>
         <v-avatar 
           :image="userData.avatar.image" 
           :color="userData.avatar.image ? '' : userData.avatar.color"
@@ -64,7 +78,10 @@
                 {{ userData.avatar.image ? "Remove image" : "Add image" }}
               </v-btn>
             </v-sheet>
-            <v-sheet class="d-flex flex-row align-center ">
+            <v-sheet 
+              class="d-flex 
+                    flex-row 
+                    align-center ">
               <v-btn 
                 elevation="0">
                 Change color
@@ -83,8 +100,6 @@
           </v-sheet>
         </v-menu>
       </v-btn>
-      
-      
     </v-sheet>  
     <v-sheet class="bg-transparent d-flex mb-4">
       <v-text-field 
@@ -117,12 +132,12 @@
         variant="text" 
         @click="closeWindow()"
         class="mr-2">
-        Close
+        Закрыть
       </v-btn>
       <v-btn 
         color="primary"
         @click="acceptData()">
-        Accept
+        Принять
       </v-btn>
     </v-sheet>
   </v-card>
@@ -133,10 +148,13 @@
 import { useUserStore } from '@/stores/UserStore';
 import { ref, defineEmits } from 'vue'
 
-
+// emits
 const emit = defineEmits(['closeWindow'])
+
+// stores
 const userStore = useUserStore();
 
+// variables
 const userData = ref({
   avatar: userStore.avatar,
   firstName: userStore.firstName,
@@ -145,6 +163,7 @@ const userData = ref({
 });
 const showAvatarChangeOverlay = ref(false);
 
+// methods
 const acceptData = () => {
   userStore.setData(userData.value);
   closeWindow();
