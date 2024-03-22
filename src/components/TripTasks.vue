@@ -59,6 +59,21 @@
                             text-overline 
                             bg-transparent" 
                       width="150px">
+                      <v-sheet 
+                        v-if="task.place"
+                        class="bg-transparent">
+                        {{task.place}}
+                      </v-sheet>
+                      <VDivider 
+                        v-if="task.place"
+                        vertical 
+                        class="mx-4"/>
+                      <v-sheet class="bg-transparent">
+                        {{task.cost}}₽
+                      </v-sheet>
+                      <VDivider 
+                        vertical 
+                        class="mx-4"/>
                       {{task.date}}
                       <VIcon 
                         v-if="task.subTasks.length === 0"
