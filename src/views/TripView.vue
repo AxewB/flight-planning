@@ -26,7 +26,7 @@
             replacable-text="title"
             class="text-h3 mb-4"
             @update:modelValue="saveTrip()"/>
-          <v-sheet min-width="200px">
+          <v-sheet min-width="300px">
             <v-btn 
               icon
               elevation="0">
@@ -101,14 +101,14 @@
               <ConfirmationMenu 
                 message="Удалить эту поездку?"
                 @OK="removeTrip(tripId)"/>
-              <v-btn 
-                icon
-                elevation="0">
-                <VIcon icon="mdi-content-copy"/>
-                <ConfirmationMenu 
-                  message="Копировать эту поездку?"
-                  @OK="copyTrip()"/>
-              </v-btn>
+            </v-btn>
+            <v-btn 
+              icon
+              elevation="0">
+              <VIcon icon="mdi-content-copy"/>
+              <ConfirmationMenu 
+                message="Копировать эту поездку?"
+                @OK="copyTrip()"/>
             </v-btn>
           </v-sheet>
         </v-sheet>
