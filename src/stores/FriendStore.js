@@ -20,16 +20,13 @@ export const useFriendStore = defineStore('friends', {
   },
   actions: {
 
-    removeAvatarImage() {
-      this.avatar.image = null
+    addFriend(friend) {
+      this.friends.push(friend)
+      this.saveToLocalStorage()
     },
-    setData(data) {
-      this.firstName = data.firstName
-      this.lastName = data.lastName
-      this.email = data.email
-
-      this.avatar.color = data.avatar.color
-      this.avatar.image = data.avatar.image
+    removeFriend(id) {
+      this.friends = this.friends.filter((friend) => friend.id !== id)
+      this.saveToLocalStorage()
     },
     loadExample() {
       this.friends = [...friendExample.friends];
