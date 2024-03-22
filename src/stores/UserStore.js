@@ -2,13 +2,6 @@ import { defineStore } from 'pinia'
 import userExample from '../example/userExample.json'
 export const useUserStore = defineStore('user', {
   state: () => ({
-    // avatar: {
-    //   color: "red",
-    //   image: 'https://randomuser.me/api/portraits/women/34.jpg',
-    // },
-    // firstName: 'David',
-    // lastName: 'Brown',
-    // email: 'd.brown@gmailcom',
     avatar: {
       color: "grey",
       image: '',
@@ -18,14 +11,32 @@ export const useUserStore = defineStore('user', {
     email: '',
   }),
   getters: {
+    /**
+     * Конкатенирует имя и фамилию для формирования полного имени.
+     *
+     * @param {Object} state - состояние приложения
+     * @return {string} - Полное имя
+     */
     fullName(state) {
       return state.firstName + ' ' + state.lastName;
     }
   },
   actions: {
+    /**
+     * Удаляет изображение аватара.
+     *
+     * @return {void} 
+     */
     removeAvatarImage() {
       this.avatar.image = null
     },
+    /**
+     * Устанавливает данные в свойства объекта и сохраняет в локальное хранилище.
+     *
+     * @param {Object} data - данные пользователя
+     *
+     * @return {void} 
+     */
     setData(data) {
       this.firstName = data.firstName
       this.lastName = data.lastName
@@ -36,10 +47,21 @@ export const useUserStore = defineStore('user', {
       
       this.saveToLocalStorage();
     },
+    /**
+     * Загрузить пример и установить данные в userExample, затем сохранить в локальное хранилище.
+     *
+     * @return {void} 
+     */
     loadExample() {
       this.setData(userExample);
       this.saveToLocalStorage();
     },
+    /**
+     * Сохраняет данные пользователя в локальное хранилище.
+     *
+     * @return {void} 
+     * 
+     */
     saveToLocalStorage() {
       const user = {
         avatar: this.avatar,
@@ -49,12 +71,22 @@ export const useUserStore = defineStore('user', {
       }
       localStorage.setItem('user', JSON.stringify(user))
     },
+    /**
+     * Загружает данные пользователя из локального хранилища и устанавливает их в текущую инстанцию.
+     *
+     * @return {void} 
+     */
     loadFromLocalStorage() {
       const user = JSON.parse(localStorage.getItem('user'))
       if (user) {
         this.setData(user)
       }
     },
+    /**
+     * Сбрасывает настройки пользователя на значения по умолчанию и удаляет пользователя из локального хранилища.
+     *
+     * @return {void} 
+     */
     resetStore() {
       this.firstName = 'User'
       this.lastName = ''
