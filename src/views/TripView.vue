@@ -159,7 +159,6 @@
               variant="solo-filled" 
               label="Place"
               clearable
-              type="number"
               :items="placeStore.places"
               item-title="name"
               v-model="trip.place"

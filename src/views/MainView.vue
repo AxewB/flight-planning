@@ -92,7 +92,7 @@
     </v-navigation-drawer>
     <v-main class="d-flex flex-column align-center bg-transparent">  
       <v-sheet 
-        :width="pageSettings.fullWidth ? '100%' : '1200px'"
+        width="1200px"
         class="bg-transparent">
         <RouterView/>
       </v-sheet>
@@ -120,9 +120,6 @@ const placeStore = usePlaceStore();
 const friendStore = useFriendStore();
 
 //data
-const pageSettings = ref({
-  fullWidth: false,
-})
 const isUserEdit = ref(false);
 const isGoingToOverwrite = ref(false);
 const isGoingToReset = ref(false)
