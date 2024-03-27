@@ -33,6 +33,14 @@ export const useTripStore = defineStore('trip', {
         return trip_tasks
       }
     },
+    
+    /**
+     * Возвращает true, если задания отфильтрованы
+     * @param {Object} state - Состояние приложения
+     */
+    isTasksFiltered(state) {
+      return state.filterSettings.date.begin || state.filterSettings.date.end || state.filterSettings.cost
+    },
     /**
      * Проверка, являются ли задания в правильном порядке, основываясь на дате
      *

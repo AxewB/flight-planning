@@ -1,7 +1,7 @@
 <template>
   <v-sheet width="100%">
     <draggable 
-      :list="trip.tasks" 
+      :list="tripStore.isTasksFiltered ? tripStore.filteredTasks(trip.id) : trip.tasks" 
       @end="saveAfterMoving()"
       tag="v-sheet"
       handle=".handle" 
@@ -147,11 +147,31 @@
         </v-sheet>
       </template>
     </draggable>
+
+    <v-snackbar 
+      v-model="isSnackBarShow"
+      :timeout="5000">
+      Сбросьте фильтры, чтобы изменять положение задач
+      <template #actions>
+        <v-btn
+          color="error"
+          variant="text"
+          @click="resetFilters()">
+          Сбросить
+        </v-btn>
+        <v-btn
+          color="error"
+          variant="text"
+          @click="isSnackBarShow = false">
+          Закрыть
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-sheet>
 </template>
 
 <script setup>
-import { computed, defineProps, defineEmits } from 'vue';
+import { computed, defineProps, defineEmits, ref } from 'vue';
 import draggable from 'vuedraggable';
 import TextToTextField from './TextToTextField.vue';
 import { useTripStore } from '@/stores/TripStore';
@@ -167,6 +187,9 @@ const props = defineProps({
     default: false
   }
 })
+
+// data
+const isSnackBarShow = ref(false);
 
 // emits
 const emit = defineEmits(['updateTask'])
@@ -186,7 +209,16 @@ const emitEditingTask = (task) => {
   emit('updateTask', task)
 }
 
+const resetFilters = () => {
+  tripStore.resetFilters();
+  isSnackBarShow.value = false
+}
+
 const saveAfterMoving = () => {
-  tripStore.saveToLocalStorage();  
+  if (tripStore.isTasksFiltered) {
+    isSnackBarShow.value = true
+  }
+  else
+    tripStore.saveToLocalStorage();  
 }
 </script>

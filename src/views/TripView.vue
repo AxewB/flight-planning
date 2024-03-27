@@ -229,7 +229,9 @@
                   bg-transparent 
                   d-flex 
                   justify-start 
-                  align-center">
+                  align-center
+                  overflow-x-auto"
+            width="300px">
             <v-sheet 
               v-for="(alert, alertName) in taskAlerts" 
               :key="alertName">
@@ -313,7 +315,7 @@
                     <v-row>
                       <v-col class="d-flex justify-end">
                         <v-btn 
-                          @click="resetFilters()"
+                          @click="tripStore.resetFilters()"
                           color="warning"
                           variant="tonal">
                           Сбросить
@@ -391,6 +393,8 @@
         </v-sheet>
       </v-sheet>
     </v-sheet>
+
+    
   </v-sheet>
 </template>
 
@@ -417,7 +421,13 @@ const router = useRouter();
 
 // data
 const isAddingTask = ref(false);
-const tasksFilters = ref({})
+const tasksFilters = ref({
+  date: {
+    begin: '',
+    end: '',
+  },
+  cost: 0,
+})
 const isTasksEditing = ref(false);
 const taskToUpdate = ref(null);
 
@@ -430,54 +440,40 @@ const applyFilterSettings = () => {
   tripStore.applyFilterSettings(tasksFilters.value);
 }
 
-const resetFilters = () => {
-  tasksFilters.value = {
-    date: {
-      begin: '',
-      end: '',
-    },
-    cost: 0,
-  }
-  tripStore.resetFilters();
-}
-
 // computed
 const taskAlerts = computed(() => {
   return {
     isOrderWrong: {
       value: !tripStore.isTasksInCorrectOrder(trip.value.tasks),
-      label: 'tasks in wrong order',
+      label: 'План в неправильном порядке',
       type: 'error',
       showValue: false,
     },
     filterDateBegin: {
       value: tripStore.filterSettings.date.begin,
-      label: 'start date',
+      label: 'Начало',
       type: 'info',
       showValue: true,
       resetValue() {
         tasksFilters.value.date.begin = '';
-        resetFilters();
       },
     },
     filterDateEnd: {
       value: tripStore.filterSettings.date.end,
-      label: 'end date',
+      label: 'Конец',
       type: 'info',
       showValue: true,
       resetValue() {
         tasksFilters.value.date.end = '';
-        resetFilters();
       },
     },
     filterCost: {
       value: tripStore.filterSettings.cost,
-      label: 'cost',
+      label: 'Стоимость > ',
       type: 'info',
       showValue: true,
       resetValue() {
         tasksFilters.value.date.cost = 0;
-        resetFilters();
       },
     },
   }
@@ -526,6 +522,5 @@ function saveTrip() {
 
 // lifecycle
 onMounted(() => {
-  resetFilters();
 })
 </script>
