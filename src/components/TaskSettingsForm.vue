@@ -107,6 +107,13 @@
     <v-sheet 
       width="100%"
       class="d-flex justify-end">
+      <v-btn
+        v-if="props.task"  
+        variant="text"
+        color="error"
+        @click="removeTask()">
+        Удалить
+      </v-btn>
       <v-btn 
         @click="closeWindow"
         variant="text">Отмена</v-btn>
@@ -168,6 +175,15 @@ const saveTask = () => {
   emit('closeWindow');
   emit('saveTask');
 }
+
+const removeTask = () => {
+  if (props.task) {
+    tripStore.removeTaskFromTrip(props.trip, props.task);
+    emit('closeWindow');
+    emit('saveTask');  
+  }
+}
+
 const closeWindow = () => {
   emit('closeWindow');
 }
@@ -180,12 +196,24 @@ const addSubtask = () => {
   })
 }
 
-const removeSubtask = (subTask) => {
-  taskInfo.value.subTasks.filter((task) => task.id !== subTask.id);
+const removeSubtask = (rm_subtask) => {
+  const rm_index = taskInfo.value.subTasks.findIndex((subtask) => subtask.id === rm_subtask.id);
+  taskInfo.value.subTasks.splice(rm_index, 1);
+  // taskInfo.value.subTasks.filter((subtask) => subtask.id !== rm_subtask.id);
 }
 
 // lifecycle
 onMounted(() => {
+  // Очистка формы при открытии
+  taskInfo.value = {
+    id: '',
+    title: '',
+    date: '',
+    cost: 0,
+    place: null,
+    subTasks: [] 
+  };
+
   if (props.task) {
     taskInfo.value = props.task;
   }

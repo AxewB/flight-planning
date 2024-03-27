@@ -202,8 +202,8 @@ export const useTripStore = defineStore('trip', {
      * @param {number} taskId - ID задачи которую нужно удалить
      * @return {void} 
      */
-    removeTaskFromTrip(trip, taskId) {
-      trip.tasks = trip.tasks.filter((task) => task.id !== taskId);
+    removeTaskFromTrip(trip, rm_task) {
+      trip.tasks = trip.tasks.filter((task) => task.id !== rm_task.id);
       this.saveToLocalStorage();
     },
     /**

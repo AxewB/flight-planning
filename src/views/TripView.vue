@@ -519,7 +519,6 @@ let interval = null;
 function saveTrip() {
   if (interval) clearInterval(interval);
   interval = setInterval(() => {
-    console.info('Trip was saved!');
     tripStore.saveToLocalStorage();
     clearInterval(interval);
   }, 500);

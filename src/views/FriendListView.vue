@@ -173,7 +173,6 @@ const editableFriend = ref(null);
 
 // methods
 const editFriend = (friend) => {
-  console.log("editing?/");
   editableFriend.value = friend;
   editingMode.value = 'edit';
   showEditingOverlay.value = true;

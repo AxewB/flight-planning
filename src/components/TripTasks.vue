@@ -1,7 +1,7 @@
 <template>
   <v-sheet width="100%">
     <draggable 
-      :list="tripStore.filteredTasks(trip.id)" 
+      :list="trip.tasks" 
       @end="saveAfterMoving()"
       tag="v-sheet"
       handle=".handle" 
@@ -58,7 +58,7 @@
                             align-center 
                             text-overline 
                             bg-transparent" 
-                      width="150px">
+                      min-width="300px">
                       <v-sheet 
                         v-if="task.place"
                         class="bg-transparent">
@@ -74,7 +74,9 @@
                       <VDivider 
                         vertical 
                         class="mx-4"/>
-                      {{task.date}}
+                      <v-sheet class="bg-transparent">
+                        {{task.date}}
+                      </v-sheet>
                       <VIcon 
                         v-if="task.subTasks.length === 0"
                         size="30"
@@ -181,7 +183,6 @@ const toggleExpansion = (task) => {
 }
 
 const emitEditingTask = (task) => {
-  console.log('emitting')
   emit('updateTask', task)
 }
 
