@@ -90,17 +90,32 @@
                   <v-container>
                     <v-row>
                       <VTextField
-                        label="Avatar"
+                        label="Ссылка на картинку"
                         clearable
                         v-model="editableFriend.avatar.image"/>
                     </v-row>
-                    <VDivider class="my-2"/>
+                    
+                    <v-row 
+                      wrap 
+                      no-gutters
+                      class="d-flex justify-center align-center">
+                      <v-col class="text-center">
+                        <VDivider/>
+                      </v-col>
+                      <v-col class="text-center">
+                        Или
+                      </v-col>
+                      <v-col class="text-center">
+                        <VDivider/>
+                      </v-col>
+                    </v-row>
+
                     <v-row class="d-flex flex-column">
                       <v-sheet class='d-flex mb-2 align-center'>
                         <p class="mr-2">Выберите цвет для аватара</p>
                         <v-btn 
-                          icon 
-                          variant="plain">
+                          variant="plain"
+                          :ripple="false">
                           <VIcon icon="mdi-information"/>
                           <VTooltip 
                             activator="parent" 
@@ -120,13 +135,13 @@
             <v-col>
               <VTextField
                 v-model="editableFriend.firstName"
-                label="First name"
+                label="Имя"
                 hide-details/>
             </v-col>
             <v-col>
               <VTextField
                 v-model="editableFriend.lastName"
-                label="Last name"
+                label="Фамилия"
                 hide-details/>
             </v-col>
           </v-row>
@@ -134,7 +149,7 @@
             <v-col>
               <VTextField
                 v-model="editableFriend.email"
-                label="Email"
+                label="Почта"
                 hide-details
                 type="email"/>
             </v-col>

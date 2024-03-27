@@ -136,7 +136,7 @@
           <v-col>
             <VTextField 
               variant="solo-filled" 
-              label="begin date"
+              label="Начало"
               type="date"
               hide-details
               v-model="trip.date.begin"
@@ -146,7 +146,7 @@
           <v-col >
             <VTextField 
               variant="solo-filled" 
-              label="end date"
+              label="Конец"
               type="date"
               hide-details
               v-model="trip.date.end"
@@ -158,7 +158,7 @@
           <v-col >
             <VTextField 
               variant="solo-filled" 
-              label="budget"
+              label="Бюджет"
               hide-details
               v-model="trip.budget"
               prefix="$"
@@ -170,7 +170,7 @@
           <v-col >
             <VAutocomplete 
               variant="solo-filled" 
-              label="Place"
+              label="Место"
               clearable
               :items="placeStore.places"
               item-title="name"
@@ -181,7 +181,7 @@
           <v-col>
             <VSelect 
               variant="solo-filled" 
-              label="Friends"
+              label="Друзья"
               clearable
               type="number"
               hide-details
@@ -309,7 +309,7 @@
               </v-menu>
               <VTooltip 
                 location="top"
-                text="Filter tasks"
+                text="Сортировать"
                 activator="parent"/>
             </v-btn>
             <v-btn 
@@ -324,7 +324,7 @@
                 icon="mdi-pencil"/>
               <VTooltip 
                 location="top"
-                text="Edit tasks"
+                text="Редактировать"
                 activator="parent"/>
             </v-btn>
             <v-btn 
@@ -385,7 +385,7 @@
         min-width="300px">
         <v-sheet>
           <VTextarea 
-            label="Notes" 
+            label="Заметки" 
             variant="solo-filled" 
             prepend-inner-icon="mdi-comment"
             rows="10"

@@ -37,7 +37,7 @@
         class="pa-4" >
         <v-text-field 
           v-model="placeToEdit.name"
-          label="Name"/>
+          label="Название"/>
         <v-sheet class="d-flex justify-end">
           <v-btn 
             class="mx-2"
