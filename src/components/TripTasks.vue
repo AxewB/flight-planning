@@ -28,30 +28,38 @@
                     <VDivider 
                       vertical 
                       class="mx-2"/>
-                    <v-sheet 
+                    <v-sheet
                       width="100%" 
                       height="100%"
-                      class="bg-transparent 
+                      class="bg-transparent
                             d-flex 
-                            justify-start 
-                            align-center 
-                            text-h6">
-                      {{ task.title }}
+                            flex-column 
+                            justify-start" >
+                      <v-sheet 
+
+                        class="bg-transparent 
+                              d-flex 
+                              justify-start 
+                              align-center 
+                              text-h6">
+                        {{ task.title }}
+                        
+                        
+                      </v-sheet>
                       <v-sheet 
                         v-if="!tripStore.isSubtasksInCorrectOrder(task.subTasks)"
-                        class="mx-2 
-                              text-caption 
+                        class="text-caption 
                               text-error 
                               bg-transparent 
                               d-flex 
-                              justify-center 
                               align-center">
                         <VIcon 
                           icon="mdi-alert-circle" 
                           class="mr-1"/>
-                        Подзадачи не в правильном порядке
-                      </v-sheet>
+                        Подзадачи в неправильном порядке
+                      </v-sheet>  
                     </v-sheet>
+                    
                     <v-sheet 
                       class="d-flex 
                             justify-end 

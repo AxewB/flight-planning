@@ -222,30 +222,7 @@
                 align-center">
           План поездки
           
-          <v-sheet 
-            class="mx-2 
-                  text-caption 
-                  text-error 
-                  bg-transparent 
-                  d-flex 
-                  justify-start 
-                  align-center
-                  overflow-x-auto"
-            width="300px">
-            <v-sheet 
-              v-for="(alert, alertName) in taskAlerts" 
-              :key="alertName">
-              <v-chip 
-                v-if="alert.value"
-                :color="alert.type"
-                size="small"
-                class="mx-1"
-                :closable="alert.type !== 'error'"
-                @click:close="alert.resetValue()">
-                {{ alert.label}}{{ alert.showValue ? ` ${alert.value}` : '' }}
-              </v-chip>
-            </v-sheet>
-          </v-sheet>
+          
           <v-sheet 
             class="bg-transparent 
                   d-flex 
@@ -355,6 +332,29 @@
               color="primary"
               @click="isAddingTask = true">
               Добавить задание</v-btn>
+          </v-sheet>
+        </v-sheet>
+        <v-sheet 
+          class="mb-2
+                text-caption 
+                text-error 
+                bg-transparent 
+                d-flex 
+                justify-start 
+                align-center
+                overflow-x-auto">
+          <v-sheet 
+            v-for="(alert, alertName) in taskAlerts" 
+            :key="alertName">
+            <v-chip 
+              v-if="alert.value"
+              :color="alert.type"
+              size="small"
+              class="mx-1"
+              :closable="alert.type !== 'error'"
+              @click:close="alert.resetValue()">
+              {{ alert.label}}{{ alert.showValue ? ` ${alert.value}` : '' }}
+            </v-chip>
           </v-sheet>
         </v-sheet>
         <v-sheet class="bg-transparent d-flex flex-column justify-center align-center">
