@@ -79,7 +79,7 @@
               density="compact"
               hide-details
               variant="solo-filled"
-              label="Title" 
+              label="Название" 
               v-model="subtask.title"/>
           </v-sheet>
           <v-sheet class="px-2">
@@ -87,7 +87,7 @@
               density="compact"
               hide-details
               variant="solo-filled"
-              label="Time" 
+              label="Время" 
               v-model="subtask.time"
               type="time"/>
           </v-sheet>
