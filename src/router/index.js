@@ -1,8 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import DashboardView from '../views/DashboardView.vue';
-import TripView from '@/views/TripView.vue';
-import FriendListView from '@/views/FriendListView.vue';
-import TripPlacesView from '@/views/TripPlacesView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,17 +6,12 @@ const router = createRouter({
     {
       path: '/',
       name: 'dashboard',
-      component: DashboardView
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: TripView,
+      component: () => import('@/views/DashboardView.vue'),
     },
     {
       path: '/trip-places',
       name: 'trip-places',
-      component: TripPlacesView,
+      component: () => import('@/views/TripPlacesView.vue'),
     },
     {
       path: '/trip/:id',
@@ -28,7 +19,7 @@ const router = createRouter({
         {
           path: '',
           name: 'trip',
-          component: TripView,
+          component: () => import('@/views/TripView.vue'),
         },
         {
           path: '*',
@@ -39,7 +30,7 @@ const router = createRouter({
     {
       path: '/friends',
       name: 'friends',
-      component: FriendListView,
+      component: () => import('@/views/FriendListView.vue'),
     },
     {
       path: '/:pathMatch(.*)*',
