@@ -53,12 +53,7 @@ const props = defineProps({
 
 // computed
 const friendList = computed(() => {
-  if (props.short) {
-    return friendStore.getRandomFriends;
-  }
-  else {
-    return friendStore.friends
-  }
+  return friendStore[props.short ? 'getRandomFriends' : 'friends']
 })
 
 const isFriendListExists = computed(() => {
