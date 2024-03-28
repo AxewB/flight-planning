@@ -78,9 +78,11 @@ export const useUserStore = defineStore('user', {
      */
     loadFromLocalStorage() {
       const user = JSON.parse(localStorage.getItem('user'))
-      if (user) {
-        this.setData(user)
+      if (!user) {
+        this.resetStore()
+        return
       }
+      this.setData(user)
     },
     /**
      * Сбрасывает настройки пользователя на значения по умолчанию и удаляет пользователя из локального хранилища.

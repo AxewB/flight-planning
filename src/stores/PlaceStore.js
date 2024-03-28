@@ -26,6 +26,10 @@ export const usePlaceStore = defineStore('places', {
      * Добавляет место в список
      */
     addPlace(place) {
+      if (!place){
+        return
+      }
+
       if (!this.places) {
         this.places = [place]
       }
@@ -42,6 +46,10 @@ export const usePlaceStore = defineStore('places', {
      * @return {void}
      */
     removePlace(id) {
+      if (!id) {
+        return
+      }
+
       const placeName = this.places.find((place) => place.id === id).name
       if (!this.tripStore.tripPlaces || this.tripStore.tripPlaces.indexOf(placeName) === -1) {
         this.places = this.places.filter((place) => place.id !== id);
@@ -84,9 +92,12 @@ export const usePlaceStore = defineStore('places', {
      */
     loadFromLocalStorage() {
       const places = JSON.parse(localStorage.getItem('places'));
-      if (places) {
-        this.places = places
+      if (!places) {
+        this.places = []
+        return
       } 
+
+      this.places = places
     },
     /**
      * Сбрасывает хранилище

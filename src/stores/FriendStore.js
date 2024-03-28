@@ -27,8 +27,10 @@ export const useFriendStore = defineStore('friends', {
      * @return {type} 
      */
     addFriend(friend) {
+      if (!friend) {
+        return
+      }
       this.friends.push(friend)
-
       this.saveToLocalStorage()
     },
     /**
@@ -37,6 +39,10 @@ export const useFriendStore = defineStore('friends', {
      * @param {string} id - id друга, которого нужно удалить
      */
     removeFriend(id) {
+      if (!id) {
+        return
+      }
+
       this.friends = this.friends.filter((friend) => friend.id !== id)
       this.saveToLocalStorage()
     },
@@ -64,9 +70,12 @@ export const useFriendStore = defineStore('friends', {
      */
     loadFromLocalStorage() {
       const friends = JSON.parse(localStorage.getItem('friends'));
-      if (friends) {
-        this.friends = friends
+      if (!friends){
+        this.friends = []
+        return
       }
+
+      this.friends = friends
     },
 
     /**

@@ -155,6 +155,10 @@ export const useTripStore = defineStore('trip', {
      * @return {void} 
      */
     removeTrip(id) {
+      if (!id) {
+        return
+      }
+
       this.trips = this.trips.filter((trip) => trip.id !== id);
       this.saveToLocalStorage();
     },
@@ -256,9 +260,11 @@ export const useTripStore = defineStore('trip', {
     },
     loadFromLocalStorage() {
       const trips = JSON.parse(localStorage.getItem('trips'));
-      if (trips) {
-        this.trips = trips
+      if (!trips) {
+        this.trips = []
+        return
       }
+      this.trips = trips
     },
     /**
      * Сбрасывает хранилище, очищая все поездки и удаляя запись 'trips' из localStorage
