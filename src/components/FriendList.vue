@@ -62,6 +62,6 @@ const friendList = computed(() => {
 })
 
 const isFriendListExists = computed(() => {
-  return !friendStore.friends || friendStore.friends.length === 0
+  return friendStore.friends?.length === 0
 })
 </script>
