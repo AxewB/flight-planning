@@ -2,20 +2,23 @@
   <v-sheet 
     class="pa-4 d-flex flex-column"
     width="600px"
-    rounded>
+    rounded
+  >
     <v-container>
       <v-row>
         <VTextField
           prepend-icon="mdi-key"
           label="Идентификатор"
           disabled
-          v-model="taskInfo.id"/>
+          v-model="taskInfo.id"
+        />
       </v-row>
       <v-row>
         <VTextField 
           prepend-icon="mdi-text"
           label="Название" 
-          v-model="taskInfo.title"/>
+          v-model="taskInfo.title"
+        />
       </v-row>
       <v-row>
         <VTextField 
@@ -23,7 +26,8 @@
           label="Стоимость" 
           v-model="taskInfo.cost"
           type="number"
-          :rules="[rules.isCostValid]"/>
+          :rules="[rules.isCostValid]"
+        />
       </v-row>
       <v-row>
         <VTextField 
@@ -31,7 +35,8 @@
           label="Дата" 
           v-model="taskInfo.date"
           type="date"
-          :rules="[rules.isDateValid]"/>
+          :rules="[rules.isDateValid]"
+        />
       </v-row>
       <v-row>
         <VAutocomplete 
@@ -41,46 +46,59 @@
           :items="placeStore.places"
           item-title="name"
           v-model="taskInfo.place"
-          prepend-icon="mdi-map-marker"/>
+          prepend-icon="mdi-map-marker"
+        />
       </v-row>
     </v-container>
+
     <VDivider/>
+    
     <v-sheet 
       width="100%" 
-      class="pa-2">
-      <v-sheet
-        v-if="taskInfo.subTasks.length === 0">
+      class="pa-2"
+    >
+      <v-sheet v-if="taskInfo.subTasks.length === 0">
         <EmptyPageWarning 
           title="Подзадач нет"
-          description="Добавьте их при необходимости">
+          description="Добавьте их при необходимости"
+        >
           <template #actions>
-            <v-btn
-              @click="addSubtask()">Добавить</v-btn>
+            <v-btn @click="addSubtask()">
+              Добавить
+            </v-btn>
           </template>
         </EmptyPageWarning>
       </v-sheet>
       <v-sheet 
         v-else
         class="overflow-y-auto my-2" 
-        max-height="200px">
-        <v-sheet class="d-flex justify-end align-center">
+        max-height="200px"
+      >
+        <v-sheet 
+          class="d-flex 
+                justify-end 
+                align-center"
+        >
           <v-btn 
             color="primary"
-            @click="addSubtask()">
+            @click="addSubtask()"
+          >
             Добавить подзадачу
           </v-btn>
         </v-sheet>
         <v-sheet 
           v-for="subtask in taskInfo.subTasks" 
           :key="subtask.id"
-          class="d-flex my-2">
+          class="d-flex my-2"
+        >
           <v-sheet class="flex-grow-1 px-2">
             <VTextField 
               density="compact"
               hide-details
               variant="solo-filled"
               label="Название" 
-              v-model="subtask.title"/>
+              v-model="subtask.title"
+            />
           </v-sheet>
           <v-sheet class="px-2">
             <VTextField 
@@ -89,14 +107,16 @@
               variant="solo-filled"
               label="Время" 
               v-model="subtask.time"
-              type="time"/>
+              type="time"
+            />
           </v-sheet>
           <v-sheet class="px-2">
             <v-sheet>
               <v-btn
                 icon
                 size="small"
-                @click="removeSubtask(subtask)">
+                @click="removeSubtask(subtask)"
+              >
                 <VIcon icon="mdi-trash-can"/>
               </v-btn>
             </v-sheet>
@@ -106,20 +126,29 @@
     </v-sheet>
     <v-sheet 
       width="100%"
-      class="d-flex justify-end">
+      class="d-flex justify-end"
+    >
       <v-btn
         v-if="props.task"  
         variant="text"
         color="error"
-        @click="removeTask()">
+        @click="removeTask()"
+      >
         Удалить
       </v-btn>
       <v-btn 
         @click="closeWindow"
-        variant="text">Отмена</v-btn>
+        variant="text"
+      >
+        Отмена
+      </v-btn>
+
       <v-btn 
         @click="saveTask()"
-        color="primary">Сохранить</v-btn>
+        color="primary"
+      >
+        Сохранить
+      </v-btn>
     </v-sheet>
   </v-sheet>
 </template>
@@ -136,8 +165,12 @@ const emit = defineEmits(['closeWindow', 'saveTask'])
 
 // props
 const props = defineProps({
-  trip: Object,
-  task: Object
+  trip: {
+    type: Object, 
+  },
+  task: {
+    type: Object,
+  }
 })
 
 // stores

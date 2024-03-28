@@ -1,64 +1,81 @@
 <template>
   <v-sheet 
-    class="bg-transparent d-flex flex-column pa-5">
+    class="bg-transparent 
+          d-flex 
+          flex-column 
+          pa-5"
+  >
     <v-sheet 
       class="d-flex flex-row pa-5" 
-      rounded>
+      rounded
+    >
       <v-avatar 
         class="mr-5"
         size="160" 
         :color="trip.avatar.color" 
-        rounded>
-        <v-img :src="trip.avatar.image"></v-img>
+        rounded
+      >
+        <VImg :src="trip.avatar.image"/>
       </v-avatar>
       <v-sheet 
         class="bg-transparent 
               flex-grow-1 
               d-flex 
-              flex-column">
+              flex-column"
+      >
         <v-sheet 
           class="bg-transparent 
                 d-flex 
-                justify-space-between">
+                justify-space-between"
+        >
           <TextToTextField 
             :text="trip.title"
             v-model="trip.title"
             replacable-text="title"
             class="text-h3 mb-4"
-            @update:modelValue="saveTrip()"/>
+            @update:modelValue="saveTrip()"
+          />
+
           <v-sheet min-width="300px">
             <v-btn 
               icon
-              elevation="0">
+              elevation="0"
+            >
               <VIcon 
                 icon="mdi-circle"
-                :color="trip.avatar.color"/>
+                :color="trip.avatar.color"
+              />
               <VTooltip 
                 activator="parent" 
                 text="Avatar color"
-                location="bottom"/>
+                location="bottom"
+              />
               <v-menu 
                 activator="parent" 
-                :close-on-content-click="false">
+                :close-on-content-click="false"
+              >
                 <v-sheet>
                   <VColorPicker 
                     v-model="trip.avatar.color"
-                    @update:modelValue="saveTrip()"/>
+                    @update:modelValue="saveTrip()"
+                  />
                 </v-sheet>
               </v-menu>
             </v-btn>
             <v-btn 
               icon
-              elevation="0">
-              <VIcon 
-                icon="mdi-image-edit" />
+              elevation="0"
+            >
+              <VIcon icon="mdi-image-edit" />
               <VTooltip 
                 activator="parent" 
                 text="Edit image"
-                location="bottom"/>
+                location="bottom"
+              />
               <v-menu 
                 activator="parent"
-                :close-on-content-click="false">
+                :close-on-content-click="false"
+              >
                 <v-sheet 
                   class="pa-4 
                         border 
@@ -66,29 +83,37 @@
                         flex-column 
                         justify-center 
                         align-center" 
-                  width="400px">
-                  <v-sheet class="mb-4">Изменить изображение поездки</v-sheet>
+                  width="400px"
+                >
+                  <v-sheet class="mb-4">
+                    Изменить изображение поездки
+                  </v-sheet>
                   <v-sheet 
                     class="d-flex" 
-                    width=100%>
+                    width=100%
+                  >
                     <VTextField
                       class="mx-2" 
                       density="compact"
                       hide-details
                       v-model="trip.avatar.image"
                       @update:modelValue="saveTrip()"
-                      label="Image url"/>
+                      label="Image url"
+                    />
                     <v-btn 
                       icon
-                      @click="tripStore.removeTripImage(tripId)">
+                      @click="tripStore.removeTripImage(tripId)"
+                    >
                       <VIcon 
                         icon="mdi-trash-can"
                         color="error"
-                        variant="text"/>
+                        variant="text"
+                      />
                       <VTooltip 
                         activator="parent" 
                         text="Remove image"
-                        location="bottom"/>
+                        location="bottom"
+                      />
                     </v-btn>
                   </v-sheet>
                 </v-sheet>
@@ -96,19 +121,23 @@
             </v-btn>
             <v-btn 
               icon
-              elevation="0">
+              elevation="0"
+            >
               <VIcon icon="mdi-trash-can"/>
               <ConfirmationMenu 
                 message="Удалить эту поездку?"
-                @OK="removeTrip(tripId)"/>
+                @OK="removeTrip(tripId)"
+              />
             </v-btn>
             <v-btn 
               icon
-              elevation="0">
+              elevation="0"
+            >
               <VIcon icon="mdi-content-copy"/>
               <ConfirmationMenu 
                 message="Копировать эту поездку?"
-                @OK="copyTrip()"/>
+                @OK="copyTrip()"
+              />
             </v-btn>
           </v-sheet>
         </v-sheet>
@@ -117,17 +146,17 @@
             :text="trip.description"
             v-model="trip.description"
             replacable-text="Описание"
-            @update:modelValue="saveTrip()"/>
-          <v-sheet class="flex-grow-1"></v-sheet>
+            @update:modelValue="saveTrip()"
+          />
+          <VSheet class="flex-grow-1"/>
         </v-sheet>
-        
       </v-sheet>
-      <v-sheet 
+      <VSheet 
         class="bg-transparent 
               d-flex 
               flex-column 
-              fill-height">
-      </v-sheet>
+              fill-height"
+      />
     </v-sheet>
     <VDivider class="my-4"/>
     <v-sheet class="d-flex flex-column">
@@ -141,7 +170,8 @@
               hide-details
               v-model="trip.date.begin"
               @update:modelValue="saveTrip()"
-              prepend-icon="mdi-calendar"/>
+              prepend-icon="mdi-calendar"
+            />
           </v-col>
           <v-col >
             <VTextField 
@@ -151,7 +181,8 @@
               hide-details
               v-model="trip.date.end"
               @update:modelValue="saveTrip()"
-              prepend-icon="mdi-calendar"/>
+              prepend-icon="mdi-calendar"
+            />
           </v-col>
         </v-row>
         <v-row>
@@ -165,7 +196,8 @@
               type="number"
               hide-spin-buttons
               @update:modelValue="saveTrip()"
-              prepend-icon="mdi-cash"/>
+              prepend-icon="mdi-cash"
+            />
           </v-col>
           <v-col >
             <VAutocomplete 
@@ -176,7 +208,8 @@
               item-title="name"
               v-model="trip.place"
               @update:modelValue="saveTrip()"
-              prepend-icon="mdi-map-marker"/>    
+              prepend-icon="mdi-map-marker"
+            />    
           </v-col>
           <v-col>
             <VSelect 
@@ -191,15 +224,18 @@
               item-title="firstName" 
               multiple
               chips
-              v-model="trip.friends">
-              <template v-slot:item="{ props, item }">
+              v-model="trip.friends"
+            >
+              <template #item="{ props, item }">
                 <v-list-item 
                   v-bind="props" 
-                  :subtitle="item.raw.department">
+                  :subtitle="item.raw.department"
+                >
                   <template #prepend>
                     <VAvatar
                       size="30" 
-                      :image = "item.raw.avatar.image"/>
+                      :image = "item.raw.avatar.image"
+                    />
                   </template>
                 </v-list-item>
               </template>
@@ -211,7 +247,8 @@
     <VDivider class="my-4"/>
     <v-sheet 
       class="d-flex flex-row" 
-      width="100%">
+      width="100%"
+    >
       <v-sheet class="flex-grow-1">
         <v-sheet 
           class="bg-transparent 
@@ -219,32 +256,38 @@
                 mb-2 
                 d-flex
                 justify-start 
-                align-center">
+                align-center"
+        >
           План поездки
-          
-          
+
           <v-sheet 
             class="bg-transparent 
                   d-flex 
                   justify-end 
                   align-center 
-                  flex-grow-1">
+                  flex-grow-1"
+          >
             <v-btn 
               class="mx-1"
               icon
               size="small"
               rounded
-              variant="text">
+              variant="text"
+            >
               <VIcon icon="mdi-filter-menu"/>
               <v-menu 
                 activator="parent"
-                :close-on-content-click="false">
+                :close-on-content-click="false"
+              >
                 <v-sheet>
                   <v-container>
                     <v-row>
                       <v-col 
                         cols="1" 
-                        class="d-flex justify-center align-center">
+                        class="d-flex 
+                              justify-center 
+                              align-center"
+                      >
                         <VIcon icon="mdi-calendar"/>  
                       </v-col>
                       <v-col>
@@ -256,7 +299,8 @@
                           density="compact"
                           clearale
                           @update:modelValue="saveTrip()"
-                          v-model="tasksFilters.date.begin"/>
+                          v-model="tasksFilters.date.begin"
+                        />
                       </v-col>
                       <v-col>
                         <VTextField 
@@ -266,13 +310,17 @@
                           density="compact"
                           hide-details
                           @update:modelValue="saveTrip()"
-                          v-model="tasksFilters.date.end"/>
+                          v-model="tasksFilters.date.end"
+                        />
                       </v-col>
                     </v-row>
                     <v-row>
                       <v-col 
                         cols="1" 
-                        class="d-flex justify-center align-center">
+                        class="d-flex 
+                              justify-center 
+                              align-center"
+                      >
                         <VIcon icon="mdi-cash"/>  
                       </v-col>
                       <v-col>
@@ -285,32 +333,36 @@
                           density="compact"
                           clearable
                           @update:focused="saveTrip()"
-                          v-model="tasksFilters.cost"/>
+                          v-model="tasksFilters.cost"
+                        />
                       </v-col>
-                      
                     </v-row>
                     <v-row>
                       <v-col class="d-flex justify-end">
                         <v-btn 
                           @click="tripStore.resetFilters()"
                           color="warning"
-                          variant="tonal">
+                          variant="tonal"
+                        >
                           Сбросить
                         </v-btn>
                         <v-btn 
                           @click="applyFilterSettings()" 
                           color="primary"
-                          class="ml-2">Применить</v-btn>
+                          class="ml-2"
+                        >
+                          Применить
+                        </v-btn>
                       </v-col>
                     </v-row>
                   </v-container>
                 </v-sheet>
-                
               </v-menu>
               <VTooltip 
                 location="top"
                 text="Сортировать"
-                activator="parent"/>
+                activator="parent"
+              />
             </v-btn>
             <v-btn 
               class="mx-1"
@@ -319,19 +371,22 @@
               rounded
               variant="text"
               @click="isTasksEditing = !isTasksEditing"
-              :color="isTasksEditing ? 'primary' : ''">
-              <VIcon 
-                icon="mdi-pencil"/>
+              :color="isTasksEditing ? 'primary' : ''"
+            >
+              <VIcon icon="mdi-pencil"/>
               <VTooltip 
                 location="top"
                 text="Редактировать"
-                activator="parent"/>
+                activator="parent"
+              />
             </v-btn>
             <v-btn 
               class="mx-1"
               color="primary"
-              @click="isAddingTask = true">
-              Добавить задание</v-btn>
+              @click="isAddingTask = true"
+            >
+              Добавить задание
+            </v-btn>
           </v-sheet>
         </v-sheet>
         <v-sheet 
@@ -342,59 +397,75 @@
                 d-flex 
                 justify-start 
                 align-center
-                overflow-x-auto">
+                overflow-x-auto"
+        >
           <v-sheet 
             v-for="(alert, alertName) in taskAlerts" 
-            :key="alertName">
+            :key="alertName"
+          >
             <v-chip 
               v-if="alert.value"
               :color="alert.type"
               size="small"
               class="mx-1"
               :closable="alert.type !== 'error'"
-              @click:close="alert.resetValue()">
+              @click:close="alert.resetValue()"
+            >
               {{ alert.label}}{{ alert.showValue ? ` ${alert.value}` : '' }}
             </v-chip>
           </v-sheet>
         </v-sheet>
-        <v-sheet class="bg-transparent d-flex flex-column justify-center align-center">
+        <v-sheet 
+          class="bg-transparent 
+                d-flex 
+                flex-column 
+                justify-center 
+                align-center"
+        >
           <v-overlay 
             v-model="isAddingTask" 
-            class="d-flex justify-center align-center">
+            class="d-flex 
+                  justify-center 
+                  align-center"
+          >
             <TaskSettingsForm 
               @closeWindow="closeTaskWindow()"
               @saveTask="saveTask()"
               :trip="trip"
-              :task="taskToUpdate"/>    
+              :task="taskToUpdate"
+            />    
           </v-overlay>
           <EmptyPageWarning 
             v-if="trip.tasks.length === 0" 
             title="No tasks" 
-            text="Add tasks"/>
+            text="Add tasks"
+          />
           <TripTasks 
             :tripId="tripId"
             :isEditingTasks="isTasksEditing"
-            @updateTask="updateTask"/>
+            @updateTask="updateTask"
+          />
         </v-sheet>
       </v-sheet>
       <VDivider 
         vertical 
-        class="mx-2"/>
+        class="mx-2"
+      />
       <v-sheet 
         class="d-flex flex-column"
-        min-width="300px">
+        min-width="300px"
+      >
         <v-sheet>
           <VTextarea 
             label="Заметки" 
             variant="solo-filled" 
             prepend-inner-icon="mdi-comment"
             rows="10"
-            v-model="trip.notes"/>
+            v-model="trip.notes"
+          />
         </v-sheet>
       </v-sheet>
     </v-sheet>
-
-    
   </v-sheet>
 </template>
 

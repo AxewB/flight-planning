@@ -1,10 +1,12 @@
 <template>
   <v-sheet v-if="tripStore.trips.length === 0">
     <EmptyPageWarning 
-      title="No trips yet"
-      text="Create your first trip">
+      title="Поездок нет"
+      text="Создай план на первую поездку!">
       <template #actions>
-        <v-btn @click="tripStore.addTrip()">Create trip</v-btn>
+        <v-btn @click="tripStore.addTrip()">
+          Создать
+        </v-btn>
       </template>
     </EmptyPageWarning>
   </v-sheet>
@@ -19,7 +21,8 @@
         <VAvatar  
           :image="trip.avatar.image"
           :color="!trip.avatar.image ? trip.avatar.color : ''"
-          size="40"/>
+          size="40"
+        />
       </template>
       <v-list-item-title>{{ trip.title }}</v-list-item-title>
       <v-list-item-subtitle>

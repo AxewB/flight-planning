@@ -1,23 +1,29 @@
 <template>
   <v-sheet class="pa-4">
-    <v-sheet class="d-flex justify-space-between">
+    <v-sheet 
+      class="d-flex 
+            justify-space-between"
+    >
       <v-sheet class="text-h4">
         Список мест
       </v-sheet>
       <v-btn 
         @click="addPlace()"
-        color="primary">
+        color="primary"
+      >
         Добавить место
       </v-btn>
     </v-sheet>
     <VDivider 
       thickness="2" 
-      class="my-4"/>
+      class="my-4"
+    />
     <v-list v-if="placeStore.places">
       <v-list-item 
         v-for="place in placeStore.places" 
         :key="place.id"
-        @click="editPlace(place)">
+        @click="editPlace(place)"
+      >
         <template #title>
           <v-sheet class="d-flex">
             <div class="mr-2">
@@ -32,23 +38,27 @@
       :model-value="isEditingPlace"
       class="d-flex 
             justify-center 
-            align-center">
+            align-center"
+    >
       <v-sheet 
         class="pa-4" >
-        <v-text-field 
+        <VTextField
           v-model="placeToEdit.name"
-          label="Название"/>
+          label="Название"
+        />
         <v-sheet class="d-flex justify-end">
           <v-btn 
             class="mx-2"
-            @click="resetEditing()">
+            @click="resetEditing()"
+          >
             Отмена
           </v-btn>
           <v-tooltip 
             v-if="mode === 'edit'"
             location="top"
-            text="Место используется">
-            <template #activator="{ props }">
+            text="Место используется"
+          >
+            <template activator="{ props }">
               <v-sheet v-bind="props">
                 <v-btn
                   v-if="mode === 'edit'"
@@ -56,7 +66,8 @@
                   @click="removePlace(placeToEdit.id)"
                   color="error"
                   variant="outlined"
-                  :disabled="isPlaceInUse(placeToEdit.name)">
+                  :disabled="isPlaceInUse(placeToEdit.name)"
+                >
                   Удалить
                 </v-btn>
               </v-sheet>
@@ -65,7 +76,8 @@
           <v-btn 
             class="mx-2"
             @click="confirmEditing(placeToEdit)"
-            color="primary">
+            color="primary"
+          >
             Подтвердить
           </v-btn>
         </v-sheet>

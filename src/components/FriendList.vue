@@ -2,10 +2,10 @@
   <v-sheet v-if="isFriendListExists">
     <EmptyPageWarning 
       title="Друзей нет" 
-      text="Добавьте друзей в список">
+      text="Добавьте друзей в список"
+    >
       <template #actions>
-        <v-btn 
-          @click="friendStore.addFriend()">
+        <v-btn @click="friendStore.addFriend()">
           Добавить друга
         </v-btn>
       </template>
@@ -13,10 +13,12 @@
   </v-sheet>
   <v-list 
     lines="two"
-    v-else>
+    v-else
+  >
     <v-list-item 
       v-for="friend in friendList" 
-      :key="friend.id">
+      :key="friend.id"
+    >
       <template #prepend>
         <VAvatar  
           :image="friend.avatar.image"
@@ -44,7 +46,8 @@ const friendStore = useFriendStore();
 // props
 const props = defineProps({
   short: {
-    type: Boolean
+    type: Boolean,
+    default: false
   }
 })
 

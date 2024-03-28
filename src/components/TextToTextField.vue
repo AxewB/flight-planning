@@ -4,18 +4,21 @@
           d-flex 
           justify-space-between" 
     width="100%"
-    min-width="200px">
+    min-width="200px"
+  >
     <div 
       v-if="!isEditing"
       class="overflow-hidden cursor-text"
-      @click="enableEditing()">
+      @click="enableEditing()"
+    >
       <VAlert
         v-if="!modelValue"
         icon="mdi-alert-circle" 
         type="error"
         :title="'No ' + props.replacableText"
         :text="'Click me to edit ' + props.replacableText"
-        variant="tonal"/>
+        variant="tonal"
+      />
       {{ modelValue ? modelValue : '' }}
     </div>
     <VTextField 
@@ -29,7 +32,8 @@
         handler: disableEditing,
       }"
       v-model="modelValue"
-      @update:modelValue="$emit('update:modelValue', modelValue)"/>
+      @update:modelValue="$emit('update:modelValue', modelValue)"
+    />
   </v-sheet>
 </template>
 <script setup>

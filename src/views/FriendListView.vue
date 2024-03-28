@@ -1,52 +1,64 @@
 <template>
-  <v-sheet class="pa-4 d-flex justify-center">
+  <v-sheet 
+    class="pa-4 
+          d-flex 
+          justify-center"
+  >
     <v-sheet width="100%">
       <v-sheet 
         class="text-h4 
               d-flex 
-              justify-space-between">
+              justify-space-between"
+      >
         Друзья
         <v-btn
           @click="addFriend()"
-          color="primary">
+          color="primary"
+        >
           Добавить друга
         </v-btn>
       </v-sheet>
       <VDivider class="my-4"/>
       <v-sheet 
         v-for="friend in friendStore.friends" 
-        :key="friend.id">
+        :key="friend.id"
+      >
         <v-sheet class="d-flex">
           <VAvatar
             :image="friend.avatar.image"
             :color="!friend.avatar.image ? friend.avatar.color : ''"
-            size="80"/>
+            size="80"
+          />
           <v-sheet 
             class="ml-4" 
-            width="100%">
+            width="100%"
+          >
             <v-sheet 
               class="d-flex justify-space-between" 
-              width="100%">
+              width="100%"
+            >
               <div>
                 {{ friendStore.fullName(friend.id) }}
               </div>
               <v-btn 
                 icon
-                variant="text">
+                variant="text"
+              >
                 <VIcon icon="mdi-menu"/>
+                
                 <v-menu 
                   activator="parent"
                   :open-on-hover="true"
-                  :close-on-content-click="false">
+                  :close-on-content-click="false"
+                >
                   <v-list 
                     density="compact"
-                    class="pa-2 rounded">
-                    <v-list-item 
-                      @click="editFriend(friend)">
+                    class="pa-2 rounded"
+                  >
+                    <v-list-item @click="editFriend(friend)">
                       Edit
                     </v-list-item>
-                    <v-list-item 
-                      @click="removeFriend(friend.id)">
+                    <v-list-item @click="removeFriend(friend.id)">
                       Remove
                     </v-list-item>
                   </v-list>
@@ -65,10 +77,12 @@
       @click:outside="showEditingOverlay = false"
       @after-leave="showEditingOverlay = false"
       :model-value="showEditingOverlay"
-      class="d-flex justify-center align-center">
+      class="d-flex justify-center align-center"
+    >
       <v-sheet 
         class="pa-4 rounded" 
-        width="600px">
+        width="600px"
+      >
         <v-sheet class="text-h5 mb-2">
           {{ editingMode === 'add' ? 'Добавить' : 'Редактировать' }} друга
         </v-sheet>
@@ -76,29 +90,34 @@
           <v-row justify="center">
             <v-btn 
               icon
-              size="100">
+              size="100"
+            >
               <VIcon>
                 <VAvatar
                   :image="editableFriend.avatar.image"
                   :color="!editableFriend.avatar.image ? editableFriend.avatar.color : ''"
-                  size="100"/>
+                  size="100"
+                />
               </VIcon>
               <v-menu 
                 activator="parent"
-                :close-on-content-click="false">
+                :close-on-content-click="false"
+              >
                 <v-sheet class="pa-4">
                   <v-container>
                     <v-row>
                       <VTextField
                         label="Ссылка на картинку"
                         clearable
-                        v-model="editableFriend.avatar.image"/>
+                        v-model="editableFriend.avatar.image"
+                      />
                     </v-row>
                     
                     <v-row 
                       wrap 
                       no-gutters
-                      class="d-flex justify-center align-center">
+                      class="d-flex justify-center align-center"
+                    >
                       <v-col class="text-center">
                         <VDivider/>
                       </v-col>
@@ -112,19 +131,23 @@
 
                     <v-row class="d-flex flex-column">
                       <v-sheet class='d-flex mb-2 align-center'>
-                        <p class="mr-2">Выберите цвет для аватара</p>
+                        <p class="mr-2">
+                          Выберите цвет для аватара
+                        </p>
                         <v-btn 
                           variant="plain"
-                          :ripple="false">
+                          :ripple="false"
+                        >
                           <VIcon icon="mdi-information"/>
+                        
                           <VTooltip 
                             activator="parent" 
                             location="bottom"
-                            text="Отображается, если нет аватара"/>
+                            text="Отображается, если нет аватара"
+                          />
                         </v-btn>
                       </v-sheet>
-                      <VColorPicker 
-                        v-model="editableFriend.avatar.color"/>
+                      <VColorPicker v-model="editableFriend.avatar.color"/>
                     </v-row>
                   </v-container>
                 </v-sheet>
@@ -136,13 +159,15 @@
               <VTextField
                 v-model="editableFriend.firstName"
                 label="Имя"
-                hide-details/>
+                hide-details
+              />
             </v-col>
             <v-col>
               <VTextField
                 v-model="editableFriend.lastName"
                 label="Фамилия"
-                hide-details/>
+                hide-details
+              />
             </v-col>
           </v-row>
           <v-row>
@@ -151,19 +176,22 @@
                 v-model="editableFriend.email"
                 label="Почта"
                 hide-details
-                type="email"/>
+                type="email"
+              />
             </v-col>
           </v-row>
           <v-row justify="end">
             <v-btn 
               variant="text" 
               class="mr-2"
-              @click="showEditingOverlay = false">
+              @click="showEditingOverlay = false"
+            >
               Отмена
             </v-btn>
             <v-btn 
               color="primary"
-              @click="confirmEditing()">
+              @click="confirmEditing()"
+            >
               Подтвердить
             </v-btn>
           </v-row>

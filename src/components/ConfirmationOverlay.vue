@@ -1,14 +1,17 @@
 <template>
   <v-overlay 
     :model-value="props.isConfirmationShow"
-    class="d-flex justify-center align-center">
+    class="d-flex justify-center align-center"
+  >
     <v-card 
       :title="props.title"
-      :text="props.text">
+      :text="props.text"
+    >
       <v-card-actions>
         <v-btn 
           @click="emit('confirm')"
-          color="error">
+          color="error"
+        >
           Подтвердить
         </v-btn>
         <v-btn @click="emit('cancel')">

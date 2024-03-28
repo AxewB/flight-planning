@@ -7,17 +7,31 @@
             d-flex 
             flex-column 
             justify-center 
-            align-center">
-      <v-sheet class="mb-4">{{ props.message }}</v-sheet>
+            align-center"
+    >
+      <v-sheet class="mb-4">
+        {{ props.message }}
+      </v-sheet>
       <v-btn 
         color="primary"
-        @click="emit('OK')">Подтвердить</v-btn>
+        @click="emit('OK')"
+      >
+        Подтвердить
+      </v-btn>
     </v-sheet>
   </v-menu>
 </template>
 
 <script setup>
 import { defineEmits, defineProps } from 'vue'
-const props = defineProps(['message'])
+
+// props
+const props = defineProps({
+  'message': {
+    type: String,
+  }
+})
+
+// emits
 const emit = defineEmits(['OK'])
 </script>

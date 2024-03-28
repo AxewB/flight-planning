@@ -2,11 +2,12 @@
   <v-sheet 
     class="bg-transparent" 
     width="100%"
-    height="100%">
+    height="100%"
+  >
     <v-container>
       <v-row>
         <v-sheet class="py-8 px-4 text-h2">
-          👋 Hello, {{ userStore.firstName }}
+          👋 Привет, {{ userStore.firstName }}
         </v-sheet>
       </v-row>
       <v-row>
@@ -19,7 +20,8 @@
             class="mx-auto mb-4"
             max-width="400"
             elevation="10"
-            @click="openClosestTrip()">
+            @click="openClosestTrip()"
+          >
             <v-img
               class="align-end text-white"
               height="200"
@@ -27,21 +29,28 @@
               :src="closestTrip.avatar.image"
               cover
             >
-              <v-card-title>{{ closestTrip.title }}</v-card-title>
+              <v-card-title>
+                {{ closestTrip.title }}
+              </v-card-title>
             </v-img>
 
             <v-card-subtitle class="pt-4">
-              <VIcon icon="mdi-calendar"/> {{ closestTrip.date.begin }} - {{ closestTrip.date.end }}
+              <VIcon icon="mdi-calendar"/> 
+              
+              {{ closestTrip.date.begin }} - {{ closestTrip.date.end }}
             </v-card-subtitle>
 
             <v-card-text>
-              <div>{{ closestTrip.description }}</div>
+              <div>
+                {{ closestTrip.description }}
+              </div>
             </v-card-text>
 
             <v-card-actions>
               <v-btn 
                 color="primary"
-                @click="openClosestTrip()">
+                @click="openClosestTrip()"
+              >
                 Open
               </v-btn>
             </v-card-actions>

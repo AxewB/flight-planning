@@ -2,14 +2,16 @@
   <v-card 
     class="pa-4 d-flex flex-column" 
     width="600px"
-    rounded>
+    rounded
+  >
     <v-sheet 
       class="bg-transparent 
             d-flex 
             flex-column 
             mb-4 
             justify-center 
-            align-center">
+            align-center"
+    >
       <v-overlay 
         v-model="showAvatarChangeOverlay"
         contained 
@@ -17,78 +19,94 @@
         height="100%"
         class="d-flex 
               justify-center 
-              align-center">
+              align-center"
+      >
         <v-sheet 
           class="d-flex 
                 flex-column 
                 justify-center 
                 align-center 
                 pa-5" 
-          height="100%">
+          height="100%"
+        >
           <div class="text-h6 mb-2">
             Вставьте ссылку на картинку
           </div>
+
           <v-sheet
             width="100%">
             <VTextField 
               v-model="userData.avatar.image" 
-              hide-details/>
+              hide-details
+            />
           </v-sheet>
           
           <v-sheet 
             class="d-flex justify-end mt-2" 
-            width="100%">
+            width="100%"
+          >
             <v-btn 
               class="mr-2"
               variant="text" 
-              @click="closeAvatarChangeOverlay(true)">
+              @click="closeAvatarChangeOverlay(true)"
+            >
               Отмена
             </v-btn>
             <v-btn 
               color="primary"
-              @click="closeAvatarChangeOverlay(false)">
+              @click="closeAvatarChangeOverlay(false)"
+            >
               Принять
             </v-btn>
           </v-sheet>
-          
-
         </v-sheet>
-
       </v-overlay>
-      <div class="text-h6 mb-2">Пользователь</div>
+      <div class="text-h6 mb-2">
+        Пользователь
+      </div>
       <v-btn 
         size="80" 
-        icon>
+        icon
+      >
         <v-tooltip 
           activator="parent" 
-          location="bottom">Изменить изображение</v-tooltip>
-        <v-avatar 
+          location="bottom"
+        >
+          Изменить изображение
+        </v-tooltip>
+
+        <VAvatar 
           :image="userData.avatar.image" 
           :color="userData.avatar.image ? '' : userData.avatar.color"
           size="80"
-          class="mb-4"/>
+          class="mb-4"
+        />
         <v-menu 
           activator="parent"
-          :close-content-on-click="false">
+          :close-content-on-click="false"
+        >
           <v-sheet class="pa-4">
             <v-sheet>
               <v-btn 
                 prepend-icon="mdi-trash-can"
-                @click="toggleAvatarImage()">
+                @click="toggleAvatarImage()"
+              >
                 {{ userData.avatar.image ? "Remove image" : "Add image" }}
               </v-btn>
             </v-sheet>
             <v-sheet 
               class="d-flex 
                     flex-row 
-                    align-center ">
-              <v-btn 
-                elevation="0">
+                    align-center"
+            >
+              <v-btn elevation="0">
                 Change color
+
                 <template #prepend>
                   <VIcon 
                     icon="mdi-circle"
-                    :color="userData.avatar.color"/>
+                    :color="userData.avatar.color"
+                  />
                 </template>
                 <v-menu activator="parent">
                   <v-sheet>
@@ -101,47 +119,63 @@
         </v-menu>
       </v-btn>
     </v-sheet>  
-    <v-sheet class="bg-transparent d-flex mb-4">
-      <v-text-field 
+    <v-sheet 
+      class="bg-transparent 
+            d-flex 
+            mb-4"
+    >
+      <VTextField 
         class="mx-2"
         variant="solo-filled" 
         label="First name"
         denstiy="compact"
         hide-details
-        v-model="userData.firstName"/>
-      <v-text-field 
+        v-model="userData.firstName"
+      />
+      <VTextField
         class="mx-2"
         variant="solo-filled" 
         label="Last name"
         denstiy="compact"
         hide-details
-        v-model="userData.lastName"/>
+        v-model="userData.lastName"
+      />
     </v-sheet>
-    <v-sheet class="bg-transparent d-flex mb-4">
-      <v-text-field 
+    <v-sheet 
+      class="bg-transparent 
+            d-flex 
+            mb-4"
+    >
+      <VTextField
         class="mx-2"
         variant="solo-filled" 
         label="E-mail"
         denstiy="compact"
         type="email"
         hide-details
-        v-model="userData.email"/>
+        v-model="userData.email"
+      />
     </v-sheet>
-    <v-sheet class="d-flex flex-row justify-end">
+    <v-sheet 
+      class="d-flex 
+            flex-row 
+            justify-end"
+    >
       <v-btn 
         variant="text" 
         @click="closeWindow()"
-        class="mr-2">
+        class="mr-2"
+      >
         Закрыть
       </v-btn>
       <v-btn 
         color="primary"
-        @click="acceptData()">
+        @click="acceptData()"
+      >
         Принять
       </v-btn>
     </v-sheet>
   </v-card>
-  
 </template>
 
 <script setup>

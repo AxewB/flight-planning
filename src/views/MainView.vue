@@ -1,99 +1,120 @@
 <template>
   <v-overlay 
     v-model="isUserEdit" 
-    class="d-flex justify-center align-center">
+    class="d-flex 
+          justify-center 
+          align-center"
+  >
     <UserInfoEdit @closeWindow="isUserEdit = false"/>    
   </v-overlay>
+
   <v-layout>
     <v-navigation-drawer permanent>
       <v-list>
         <v-list-item
           :subtitle="userStore.email"
           :title="userStore.fullName"
-          @click="isUserEdit = true">
+          @click="isUserEdit = true"
+        >
           <template #prepend>
             <v-avatar 
               :color="userStore.avatar.image ? '' : userStore.avatar.color" 
-              :image="userStore.avatar.image"/>
+              :image="userStore.avatar.image"
+            />
           </template>
         </v-list-item>
       </v-list>
       <VDivider/>
       <v-list 
         nav 
-        density="compact">
-        <v-list-item 
+        density="compact"
+      >
+        <VListItem 
           prepend-icon="mdi-home" 
           title="Главная" 
-          :to="{name: 'dashboard'}"/>
-        <v-list-item 
+          :to="{name: 'dashboard'}"
+        />
+        <VListItem 
           prepend-icon="mdi-account-multiple" 
           title="Друзья" 
-          :to="{name: 'friends'}"/>
-        <v-list-item 
+          :to="{name: 'friends'}"
+        />
+        <VListItem 
           prepend-icon="mdi-map-marker" 
           title="Места" 
-          :to="{name: 'trip-places'}"/>
+          :to="{name: 'trip-places'}"
+        />
         <VDivider/>
         <v-list-subheader>
           Поездки
-          <button icon="mdi-plus"></button>
         </v-list-subheader>
-        <v-list-item 
+        <VListItem 
           v-for="trip in tripList" 
           :key="trip.id"
           prepend-icon="mdi-square-rounded" 
           :color="trip.avatar.color"
           :title="trip.title"
-          :to="{name: 'trip', params: {id: trip.id}}">
-        </v-list-item>
+          :to="{name: 'trip', params: {id: trip.id}}"
+        />
+        
         <v-list-item 
           class="d-flex justify-center"
-          @click="addTrip()">
+          @click="addTrip()"
+        >
           <VIcon icon="mdi-plus"/>
         </v-list-item>
       </v-list>
       <template #append>
         <v-list 
           nav
-          density="compact">
+          density="compact"
+        >
           <v-list-item 
             link
-            @click="isGoingToReset = true">
+            @click="isGoingToReset = true"
+          >
             <VIcon icon="mdi-code-json"/>
+            
             Сбросить данные
+            
             <ConfirmationOverlay 
               title="Вы уверены?"
               text="Это сотрет все данные"
               :isConfirmationShow="isGoingToReset"
               @confirm="resetData()"
-              @cancel="isGoingToReset = false">
-            </ConfirmationOverlay>
+              @cancel="isGoingToReset = false"
+            />
           </v-list-item>
           <v-list-item 
             link
-            @click="isGoingToOverwrite = true">
+            @click="isGoingToOverwrite = true"
+          >
             <VIcon icon="mdi-code-json"/>
+            
             Загрузить пример
+            
             <ConfirmationOverlay 
               title="Вы уверены?"
               text="Это перезапишет все данные"
               :isConfirmationShow="isGoingToOverwrite"
               @confirm="loadExample()"
-              @cancel="isGoingToOverwrite = false">
-            </ConfirmationOverlay>
+              @cancel="isGoingToOverwrite = false"
+            />
           </v-list-item>
         </v-list>
       </template>
     </v-navigation-drawer>
+    
     <v-main 
       class="d-flex 
             flex-column 
             align-center 
-            bg-transparent">  
+            bg-transparent"
+    > 
       <v-sheet 
         width="1200px"
-        class="bg-transparent">
+        class="bg-transparent"
+      >
         <RouterView/>
       </v-sheet>
     </v-main>

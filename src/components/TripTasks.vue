@@ -5,7 +5,8 @@
       @end="saveAfterMoving()"
       tag="v-sheet"
       handle=".handle" 
-      item-key="id">
+      item-key="id"
+    >
       <template #item="{element: task}">
         <v-sheet>
           <v-hover>
@@ -15,36 +16,41 @@
                   v-bind="props"
                   class="rounded cursor-pointer" 
                   :class="isHovering || task.isExpanded ? 'bg-grey-darken-3' : ''"
-                  @click="!isEditingTasks ? toggleExpansion(task) : emitEditingTask(task)">
+                  @click="!isEditingTasks ? toggleExpansion(task) : emitEditingTask(task)"
+                >
                   <v-col 
                     class="d-flex 
                           justify-start 
-                          align-center">
+                          align-center"
+                  >
                     <VIcon 
                       class="handle cursor-grab" 
                       icon="mdi-menu"
                       variant="text"
-                      :ripple="false"/>
+                      :ripple="false"
+                    />
+                    
                     <VDivider 
                       vertical 
-                      class="mx-2"/>
+                      class="mx-2"
+                    />
+
                     <v-sheet
                       width="100%" 
                       height="100%"
                       class="bg-transparent
                             d-flex 
                             flex-column 
-                            justify-start" >
+                            justify-start" 
+                    >
                       <v-sheet 
-
                         class="bg-transparent 
                               d-flex 
                               justify-start 
                               align-center 
-                              text-h6">
+                              text-h6"
+                      >
                         {{ task.title }}
-                        
-                        
                       </v-sheet>
                       <v-sheet 
                         v-if="!tripStore.isSubtasksInCorrectOrder(task.subTasks)"
@@ -52,48 +58,50 @@
                               text-error 
                               bg-transparent 
                               d-flex 
-                              align-center">
+                              align-center"
+                      >
                         <VIcon 
                           icon="mdi-alert-circle" 
-                          class="mr-1"/>
+                          class="mr-1"
+                        />
+                        
                         Подзадачи в неправильном порядке
                       </v-sheet>  
                     </v-sheet>
-                    
                     <v-sheet 
                       class="d-flex 
                             justify-end 
                             align-center 
                             text-overline 
                             bg-transparent" 
-                      min-width="300px">
+                      min-width="300px"
+                    >
                       <v-sheet 
                         v-if="task.place"
-                        class="bg-transparent">
+                        class="bg-transparent"
+                      >
                         {{task.place}}
                       </v-sheet>
                       <VDivider 
                         v-if="task.place"
                         vertical 
-                        class="mx-4"/>
+                        class="mx-4"
+                      />
                       <v-sheet class="bg-transparent">
                         {{task.cost}}₽
                       </v-sheet>
                       <VDivider 
                         vertical 
-                        class="mx-4"/>
+                        class="mx-4"
+                      />
                       <v-sheet class="bg-transparent">
                         {{task.date}}
                       </v-sheet>
                       <VIcon 
-                        v-if="task.subTasks.length === 0"
+                        :icon="task.subTasks.length === 0 ? '' :task.isExpanded ? 'mdi-menu-up' : 'mdi-menu-down'" 
                         size="30"
-                        class="ml-2"/>
-                      <VIcon 
-                        v-else
-                        :icon="task.isExpanded ? 'mdi-menu-up' : 'mdi-menu-down'" 
-                        size="30"
-                        class="ml-2"/>
+                        class="ml-2"
+                      />
                     </v-sheet>
                   </v-col> 
                 </v-row>
@@ -106,31 +114,37 @@
             tag="v-container"
             handle=".handle" 
             item-key="id"
-            @end="saveAfterMoving()">
+            @end="saveAfterMoving()"
+          >
             <template #item="{element: subTask}">
               <v-row 
                 v-bind="props"
                 class="cursor-pointer px-10" 
-                dense>
+                dense
+              >
                 <v-col 
                   class="d-flex 
                         justify-start 
-                        align-center">
+                        align-center"
+                >
                   <VIcon 
                     class="handle cursor-grab" 
                     icon="mdi-menu"
                     rounded
-                    :ripple="false"/>
+                    :ripple="false"
+                  />
                   <VDivider 
                     vertical 
-                    class="mx-2"/>
+                    class="mx-2"
+                  />
                   <v-sheet 
                     width="100%" 
                     height="100%"
                     class="bg-transparent 
                           d-flex 
                           justify-start 
-                          align-center">
+                          align-center"
+                  >
                     <v-sheet>
                       <VTextField 
                         v-model="subTask.time" 
@@ -138,13 +152,15 @@
                         density="compact"
                         variant="solo-filled"
                         hide-details
-                        class="mr-2"/>
+                        class="mr-2"
+                      />
                     </v-sheet>
                     <div class="cursor-text">
                       <TextToTextField 
                         :text="subTask.title"
                         v-model="subTask.title"
-                        replacable-text="title"/>
+                        replacable-text="title"
+                      />
                     </div>
                   </v-sheet>
                 </v-col> 
@@ -158,19 +174,22 @@
 
     <v-snackbar 
       v-model="isSnackBarShow"
-      :timeout="5000">
+      :timeout="5000"
+    >
       Сбросьте фильтры, чтобы изменять положение задач
       <template #actions>
         <v-btn
           color="error"
           variant="text"
-          @click="resetFilters()">
+          @click="resetFilters()"
+        >
           Сбросить
         </v-btn>
         <v-btn
           color="error"
           variant="text"
-          @click="isSnackBarShow = false">
+          @click="isSnackBarShow = false"
+        >
           Закрыть
         </v-btn>
       </template>
@@ -189,7 +208,9 @@ const tripStore = useTripStore();
 
 // props
 const props = defineProps({
-  tripId: String,
+  tripId: {
+    type: String
+  },
   isEditingTasks: {
     type: Boolean,
     default: false
