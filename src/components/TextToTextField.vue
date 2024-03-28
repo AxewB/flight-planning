@@ -32,12 +32,16 @@
         handler: disableEditing,
       }"
       v-model="modelValue"
-      @update:modelValue="$emit('update:modelValue', modelValue)"
+      @update:modelValue="emit('update:modelValue', modelValue)"
     />
   </v-sheet>
 </template>
 <script setup>
-import { defineProps, ref, onBeforeUpdate } from 'vue';
+import { defineProps, ref, onBeforeUpdate, defineEmits } from 'vue';
+
+// emits
+const emit = defineEmits(['update:modelValue']);
+
 
 // props
 const props = defineProps({
