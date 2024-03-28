@@ -5,7 +5,7 @@
       text="Добавьте друзей в список"
     >
       <template #actions>
-        <v-btn @click="friendStore.addFriend()">
+        <v-btn :to="{ name: 'friends' }">
           Добавить друга
         </v-btn>
       </template>
