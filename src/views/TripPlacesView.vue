@@ -58,7 +58,7 @@
             location="top"
             text="Место используется"
           >
-            <template activator="{ props }">
+            <template #activator="{ props }">
               <v-sheet v-bind="props">
                 <v-btn
                   v-if="mode === 'edit'"
