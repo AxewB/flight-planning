@@ -33,7 +33,7 @@
             v-model="trip.title"
             replacable-text="title"
             class="text-h3 mb-4"
-            @update:modelValue="saveTrip()"
+            @update:model-value="saveTrip()"
           />
 
           <v-sheet min-width="300px">
@@ -57,7 +57,7 @@
                 <v-sheet>
                   <VColorPicker 
                     v-model="trip.avatar.color"
-                    @update:modelValue="saveTrip()"
+                    @update:model-value="saveTrip()"
                   />
                 </v-sheet>
               </v-menu>
@@ -97,7 +97,7 @@
                       density="compact"
                       hide-details
                       v-model="trip.avatar.image"
-                      @update:modelValue="saveTrip()"
+                      @update:model-value="saveTrip()"
                       label="Image url"
                     />
                     <v-btn 
@@ -126,7 +126,7 @@
               <VIcon icon="mdi-trash-can"/>
               <ConfirmationMenu 
                 message="Удалить эту поездку?"
-                @OK="removeTrip(tripId)"
+                @="removeTrip(tripId)"
               />
             </v-btn>
             <v-btn 
@@ -136,7 +136,7 @@
               <VIcon icon="mdi-content-copy"/>
               <ConfirmationMenu 
                 message="Копировать эту поездку?"
-                @OK="copyTrip()"
+                @ok="copyTrip()"
               />
             </v-btn>
           </v-sheet>
@@ -146,7 +146,7 @@
             :text="trip.description"
             v-model="trip.description"
             replacable-text="Описание"
-            @update:modelValue="saveTrip()"
+            @update:model-value="saveTrip()"
           />
           <VSheet class="flex-grow-1"/>
         </v-sheet>
@@ -169,7 +169,7 @@
               type="date"
               hide-details
               v-model="trip.date.begin"
-              @update:modelValue="saveTrip()"
+              @update:model-value="saveTrip()"
               prepend-icon="mdi-calendar"
             />
           </v-col>
@@ -180,7 +180,7 @@
               type="date"
               hide-details
               v-model="trip.date.end"
-              @update:modelValue="saveTrip()"
+              @update:model-value="saveTrip()"
               prepend-icon="mdi-calendar"
             />
           </v-col>
@@ -195,7 +195,7 @@
               prefix="$"
               type="number"
               hide-spin-buttons
-              @update:modelValue="saveTrip()"
+              @update:model-value="saveTrip()"
               prepend-icon="mdi-cash"
             />
           </v-col>
@@ -207,7 +207,7 @@
               :items="placeStore.places"
               item-title="name"
               v-model="trip.place"
-              @update:modelValue="saveTrip()"
+              @update:model-value="saveTrip()"
               prepend-icon="mdi-map-marker"
             />    
           </v-col>
@@ -219,7 +219,7 @@
               type="number"
               hide-details
               prepend-icon="mdi-account-group"
-              @update:modelValue="saveTrip()"
+              @update:model-value="saveTrip()"
               :items="friendStore.friends" 
               item-title="firstName" 
               multiple
@@ -298,7 +298,7 @@
                           hide-details
                           density="compact"
                           clearale
-                          @update:modelValue="saveTrip()"
+                          @update:model-value="saveTrip()"
                           v-model="tasksFilters.date.begin"
                         />
                       </v-col>
@@ -309,7 +309,7 @@
                           type="date"
                           density="compact"
                           hide-details
-                          @update:modelValue="saveTrip()"
+                          @update:model-value="saveTrip()"
                           v-model="tasksFilters.date.end"
                         />
                       </v-col>
@@ -429,8 +429,8 @@
                   align-center"
           >
             <TaskSettingsForm 
-              @closeWindow="closeTaskWindow()"
-              @saveTask="saveTask()"
+              @close-window="closeTaskWindow()"
+              @save-task="saveTask()"
               :trip="trip"
               :task="taskToUpdate"
             />    
@@ -443,7 +443,7 @@
           <TripTasks 
             :tripId="tripId"
             :isEditingTasks="isTasksEditing"
-            @updateTask="updateTask"
+            @update-task="updateTask"
           />
         </v-sheet>
       </v-sheet>
