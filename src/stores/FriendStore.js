@@ -38,7 +38,7 @@ export const useFriendStore = defineStore('friends', {
      *
      * @param {string} id - id друга, которого нужно удалить
      */
-    removeFriend(id) {
+    deleteFriend(id) {
       if (!id) {
         return
       }
