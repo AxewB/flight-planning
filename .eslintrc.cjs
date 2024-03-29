@@ -40,6 +40,7 @@ module.exports = {
     "vue/no-unused-vars": ["error", {
       "ignorePattern": "^_"
     }],
+
     "vue/v-slot-style": ["error", {
       "atComponent": "shorthand",
       "default": "shorthand",
@@ -49,15 +50,5 @@ module.exports = {
     "vue/v-bind-style": ["error", "shorthand", {
       "sameNameShorthand": "ignore" 
     }],
-    "vue/v-on-event-hyphenation": ["error", "always", {
-      "autofix": false,
-      "ignore": []
-    }],
-    "vue/singleline-html-element-content-newline": ["error", {
-      "ignoreWhenNoAttributes": true,
-      "ignoreWhenEmpty": true,
-      "ignores": ["pre", "textarea", ...INLINE_ELEMENTS],
-      "externalIgnores": []
-    }]
   },
 }
