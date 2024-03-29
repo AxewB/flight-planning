@@ -50,7 +50,8 @@
                 :friend="friend"
                 :activator="'parent'"
                 :is-new="false"
-                @delete="deleteFriend"/>  
+                @delete="deleteFriend"
+                title="Редактировать друга"/>  
                 
               <v-sheet 
                 class="ml-4" 
@@ -77,6 +78,7 @@
       :activator="'parent'"
       v-model="isAddingFriend"
       @confirm="addFriend"
+      title="Добавить друга"
     />
 
   </v-sheet>
