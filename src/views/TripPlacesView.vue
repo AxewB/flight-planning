@@ -23,6 +23,7 @@
       tag="v-sheet"
       handle=".handle" 
       item-key="id"
+      @end="saveAfterMoving()"
     >
       <template #item="{element: place}">
         
@@ -74,9 +75,11 @@ const addPlace = (place) => {
   placeStore.addPlace(place)
 }
 
-
 const removePlace = (id) => {
   placeStore.removePlace(id);
 }
 
+const saveAfterMoving = () => {
+  placeStore.saveToLocalStorage();  
+}
 </script>
