@@ -1,10 +1,10 @@
 <template>
   <v-overlay
-    @click:outside="showEditingOverlay = false"
-    @after-leave="showEditingOverlay = false"
+    @click:outside="resetOverlay()"
+    @after-leave="resetOverlay()"
     v-model="isOverlayShown"
     class="d-flex justify-center align-center"
-    activator="parent"
+    :activator="activator"
   >
     <v-sheet 
       class="pa-4 rounded" 
@@ -21,8 +21,8 @@
           >
             <VIcon>
               <VAvatar
-                :image="friend.avatar.image"
-                :color="!friend.avatar.image ? friend.avatar.color : ''"
+                :image="newFriend.avatar.image"
+                :color="!newFriend.avatar.image ? newFriend.avatar.color : ''"
                 size="100"
               />
             </VIcon>
@@ -84,6 +84,7 @@
         <v-row>
           <v-col>
             <VTextField
+              autofocus
               v-model="newFriend.firstName"
               label="Имя"
               hide-details
@@ -157,7 +158,7 @@ const props = defineProps({
       return {
         'id': uuidv4(),
         'avatar': {
-          'color': "grey",
+          'color': "#CCCCCC",
           'image': ""
         },
         'firstName': '',
@@ -194,6 +195,22 @@ const deleteFriend = () => {
 }
 
 const cancelEditing = () => {
+  resetOverlay();
+}
+
+const resetOverlay = () => {
+  if (props.isNew){ 
+    newFriend.value = {
+      'id': uuidv4(),
+      'avatar': {
+        'color': "#CCCCCC",
+        'image': ""
+      },
+      'firstName': '',
+      'lastName': '',
+      'email': '' 
+    }
+  }
   isOverlayShown.value = false
 }
 

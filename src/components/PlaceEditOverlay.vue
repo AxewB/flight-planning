@@ -1,5 +1,7 @@
 <template>
   <v-overlay
+    @click:outside="resetOverlay()"
+    @after-leave="resetOverlay()"  
     :activator="props.activator"
     v-model="isOverlayShown"
     class="d-flex 
@@ -11,6 +13,7 @@
       <VTextField
         v-model="placeToEdit.name"
         label="Название"
+        autofocus
       />
       <v-sheet class="d-flex justify-end">
         <v-btn 
@@ -20,6 +23,7 @@
           Отмена
         </v-btn>
         <v-tooltip 
+          v-if="!isNew"
           location="top"
           text="Место используется"
           :disabled="!isPlaceInUse(placeToEdit.name)"
@@ -103,15 +107,23 @@ const isPlaceInUse = computed(() => {
 // methods
 const confirmEditing = () => {
   emit('confirm', placeToEdit.value)
-  isOverlayShown.value = false
+  resetOverlay()
 }
 
 const removePlace = () => {
   emit('delete', placeToEdit.value.id)
-  isOverlayShown.value = false
+  resetOverlay()
 }
 
 const closeOverlay = () => {
+  resetOverlay()
+}
+
+const resetOverlay = () => {
+  placeToEdit.value = {
+    id: uuidv4(),
+    name: ''
+  }
   isOverlayShown.value = false
 }
 

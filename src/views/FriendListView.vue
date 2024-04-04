@@ -12,7 +12,7 @@
       >
         Друзья
         <v-btn
-          @click="showAddingOverlay = true"
+          @click="showAddFriendOverlay = true"
           color="primary"
         >
           Добавить друга
@@ -79,6 +79,7 @@
       v-model="isAddingFriend"
       @confirm="addFriend"
       title="Добавить друга"
+      is-new
     />
 
   </v-sheet>
@@ -112,4 +113,6 @@ const deleteFriend = (id) => {
 const saveAfterMoving = () => {
   friendStore.saveToLocalStorage();  
 }
+
+
 </script>
