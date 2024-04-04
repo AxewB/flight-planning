@@ -1,0 +1,122 @@
+<template>
+  <v-overlay
+    :activator="props.activator"
+    v-model="isOverlayShown"
+    class="d-flex 
+          justify-center 
+          align-center"
+  >
+    <v-sheet 
+      class="pa-4" >
+      <VTextField
+        v-model="placeToEdit.name"
+        label="Название"
+      />
+      <v-sheet class="d-flex justify-end">
+        <v-btn 
+          class="mx-2"
+          @click="closeOverlay()"
+        >
+          Отмена
+        </v-btn>
+        <v-tooltip 
+          location="top"
+          text="Место используется"
+          :disabled="!isPlaceInUse(placeToEdit.name)"
+        >
+          <template #activator="{ props }">
+            <v-sheet v-bind="props">
+              <v-btn
+                class="mx-2"
+                @click="removePlace()"
+                color="error"
+                variant="outlined"
+                :disabled="isPlaceInUse(placeToEdit.name)"
+              >
+                Удалить
+              </v-btn>
+            </v-sheet>
+          </template>
+        </v-tooltip>
+        <v-btn 
+          class="mx-2"
+          @click="confirmEditing()"
+          color="primary"
+        >
+          Подтвердить
+        </v-btn>
+      </v-sheet>
+    </v-sheet>
+  </v-overlay>
+</template>
+
+<script setup>
+import { defineProps, defineEmits, ref, onMounted, defineModel, computed } from 'vue';
+import { useTripStore } from '@/stores/TripStore'
+import { v4 as uuidv4 } from 'uuid';
+
+// emits
+const emit = defineEmits([
+  'confirm', 
+  'delete'
+])
+
+// props
+const props = defineProps({
+  title: {
+    type: String,
+    default: 'Add place'
+  },
+  place: {
+    type: Object,
+    default: () => {
+      return { 
+        id: uuidv4(),
+        name: ''
+      }
+    }
+  },
+  isNew: {
+    type: Boolean,
+    default: false
+  },
+  activator: {
+    type: String,
+    default: ''
+  },
+})
+
+// v-model
+const isOverlayShown = defineModel({default: false})
+
+// stores
+const tripStore = useTripStore()
+
+// data
+const placeToEdit = ref({})
+
+// computed
+const isPlaceInUse = computed(() => {
+  return (name) => !(tripStore.tripPlaces.indexOf(name))
+})
+
+// methods
+const confirmEditing = () => {
+  emit('confirm', placeToEdit.value)
+  isOverlayShown.value = false
+}
+
+const removePlace = () => {
+  emit('delete', placeToEdit.value.id)
+  isOverlayShown.value = false
+}
+
+const closeOverlay = () => {
+  isOverlayShown.value = false
+}
+
+// life cycle
+onMounted(() => {
+  placeToEdit.value = props.place
+})
+</script>

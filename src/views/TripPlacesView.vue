@@ -8,7 +8,7 @@
         Список мест
       </v-sheet>
       <v-btn 
-        @click="addPlace()"
+        @click="isAddingPlace = true"
         color="primary"
       >
         Добавить место
@@ -18,12 +18,33 @@
       thickness="2" 
       class="my-4"
     />
+    <draggable
+      v-if="placeStore.places"
+      :list="placeStore.places"
+      tag="v-list"
+      handle=".handle" 
+      item-key="id"
+      @end="saveAfterMoving()"
+    >
+      <template #item="{element: place}">
+        <v-list-item>
+          {{ place }}
+
+        </v-list-item>
+      </template>
+    </draggable>
     <v-list v-if="placeStore.places">
       <v-list-item 
         v-for="place in placeStore.places" 
         :key="place.id"
-        @click="editPlace(place)"
+        link
       >
+        <PlaceEditOverlay
+          title="Добавить место"
+          @delete="removePlace"
+          :activator="'parent'"
+          :place="place"
+        />
         <template #title>
           <v-sheet class="d-flex">
             <div class="mr-2">
@@ -33,7 +54,13 @@
         </template>
       </v-list-item>
     </v-list>
-    <v-overlay
+    <PlaceEditOverlay
+      :isNew="true"
+      v-model="isAddingPlace"
+      title="Добавить место"
+      @confirm="addPlace"
+    />
+    <!-- <v-overlay
       @click:outside="resetEditing()"
       :model-value="isEditingPlace"
       class="d-flex 
@@ -82,64 +109,28 @@
           </v-btn>
         </v-sheet>
       </v-sheet>
-    </v-overlay>
+    </v-overlay> -->
   </v-sheet>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { usePlaceStore} from '@/stores/PlaceStore'
-import { useTripStore } from "@/stores/TripStore"
-import { v4 as uuidv4 } from 'uuid';
+import { draggable } from 'vuedraggable'
+import PlaceEditOverlay from '@/components/PlaceEditOverlay.vue'
 
 // stores
 const placeStore = usePlaceStore()
-const tripStore = useTripStore()
-const placeToEdit = ref({})
-const isEditingPlace = ref(false)
-const mode = ref('');
 
-const isPlaceInUse = computed(() => {
-  return (name) => !(tripStore.tripPlaces.indexOf(name))
-})
+const isAddingPlace = ref(false)
 
-const addPlace = () => {
-  placeToEdit.value = {
-    id: uuidv4(),
-    name: ''
-  }
-  mode.value = 'add'
-  isEditingPlace.value = true
+const addPlace = (place) => {
+  placeStore.addPlace(place)
 }
 
-const resetEditing = () => {
-  placeToEdit.value = {}
-  mode.value = ''
-  isEditingPlace.value = false
-}
+
 const removePlace = (id) => {
   placeStore.removePlace(id);
-  resetEditing();
-}
-const editPlace = (place) => {
-  const newPlace = { ...place }
-  placeToEdit.value = newPlace;
-  mode.value = 'edit'
-  isEditingPlace.value = true
-}
-const confirmEditing = (newPlace) => {
-  if (mode.value) {
-    switch (mode.value) {
-    case 'add':
-      placeStore.addPlace(newPlace);
-      break;
-    case 'edit':
-      placeStore.updatePlace(newPlace);
-      break;
-    }
-    placeStore.saveToLocalStorage();
-  }
-  resetEditing();
 }
 
 </script>
