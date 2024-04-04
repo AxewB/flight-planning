@@ -52,7 +52,6 @@
                 :is-new="false"
                 @delete="deleteFriend"
                 title="Редактировать друга"/>  
-                
               <v-sheet 
                 class="ml-4" 
                 width="100%"
@@ -81,7 +80,6 @@
       title="Добавить друга"
       is-new
     />
-
   </v-sheet>
 </template>
 
@@ -98,9 +96,6 @@ const friendStore = useFriendStore();
 const isAddingFriend = ref(false);
 
 // methods 
-const showAddingOverlay = () => {
-  isAddingFriend.value = true;
-}
 const addFriend = (friend) => {
   friendStore.addFriend(friend);
   isAddingFriend.value = false;
