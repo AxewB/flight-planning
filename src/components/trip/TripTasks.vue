@@ -65,7 +65,6 @@
                           icon="mdi-alert-circle" 
                           class="mr-1"
                         />
-                        
                         Подзадачи в неправильном порядке
                       </v-sheet>  
                     </v-sheet>
@@ -74,14 +73,15 @@
                             justify-end 
                             align-center 
                             text-overline 
-                            bg-transparent" 
-                      min-width="300px"
+                            bg-transparent"
+                      min-width="400px"
                     >
                       <v-sheet 
                         v-if="task.place"
                         class="bg-transparent"
                       >
-                        {{task.place}}
+                        
+                        {{ shortText(task.place, 15) }}
                       </v-sheet>
                       <VDivider 
                         v-if="task.place"
@@ -201,7 +201,7 @@
 <script setup>
 import { computed, defineProps, defineEmits, ref } from 'vue';
 import draggable from 'vuedraggable';
-import TextToTextField from './TextToTextField.vue';
+import TextToTextField from '@/components/TextToTextField.vue';
 import { useTripStore } from '@/stores/TripStore';
 
 // stores
@@ -227,6 +227,19 @@ const emit = defineEmits(['updateTask'])
 // computed
 const trip = computed(() => {
   return tripStore.trips.find((trip) => trip.id === props.tripId)
+})
+
+const shortText = computed(() => {
+  return (text, length = 10) => {
+    if (!text) {
+      return ''
+    }
+
+    if (text.length > length)
+      return text.slice(0, length) + '...'
+    else
+      return text
+  }
 })
 
 // methods 

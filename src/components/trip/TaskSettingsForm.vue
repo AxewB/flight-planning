@@ -158,7 +158,7 @@ import { defineEmits, ref, onMounted, defineProps } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 import { useTripStore } from '@/stores/TripStore'
 import { usePlaceStore } from '@/stores/PlaceStore'
-import EmptyPageWarning from './EmptyPageWarning.vue';
+import EmptyPageWarning from '@/components/EmptyPageWarning.vue';
 
 // emits
 const emit = defineEmits(['closeWindow', 'saveTask'])
