@@ -128,12 +128,13 @@ import { useUserStore } from '@/stores/UserStore';
 import { usePlaceStore } from '@/stores/PlaceStore';
 import { useFriendStore } from '@/stores/FriendStore';
 import { computed } from 'vue';
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import ConfirmationOverlay from '@/components/ConfirmationOverlay.vue';
 import UserInfoEdit from '@/components/UserInfoEdit.vue'
 
 // router
 const router = useRouter();
+const route = useRoute();
 
 // stores
 const tripStore = useTripStore();
@@ -172,7 +173,13 @@ const loadExample = () => {
 }
 
 const resetData = async () => {
-  const navigationResult = await router.push({name: 'dashboard'});
+  let navigationResult = true
+  
+  if (route.name == 'dashboard') 
+    navigationResult = false
+  else
+    navigationResult = await router.push({name: 'dashboard'});
+
   if (!navigationResult){
     tripStore.resetStore();
     userStore.resetStore();
