@@ -126,7 +126,7 @@
               <VIcon icon="mdi-trash-can"/>
               <ConfirmationMenu 
                 message="Удалить эту поездку?"
-                @="removeTrip(tripId)"
+                @ok="removeTrip(tripId)"
               />
             </v-btn>
             <v-btn 
