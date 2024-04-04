@@ -25,8 +25,9 @@
                   >
                     <VIcon 
                       class="handle cursor-grab" 
-                      icon="mdi-menu"
+                      icon="mdi-drag"
                       variant="text"
+                      size="large"
                       :ripple="false"
                     />
                     
