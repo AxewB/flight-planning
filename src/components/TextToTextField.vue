@@ -15,8 +15,8 @@
         v-if="!modelValue"
         icon="mdi-alert-circle" 
         type="error"
-        :title="'No ' + props.replacableText"
-        :text="'Click me to edit ' + props.replacableText"
+        :title="'Нет ' + props.replacableText"
+        :text="'Нажми, чтобы отредактировать ' + props.replacableText"
         variant="tonal"
       />
       {{ modelValue ? modelValue : '' }}

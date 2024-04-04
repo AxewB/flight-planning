@@ -14,7 +14,7 @@
       </v-sheet>
       <v-btn 
         color="primary"
-        @click="emit('OK')"
+        @click="emit('ok')"
       >
         Подтвердить
       </v-btn>
@@ -33,5 +33,5 @@ const props = defineProps({
 })
 
 // emits
-const emit = defineEmits(['OK'])
+const emit = defineEmits(['ok'])
 </script>

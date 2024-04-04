@@ -155,7 +155,7 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTripStore } from '@/stores/TripStore';
 import TextToTextField from '@/components/TextToTextField.vue';
@@ -169,13 +169,19 @@ const router = useRouter();
 
 // props
 const props = defineProps({
-  trip: {
-    type: Object
+  tripId: {
+    type: String
   }
 })
 
+// computed
+const trip = computed(() => {
+  return tripStore.trips.find((trip) => trip.id === props.tripId)
+})  
+
+// methods
 const removeTrip = async () => {
-  const id = props.trip.id
+  const id = props.tripId
   const navigationResult = await router.push({name: 'dashboard'});
   if (!navigationResult){
     tripStore.removeTrip(id);
@@ -183,7 +189,9 @@ const removeTrip = async () => {
 }
 
 const copyTrip = () => {
-  const cpId = tripStore.copyTrip(props.trip);
+  const cpId = tripStore.copyTrip(trip.value);
   router.push({name: 'trip', params: {id: cpId}});
 }
+
+
 </script>

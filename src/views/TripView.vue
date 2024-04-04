@@ -5,7 +5,7 @@
           flex-column 
           pa-5"
   >
-    <TripHeader :trip="trip"/>
+    <TripHeader :trip-id="tripId"/>
     <VDivider class="my-4"/>
     <v-sheet class="d-flex flex-column">
       <v-container>
@@ -319,7 +319,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useTripStore } from "@/stores/TripStore"
 import { usePlaceStore } from "@/stores/PlaceStore"
 import { useFriendStore } from '@/stores/FriendStore';
@@ -335,7 +335,6 @@ const friendStore = useFriendStore();
 
 // router
 const route = useRoute();
-const router = useRouter();
 
 // data
 const isAddingTask = ref(false);
@@ -405,19 +404,6 @@ const trip = computed(() => {
   const currentTrip = tripStore.trips.find((trip) => trip.id === tripId.value)
   return currentTrip ? currentTrip : {}
 })
-
-const removeTrip = async () => {
-  const id = tripId.value;
-  const navigationResult = await router.push({name: 'dashboard'});
-  if (!navigationResult){
-    tripStore.removeTrip(id);
-  }
-}
-
-const copyTrip = () => {
-  const cpId = tripStore.copyTrip(trip.value);
-  router.push({name: 'trip', params: {id: cpId}});
-}
 
 const updateTask = (task) => {
   taskToUpdate.value = task;
