@@ -102,6 +102,9 @@
               @cancel="isGoingToOverwrite = false"
             />
           </v-list-item>
+          <v-list-item>
+            <ThemeSwitch/>
+          </v-list-item>
         </v-list>
       </template>
     </v-navigation-drawer>
@@ -132,6 +135,7 @@ import { computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router'
 import ConfirmationOverlay from '@/components/ConfirmationOverlay.vue';
 import UserInfoEdit from '@/components/UserInfoEdit.vue'
+import ThemeSwitch from '@/components/ThemeSwitch.vue';
 
 // router
 const router = useRouter();
