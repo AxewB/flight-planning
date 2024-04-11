@@ -41,7 +41,7 @@
             />
             <VTooltip 
               activator="parent" 
-              text="Avatar color"
+              text="Изменить цвет"
               location="bottom"
             />
             <v-menu 
@@ -63,7 +63,7 @@
             <VIcon icon="mdi-image-edit" />
             <VTooltip 
               activator="parent" 
-              text="Edit image"
+              text="Изменить изображение"
               location="bottom"
             />
             <v-menu 
