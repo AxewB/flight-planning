@@ -191,7 +191,7 @@
 
 <script setup>
 import { useUserStore } from '@/stores/UserStore';
-import { ref, defineEmits, computed } from 'vue'
+import { ref, defineEmits } from 'vue'
 import rules from '@/utils/rules';
 
 // emits
