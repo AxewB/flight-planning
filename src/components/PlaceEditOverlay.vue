@@ -23,6 +23,7 @@
         <v-btn 
           class="mx-2"
           @click="closeOverlay()"
+          variant="text"
         >
           Отмена
         </v-btn>
@@ -38,7 +39,7 @@
                 class="mx-2"
                 @click="removePlace()"
                 color="error"
-                variant="outlined"
+                variant="text"
                 :disabled="isPlaceInUse(placeToEdit.name)"
               >
                 Удалить
