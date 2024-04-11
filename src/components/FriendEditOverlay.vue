@@ -81,57 +81,63 @@
             </v-menu>
           </v-btn>
         </v-row>
-        <v-row>
-          <v-col>
-            <VTextField
-              autofocus
-              v-model="newFriend.firstName"
-              label="Имя"
-              hide-details
-            />
-          </v-col>
-          <v-col>
-            <VTextField
-              v-model="newFriend.lastName"
-              label="Фамилия"
-              hide-details
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <VTextField
-              v-model="newFriend.email"
-              label="Почта"
-              hide-details
-              type="email"
-            />
-          </v-col>
-        </v-row>
-        <v-row justify="end">
-          <v-btn 
-            variant="text" 
-            class="mr-2"
-            @click="cancelEditing()"
-          >
-            Отмена
-          </v-btn>
-          <v-btn 
-            
-            variant="text" 
-            class="mr-2"
-            @click="deleteFriend()"
-            color="error"
-          >
-            Удалить
-          </v-btn>
-          <v-btn 
-            color="primary" 
-            @click="confirmEditing()"
-          >
-            Подтвердить
-          </v-btn>
-        </v-row>
+        <v-form 
+          v-model="isFormValid"
+          class="mt-4">
+          <v-row>
+            <v-col>
+              <VTextField
+                autofocus
+                v-model="newFriend.firstName"
+                label="Имя"
+                :rules="[rules.required]"
+              />
+            </v-col>
+            <v-col>
+              <VTextField
+                v-model="newFriend.lastName"
+                label="Фамилия"
+                :rules="[rules.required]"
+              />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <VTextField
+                v-model="newFriend.email"
+                label="Почта"
+                type="email"
+                :rules="[rules.required, rules.email]"
+              />
+            </v-col>
+          </v-row>
+          <v-row 
+            justify="end">
+            <v-btn 
+              variant="text" 
+              class="mr-2"
+              @click="cancelEditing()"
+            >
+              Отмена
+            </v-btn>
+            <v-btn 
+              
+              variant="text" 
+              class="mr-2"
+              @click="deleteFriend()"
+              color="error"
+            >
+              Удалить
+            </v-btn>
+            <v-btn 
+              color="primary" 
+              @click="confirmEditing()"
+              :disabled="!isFormValid"
+            >
+              Подтвердить
+            </v-btn>
+          </v-row>
+        </v-form>
       </v-container>
     </v-sheet>
   </v-overlay>
@@ -140,6 +146,8 @@
 <script setup>
 import { defineProps, defineModel, defineEmits, onMounted, ref } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
+import rules from '@/utils/rules';
+
 // emits
 const emit = defineEmits([
   'confirm', 
@@ -182,6 +190,7 @@ const isOverlayShown = defineModel({default: false})
 
 // data 
 const newFriend = ref({});
+const isFormValid = ref(false)
 
 // methods 
 const confirmEditing = () => {

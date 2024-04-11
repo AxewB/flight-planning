@@ -1,5 +1,6 @@
 <template>
   <v-overlay 
+    :close-on-content-click="false"
     v-model="isUserEdit" 
     class="d-flex 
           justify-center 

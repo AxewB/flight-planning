@@ -118,44 +118,54 @@
           </v-sheet>
         </v-menu>
       </v-btn>
-    </v-sheet>  
-    <v-sheet 
-      class="bg-transparent 
-            d-flex 
-            mb-4"
-    >
-      <VTextField 
-        class="mx-2"
-        variant="solo-filled" 
-        label="First name"
-        denstiy="compact"
-        hide-details
-        v-model="userData.firstName"
-      />
-      <VTextField
-        class="mx-2"
-        variant="solo-filled" 
-        label="Last name"
-        denstiy="compact"
-        hide-details
-        v-model="userData.lastName"
-      />
     </v-sheet>
-    <v-sheet 
-      class="bg-transparent 
-            d-flex 
-            mb-4"
-    >
-      <VTextField
-        class="mx-2"
-        variant="solo-filled" 
-        label="E-mail"
-        denstiy="compact"
-        type="email"
-        hide-details
-        v-model="userData.email"
-      />
-    </v-sheet>
+    <v-form v-model="isFormValid">
+      <v-sheet 
+        class="bg-transparent 
+              d-flex 
+              mb-4"
+      >
+        <v-row>
+          <v-col>
+            <VTextField 
+              class="mx-2"
+              variant="solo-filled" 
+              label="First name"
+              denstiy="compact"
+              v-model="userData.firstName"
+              :rules="[rules.required]"
+            />
+          </v-col>
+
+          <v-col>
+            <VTextField
+              class="mx-2"
+              variant="solo-filled" 
+              label="Last name"
+              denstiy="compact"
+              v-model="userData.lastName"
+              :rules="[rules.required]"
+            />
+          </v-col>
+        </v-row>
+      </v-sheet>
+      <v-sheet 
+        class="bg-transparent 
+              d-flex 
+              mb-4"
+      >
+        <VTextField
+          class="mx-2"
+          variant="solo-filled" 
+          label="E-mail"
+          denstiy="compact"
+          type="email"
+          v-model="userData.email"
+          :rules="[rules.required, rules.email]"
+        />
+      </v-sheet>
+    </v-form>  
+
     <v-sheet 
       class="d-flex 
             flex-row 
@@ -171,6 +181,7 @@
       <v-btn 
         color="primary"
         @click="acceptData()"
+        :disabled="!isFormValid"
       >
         Принять
       </v-btn>
@@ -180,7 +191,8 @@
 
 <script setup>
 import { useUserStore } from '@/stores/UserStore';
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, computed } from 'vue'
+import rules from '@/utils/rules';
 
 // emits
 const emit = defineEmits(['closeWindow'])
@@ -196,6 +208,8 @@ const userData = ref({
   email: userStore.email
 });
 const showAvatarChangeOverlay = ref(false);
+const isFormValid = ref(false);
+
 
 // methods
 const acceptData = () => {

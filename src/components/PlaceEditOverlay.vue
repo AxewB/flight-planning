@@ -9,13 +9,17 @@
           align-center"
   >
     <v-sheet 
-      class="pa-4" >
-      <VTextField
-        v-model="placeToEdit.name"
-        label="Название"
-        autofocus
-      />
-      <v-sheet class="d-flex justify-end">
+      class="pa-4 rounded">
+      <v-form v-model="isFormValid">
+        <VTextField
+          v-model="placeToEdit.name"
+          label="Название"
+          autofocus
+          :rules="[rules.required]"
+        />
+      </v-form>
+      
+      <v-sheet class="d-flex justify-end mt-4">
         <v-btn 
           class="mx-2"
           @click="closeOverlay()"
@@ -46,6 +50,7 @@
           class="mx-2"
           @click="confirmEditing()"
           color="primary"
+          :disabled="!isFormValid"
         >
           Подтвердить
         </v-btn>
@@ -58,6 +63,7 @@
 import { defineProps, defineEmits, ref, onMounted, defineModel, computed } from 'vue';
 import { useTripStore } from '@/stores/TripStore'
 import { v4 as uuidv4 } from 'uuid';
+import rules from '@/utils/rules';
 
 // emits
 const emit = defineEmits([
@@ -98,6 +104,7 @@ const tripStore = useTripStore()
 
 // data
 const placeToEdit = ref({})
+const isFormValid = ref(false)
 
 // computed
 const isPlaceInUse = computed(() => {
@@ -120,10 +127,13 @@ const closeOverlay = () => {
 }
 
 const resetOverlay = () => {
-  placeToEdit.value = {
-    id: uuidv4(),
-    name: ''
+  if (props.isNew){
+    placeToEdit.value = {
+      id: uuidv4(),
+      name: ''
+    }
   }
+  
   isOverlayShown.value = false
 }
 
