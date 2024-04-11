@@ -25,7 +25,7 @@
         <TextToTextField 
           :text="trip.title"
           v-model="trip.title"
-          replacable-text="title"
+          replacable-text="Название"
           class="text-h3 mb-4"
           @update:model-value="saveTrip()"
         />
