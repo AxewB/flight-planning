@@ -1,5 +1,5 @@
 <template>
-  <v-sheet v-if="isFriendListExists">
+  <v-sheet v-if="!isFriendListExists">
     <EmptyPageWarning 
       title="Друзей нет" 
       text="Добавьте друзей в список"
@@ -57,6 +57,6 @@ const friendList = computed(() => {
 })
 
 const isFriendListExists = computed(() => {
-  return friendStore.friends?.length === 0
+  return friendStore.friends?.length
 })
 </script>
