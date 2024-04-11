@@ -14,6 +14,9 @@ import { useTripStore } from './stores/TripStore';
 import { useFriendStore } from './stores/FriendStore';
 import { usePlaceStore } from './stores/PlaceStore';
 import { useRouter } from 'vue-router';
+import { useTheme } from 'vuetify';
+
+const theme = useTheme();
 
 const router = useRouter();
 
@@ -28,6 +31,12 @@ onMounted(() => {
   placeStore.loadFromLocalStorage();
   friendStore.loadFromLocalStorage();
   tripStore.loadFromLocalStorage();
-  userStore.loadFromLocalStorage();
+
+  (async () => {
+    const result = await userStore.loadFromLocalStorage();
+    if (!result) {
+      theme.global.name.value = userStore.appTheme
+    }
+  })()
 })  
 </script>

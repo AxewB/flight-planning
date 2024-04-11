@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import userExample from '../example/userExample.json'
+
 export const useUserStore = defineStore('user', {
   state: () => ({
     avatar: {
@@ -9,6 +10,7 @@ export const useUserStore = defineStore('user', {
     firstName: 'User',
     lastName: '',
     email: '',
+    appTheme: 'dark'
   }),
   getters: {
     /**
@@ -38,12 +40,14 @@ export const useUserStore = defineStore('user', {
      * @return {void} 
      */
     setData(data) {
-      this.firstName = data.firstName
-      this.lastName = data.lastName
-      this.email = data.email
+      this.firstName = data.firstName;
+      this.lastName = data.lastName;
+      this.email = data.email;
 
-      this.avatar.color = data.avatar.color
-      this.avatar.image = data.avatar.image
+      this.avatar.color = data.avatar.color;
+      this.avatar.image = data.avatar.image;
+
+      this.appTheme = data.appTheme;
       
       this.saveToLocalStorage();
     },
@@ -67,7 +71,8 @@ export const useUserStore = defineStore('user', {
         avatar: this.avatar,
         firstName: this.firstName,
         lastName: this.lastName,
-        email: this.email
+        email: this.email,
+        appTheme: this.appTheme
       }
       localStorage.setItem('user', JSON.stringify(user))
     },
