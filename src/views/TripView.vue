@@ -5,7 +5,9 @@
           flex-column 
           pa-5"
   >
-    <TripHeader :trip-id="tripId"/>
+    <TripHeader 
+      :trip-id="tripId"
+      @update:save-trip="saveTrip()"/>
     <VDivider class="my-4"/>
     <v-sheet class="d-flex flex-column">
       <v-container>

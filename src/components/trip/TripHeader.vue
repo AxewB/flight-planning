@@ -155,7 +155,7 @@
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue'
+import { defineProps, defineEmits, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTripStore } from '@/stores/TripStore';
 import TextToTextField from '@/components/TextToTextField.vue';
@@ -166,6 +166,9 @@ const tripStore = useTripStore();
 
 // router
 const router = useRouter();
+
+// emits
+const emit = defineEmits(['update:saveTrip'])
 
 // props
 const props = defineProps({
@@ -193,12 +196,8 @@ const copyTrip = () => {
   router.push({name: 'trip', params: {id: cpId}});
 }
 
-let interval = null;
-function saveTrip() {
-  if (interval) clearInterval(interval);
-  interval = setInterval(() => {
-    tripStore.saveToLocalStorage();
-    clearInterval(interval);
-  }, 500);
+
+const saveTrip = () => {
+  emit('update:saveTrip')  
 }
 </script>
