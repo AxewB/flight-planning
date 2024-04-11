@@ -193,5 +193,12 @@ const copyTrip = () => {
   router.push({name: 'trip', params: {id: cpId}});
 }
 
-
+let interval = null;
+function saveTrip() {
+  if (interval) clearInterval(interval);
+  interval = setInterval(() => {
+    tripStore.saveToLocalStorage();
+    clearInterval(interval);
+  }, 500);
+}
 </script>
