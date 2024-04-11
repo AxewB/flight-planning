@@ -6,14 +6,6 @@
   >
     <v-container>
       <v-row>
-        <VTextField
-          prepend-icon="mdi-key"
-          label="Идентификатор"
-          disabled
-          v-model="taskInfo.id"
-        />
-      </v-row>
-      <v-row>
         <VTextField 
           prepend-icon="mdi-text"
           label="Название" 
