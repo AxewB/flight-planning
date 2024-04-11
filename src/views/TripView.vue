@@ -143,7 +143,7 @@
                       <v-col>
                         <VTextField 
                           variant="solo-filled" 
-                          label="begin date"
+                          label="Начало"
                           type="date"
                           hide-details
                           density="compact"
@@ -155,7 +155,7 @@
                       <v-col>
                         <VTextField 
                           variant="solo-filled" 
-                          label="end date"
+                          label="Конец"
                           type="date"
                           density="compact"
                           hide-details
@@ -176,7 +176,7 @@
                       <v-col>
                         <v-text-field 
                           variant="solo-filled" 
-                          label="cost"
+                          label="Стоимость"
                           type="number"
                           hide-details
                           hide-spin-buttons
@@ -210,7 +210,7 @@
               </v-menu>
               <VTooltip 
                 location="top"
-                text="Сортировать"
+                text="Фильтры"
                 activator="parent"
               />
             </v-btn>
