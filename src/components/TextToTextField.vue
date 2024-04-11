@@ -14,10 +14,12 @@
       <VAlert
         v-if="!modelValue"
         icon="mdi-alert-circle" 
-        type="error"
-        :title="'Нет ' + props.replacableText"
+        type="info"
+        density="compact"
+        :title="'Пустое ' + props.replacableText"
         :text="'Нажми, чтобы отредактировать ' + props.replacableText"
         variant="tonal"
+        class="text-caption"
       />
       {{ modelValue ? modelValue : '' }}
     </div>
