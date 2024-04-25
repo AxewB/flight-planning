@@ -99,7 +99,7 @@
                         {{task.date}}
                       </v-sheet>
                       <VIcon 
-                        :icon="task.subTasks.length === 0 ? '' :task.isExpanded ? 'mdi-menu-up' : 'mdi-menu-down'" 
+                        :icon="!task.subTasks.length ? '' :task.isExpanded ? 'mdi-menu-up' : 'mdi-menu-down'" 
                         size="30"
                         class="ml-2"
                       />

@@ -1,5 +1,5 @@
 <template>
-  <v-sheet v-if="tripStore.trips.length === 0">
+  <v-sheet v-if="!tripStore.trips.length">
     <EmptyPageWarning 
       title="Поездок нет"
       text="Создай план на первую поездку!">

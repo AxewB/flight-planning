@@ -49,7 +49,7 @@
       width="100%" 
       class="pa-2"
     >
-      <v-sheet v-if="taskInfo.subTasks.length === 0">
+      <v-sheet v-if="!taskInfo.subTasks.length">
         <EmptyPageWarning 
           title="Подзадач нет"
           description="Добавьте их при необходимости"

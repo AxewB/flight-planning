@@ -286,7 +286,7 @@
             />    
           </v-overlay>
           <EmptyPageWarning 
-            v-if="trip.tasks.length === 0" 
+            v-if="!trip.tasks.length" 
             title="No tasks" 
             text="Add tasks"
           />
