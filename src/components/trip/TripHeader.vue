@@ -35,11 +35,11 @@
             icon
             elevation="0"
           >
-            <VIcon 
+            <v-icon 
               icon="mdi-circle"
               :color="trip.avatar.color"
             />
-            <VTooltip 
+            <v-tooltip 
               activator="parent" 
               text="Изменить цвет"
               location="bottom"
@@ -49,7 +49,7 @@
               :close-on-content-click="false"
             >
               <v-sheet>
-                <VColorPicker 
+                <v-color-picker 
                   v-model="trip.avatar.color"
                   @update:model-value="saveTrip"
                 />
@@ -60,8 +60,8 @@
             icon
             elevation="0"
           >
-            <VIcon icon="mdi-image-edit" />
-            <VTooltip 
+            <v-icon icon="mdi-image-edit" />
+            <v-tooltip 
               activator="parent" 
               text="Изменить изображение"
               location="bottom"
@@ -98,12 +98,12 @@
                     icon
                     @click="tripStore.removeTripImage(tripId)"
                   >
-                    <VIcon 
+                    <v-icon 
                       icon="mdi-trash-can"
                       color="error"
                       variant="text"
                     />
-                    <VTooltip 
+                    <v-tooltip 
                       activator="parent" 
                       text="Remove image"
                       location="bottom"
@@ -117,7 +117,7 @@
             icon
             elevation="0"
           >
-            <VIcon icon="mdi-trash-can"/>
+            <v-icon icon="mdi-trash-can"/>
             <ConfirmationMenu 
               message="Удалить эту поездку?"
               @ok="removeTrip(tripId)"
@@ -127,7 +127,7 @@
             icon
             elevation="0"
           >
-            <VIcon icon="mdi-content-copy"/>
+            <v-icon icon="mdi-content-copy"/>
             <ConfirmationMenu 
               message="Копировать эту поездку?"
               @ok="copyTrip"
@@ -142,10 +142,10 @@
           replacable-text="Описание"
           @update:model-value="saveTrip"
         />
-        <VSheet class="flex-grow-1"/>
+        <v-sheet class="flex-grow-1"/>
       </v-sheet>
     </v-sheet>
-    <VSheet 
+    <v-sheet
       class="bg-transparent 
             d-flex 
             flex-column 

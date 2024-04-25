@@ -19,13 +19,13 @@
             icon
             size="100"
           >
-            <VIcon>
-              <VAvatar
+            <v-icon>
+              <v-avatar
                 :image="newFriend.avatar.image"
                 :color="!newFriend.avatar.image ? newFriend.avatar.color : ''"
                 size="100"
               />
-            </VIcon>
+            </v-icon>
             <v-menu 
               activator="parent"
               :close-on-content-click="false"
@@ -33,7 +33,7 @@
               <v-sheet class="pa-4">
                 <v-container>
                   <v-row>
-                    <VTextField
+                    <v-text-field
                       label="Ссылка на картинку"
                       clearable
                       v-model="newFriend.avatar.image"
@@ -46,13 +46,13 @@
                     class="d-flex justify-center align-center"
                   >
                     <v-col class="text-center">
-                      <VDivider/>
+                      <v-divider/>
                     </v-col>
                     <v-col class="text-center">
                       Или
                     </v-col>
                     <v-col class="text-center">
-                      <VDivider/>
+                      <v-divider/>
                     </v-col>
                   </v-row>
 
@@ -65,16 +65,16 @@
                         variant="plain"
                         :ripple="false"
                       >
-                        <VIcon icon="mdi-information"/>
+                        <v-icon icon="mdi-information"/>
                       
-                        <VTooltip 
+                        <v-tooltip 
                           activator="parent" 
                           location="bottom"
                           text="Отображается, если нет аватара"
                         />
                       </v-btn>
                     </v-sheet>
-                    <VColorPicker v-model="newFriend.avatar.color"/>
+                    <v-color-picker v-model="newFriend.avatar.color"/>
                   </v-row>
                 </v-container>
               </v-sheet>
@@ -86,7 +86,7 @@
           class="mt-4">
           <v-row>
             <v-col>
-              <VTextField
+              <v-text-field
                 autofocus
                 v-model="newFriend.firstName"
                 label="Имя"
@@ -94,7 +94,7 @@
               />
             </v-col>
             <v-col>
-              <VTextField
+              <v-text-field
                 v-model="newFriend.lastName"
                 label="Фамилия"
                 :rules="[rules.required]"
@@ -103,7 +103,7 @@
           </v-row>
           <v-row>
             <v-col>
-              <VTextField
+              <v-text-field
                 v-model="newFriend.email"
                 label="Почта"
                 type="email"

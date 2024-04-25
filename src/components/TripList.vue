@@ -18,7 +18,7 @@
       :key="trip.id"
       @click="moveToTrip(trip.id)">
       <template #prepend>
-        <VAvatar  
+        <v-avatar  
           :image="trip.avatar.image"
           :color="!trip.avatar.image ? trip.avatar.color : ''"
           size="40"

@@ -23,7 +23,7 @@
                           justify-start 
                           align-center"
                   >
-                    <VIcon 
+                    <v-icon 
                       class="handle cursor-grab" 
                       icon="mdi-drag"
                       variant="text"
@@ -31,7 +31,7 @@
                       :ripple="false"
                     />
                     
-                    <VDivider 
+                    <v-divider 
                       vertical 
                       class="mx-2"
                     />
@@ -61,7 +61,7 @@
                               d-flex 
                               align-center"
                       >
-                        <VIcon 
+                        <v-icon 
                           icon="mdi-alert-circle" 
                           class="mr-1"
                         />
@@ -83,7 +83,7 @@
                         
                         {{ shortText(task.place, 15) }}
                       </v-sheet>
-                      <VDivider 
+                      <v-divider 
                         v-if="task.place"
                         vertical 
                         class="mx-4"
@@ -91,14 +91,14 @@
                       <v-sheet class="bg-transparent">
                         {{task.cost}}₽
                       </v-sheet>
-                      <VDivider 
+                      <v-divider 
                         vertical 
                         class="mx-4"
                       />
                       <v-sheet class="bg-transparent">
                         {{task.date}}
                       </v-sheet>
-                      <VIcon 
+                      <v-icon 
                         :icon="!task.subTasks.length ? '' :task.isExpanded ? 'mdi-menu-up' : 'mdi-menu-down'" 
                         size="30"
                         class="ml-2"
@@ -128,13 +128,13 @@
                         justify-start 
                         align-center"
                 >
-                  <VIcon 
+                  <v-icon 
                     class="handle cursor-grab" 
                     icon="mdi-menu"
                     rounded
                     :ripple="false"
                   />
-                  <VDivider 
+                  <v-divider 
                     vertical 
                     class="mx-2"
                   />
@@ -147,7 +147,7 @@
                           align-center"
                   >
                     <v-sheet>
-                      <VTextField 
+                      <v-text-field 
                         v-model="subTask.time" 
                         type="time"
                         density="compact"
@@ -168,7 +168,7 @@
               </v-row>
             </template>
           </draggable>
-          <VDivider/>
+          <v-divider/>
         </v-sheet>
       </template>
     </draggable>

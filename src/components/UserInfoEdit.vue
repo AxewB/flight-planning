@@ -35,7 +35,7 @@
 
           <v-sheet
             width="100%">
-            <VTextField 
+            <v-text-field 
               v-model="userData.avatar.image" 
               hide-details
             />
@@ -75,7 +75,7 @@
           Изменить изображение
         </v-tooltip>
 
-        <VAvatar 
+        <v-avatar 
           :image="userData.avatar.image" 
           :color="userData.avatar.image ? '' : userData.avatar.color"
           size="80"
@@ -127,7 +127,7 @@
       >
         <v-row>
           <v-col>
-            <VTextField 
+            <v-text-field 
               class="mx-2"
               variant="solo-filled" 
               label="First name"
@@ -138,7 +138,7 @@
           </v-col>
 
           <v-col>
-            <VTextField
+            <v-text-field
               class="mx-2"
               variant="solo-filled" 
               label="Last name"
@@ -154,7 +154,7 @@
               d-flex 
               mb-4"
       >
-        <VTextField
+        <v-text-field
           class="mx-2"
           variant="solo-filled" 
           label="E-mail"

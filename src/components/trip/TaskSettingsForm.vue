@@ -6,14 +6,14 @@
   >
     <v-container>
       <v-row>
-        <VTextField 
+        <v-text-field 
           prepend-icon="mdi-text"
           label="Название" 
           v-model="taskInfo.title"
         />
       </v-row>
       <v-row>
-        <VTextField 
+        <v-text-field 
           prepend-icon="mdi-currency-usd"
           label="Стоимость" 
           v-model="taskInfo.cost"
@@ -22,7 +22,7 @@
         />
       </v-row>
       <v-row>
-        <VTextField 
+        <v-text-field 
           prepend-icon="mdi-calendar"
           label="Дата" 
           v-model="taskInfo.date"
@@ -43,7 +43,7 @@
       </v-row>
     </v-container>
 
-    <VDivider/>
+    <v-divider/>
     
     <v-sheet 
       width="100%" 
@@ -84,7 +84,7 @@
           class="d-flex my-2"
         >
           <v-sheet class="flex-grow-1 px-2">
-            <VTextField 
+            <v-text-field 
               density="compact"
               hide-details
               variant="solo-filled"
@@ -93,7 +93,7 @@
             />
           </v-sheet>
           <v-sheet class="px-2">
-            <VTextField 
+            <v-text-field 
               density="compact"
               hide-details
               variant="solo-filled"

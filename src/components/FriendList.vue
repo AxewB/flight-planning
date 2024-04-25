@@ -20,7 +20,7 @@
       :key="friend.id"
     >
       <template #prepend>
-        <VAvatar  
+        <v-avatar  
           :image="friend.avatar.image"
           :color="!friend.avatar.image ? friend.avatar.color : ''"
           size="40"/>

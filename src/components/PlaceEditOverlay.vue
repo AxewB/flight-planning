@@ -11,7 +11,7 @@
     <v-sheet 
       class="pa-4 rounded">
       <v-form v-model="isFormValid">
-        <VTextField
+        <v-text-field
           v-model="placeToEdit.name"
           label="Название"
           autofocus

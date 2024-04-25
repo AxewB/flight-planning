@@ -11,7 +11,7 @@
       class="overflow-hidden cursor-text"
       @click="enableEditing"
     >
-      <VAlert
+      <v-alert
         v-if="!modelValue"
         icon="mdi-alert-circle" 
         type="info"
@@ -23,7 +23,7 @@
       />
       {{ modelValue ? modelValue : '' }}
     </div>
-    <VTextField 
+    <v-text-field 
       v-else
       autofocus
       variant="solo-filled"
