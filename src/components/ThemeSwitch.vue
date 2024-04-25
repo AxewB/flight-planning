@@ -4,7 +4,7 @@
     label="Темная тема"
     hide-details
     color="#0083F5"
-    @click="toggleTheme()"
+    @click="toggleTheme"
   />
 </template>
 

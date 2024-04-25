@@ -4,7 +4,7 @@
       title="Поездок нет"
       text="Создай план на первую поездку!">
       <template #actions>
-        <v-btn @click="tripStore.addTrip()">
+        <v-btn @click="tripStore.addTrip">
           Создать
         </v-btn>
       </template>

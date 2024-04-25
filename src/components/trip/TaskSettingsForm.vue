@@ -55,7 +55,7 @@
           description="Добавьте их при необходимости"
         >
           <template #actions>
-            <v-btn @click="addSubtask()">
+            <v-btn @click="addSubtask">
               Добавить
             </v-btn>
           </template>
@@ -73,7 +73,7 @@
         >
           <v-btn 
             color="primary"
-            @click="addSubtask()"
+            @click="addSubtask"
           >
             Добавить подзадачу
           </v-btn>
@@ -124,7 +124,7 @@
         v-if="props.task"  
         variant="text"
         color="error"
-        @click="removeTask()"
+        @click="removeTask"
       >
         Удалить
       </v-btn>
@@ -136,7 +136,7 @@
       </v-btn>
 
       <v-btn 
-        @click="saveTask()"
+        @click="saveTask"
         color="primary"
       >
         Сохранить

@@ -89,7 +89,7 @@
             <v-sheet>
               <v-btn 
                 prepend-icon="mdi-trash-can"
-                @click="toggleAvatarImage()"
+                @click="toggleAvatarImage"
               >
                 {{ userData.avatar.image ? "Remove image" : "Add image" }}
               </v-btn>
@@ -173,14 +173,14 @@
     >
       <v-btn 
         variant="text" 
-        @click="closeWindow()"
+        @click="closeWindow"
         class="mr-2"
       >
         Закрыть
       </v-btn>
       <v-btn 
         color="primary"
-        @click="acceptData()"
+        @click="acceptData"
         :disabled="!isFormValid"
       >
         Принять

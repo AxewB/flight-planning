@@ -2,7 +2,7 @@
   <v-sheet width="100%">
     <draggable 
       :list="tripStore.isTasksFiltered ? tripStore.filteredTasks(trip.id) : trip.tasks" 
-      @end="saveAfterMoving()"
+      @end="saveAfterMoving"
       tag="v-sheet"
       handle=".handle" 
       item-key="id"
@@ -115,7 +115,7 @@
             tag="v-container"
             handle=".handle" 
             item-key="id"
-            @end="saveAfterMoving()"
+            @end="saveAfterMoving"
           >
             <template #item="{element: subTask}">
               <v-row 
@@ -182,7 +182,7 @@
         <v-btn
           color="error"
           variant="text"
-          @click="resetFilters()"
+          @click="resetFilters"
         >
           Сбросить
         </v-btn>

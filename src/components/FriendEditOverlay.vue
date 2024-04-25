@@ -1,7 +1,7 @@
 <template>
   <v-overlay
-    @click:outside="resetOverlay()"
-    @after-leave="resetOverlay()"
+    @click:outside="resetOverlay"
+    @after-leave="resetOverlay"
     v-model="isOverlayShown"
     class="d-flex justify-center align-center"
     :activator="activator"
@@ -116,7 +116,7 @@
             <v-btn 
               variant="text" 
               class="mr-2"
-              @click="cancelEditing()"
+              @click="cancelEditing"
             >
               Отмена
             </v-btn>
@@ -124,14 +124,14 @@
               
               variant="text" 
               class="mr-2"
-              @click="deleteFriend()"
+              @click="deleteFriend"
               color="error"
             >
               Удалить
             </v-btn>
             <v-btn 
               color="primary" 
-              @click="confirmEditing()"
+              @click="confirmEditing"
               :disabled="!isFormValid"
             >
               Подтвердить

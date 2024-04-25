@@ -1,7 +1,7 @@
 <template>
   <v-overlay
-    @click:outside="resetOverlay()"
-    @after-leave="resetOverlay()"  
+    @click:outside="resetOverlay"
+    @after-leave="resetOverlay"  
     :activator="props.activator"
     v-model="isOverlayShown"
     class="d-flex 
@@ -22,7 +22,7 @@
       <v-sheet class="d-flex justify-end mt-4">
         <v-btn 
           class="mx-2"
-          @click="closeOverlay()"
+          @click="closeOverlay"
           variant="text"
         >
           Отмена
@@ -37,7 +37,7 @@
             <v-sheet v-bind="props">
               <v-btn
                 class="mx-2"
-                @click="removePlace()"
+                @click="removePlace"
                 color="error"
                 variant="text"
                 :disabled="isPlaceInUse(placeToEdit.name)"
@@ -49,7 +49,7 @@
         </v-tooltip>
         <v-btn 
           class="mx-2"
-          @click="confirmEditing()"
+          @click="confirmEditing"
           color="primary"
           :disabled="!isFormValid"
         >

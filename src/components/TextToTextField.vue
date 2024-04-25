@@ -9,7 +9,7 @@
     <div 
       v-if="!isEditing"
       class="overflow-hidden cursor-text"
-      @click="enableEditing()"
+      @click="enableEditing"
     >
       <VAlert
         v-if="!modelValue"
@@ -29,7 +29,7 @@
       variant="solo-filled"
       hide-details
       density="compact"
-      @keydown.enter.prevent="disableEditing()"
+      @keydown.enter.prevent="disableEditing"
       v-click-outside="{
         handler: disableEditing,
       }"
