@@ -1,7 +1,7 @@
 # Установка 
 Склонировать проект командой 
 ```bash
-git clone [http://git.nic.etu/iaksenov/234-flight-planner-js-vue.git](https://github.com/AxewB/flight-planning)
+git clone https://github.com/AxewB/flight-planning
 ```
 
 Или просто скачать архив
