@@ -1,14 +1,14 @@
 # Установка 
 Склонировать проект командой 
 ```bash
-git clone http://git.nic.etu/iaksenov/234-flight-planner-js-vue.git
+git clone [http://git.nic.etu/iaksenov/234-flight-planner-js-vue.git](https://github.com/AxewB/flight-planning)
 ```
 
 Или просто скачать архив
 
 Далее нужно перейти в директорию с проектом
 ```bash
-cd /234-flight-planner-js-vue
+cd flight-planning
 ```
 
 И установить все зависимости
@@ -21,6 +21,7 @@ npm install
 ```bash
 npm run dev
 ```
+
 Готово.
 
 # Информация по проекту
